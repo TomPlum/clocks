@@ -14,7 +14,7 @@ export const TimeDisplay = () => {
   return (
     <div className={styles.TimeDisplay}>
       {Array.from({ length: totalWidth }, (_, i) => i).flatMap((x: number) => (
-        <div className={styles.TimeDisplay__Row}>
+        <div className={styles.TimeDisplay__Column}>
           {Array.from({ length: totalHeight }, (_, i) => i).map((y: number) => {
             const { hour, minute, digit } = getHandDirections(time, x, y)
 

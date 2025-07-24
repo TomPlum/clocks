@@ -96,7 +96,7 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
   }
 
   return {
-    hour: HandDirection.DOWN,
-    minute: HandDirection.DOWN
+    hour: HandDirection.LEFT,
+    minute: HandDirection.RIGHT
   }
 }

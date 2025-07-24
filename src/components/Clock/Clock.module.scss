@@ -7,25 +7,28 @@
   position: relative;
   background: white;
 
+  border: 1px solid white;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+
+  $hand-width: calc(var(--size) * 0.05);
+
   &__HourHand,
   &__MinuteHand {
     position: absolute;
     bottom: 50%;
-    left: 50%;
+    left: calc(50% - $hand-width / 4);
     transform-origin: bottom center;
     background-color: black;
   }
 
   &__HourHand {
-    width: calc(var(--size) * 0.04);
-    height: calc(var(--size) * 0.25);
-    border-radius: calc(var(--size) * 0.015);
+    width: $hand-width;
+    height: calc(var(--size) * 0.40);
   }
 
   &__MinuteHand {
-    width: calc(var(--size) * 0.04);
-    height: calc(var(--size) * 0.35);
-    border-radius: calc(var(--size) * 0.01);
+    width: $hand-width;
+    height: calc(var(--size) * 0.45);
   }
 
   &__CenterDot {

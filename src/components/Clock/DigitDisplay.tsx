@@ -7,7 +7,7 @@ export const DigitDisplay = ({ digit }: { digit: number }) => {
     <div className={styles.TimeDisplay} style={{ marginTop: 20 }}>
       {digit}
       {Array.from({ length: 5 }, (_, i) => i).flatMap((x: number) => (
-        <div className={styles.TimeDisplay__Row}>
+        <div>
           {Array.from({ length: 6 }, (_, i) => i).map((y: number) => {
             const { x: xClock, y: yClock, hourDirection, minuteDirection } = digitSegments[digit].find(it => it.x === x && it.y === y) ?? {
               x,
