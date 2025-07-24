@@ -1,10 +1,14 @@
 import './App.css'
-import {Clock} from "./components/Clock";
+import { TimeDisplay } from './components/TimeDisplay'
+import { DigitDisplay } from './components/Clock/DigitDisplay.tsx'
 
 const App = () => (
   <div>
-    <Clock />
+    <TimeDisplay />
+    {Array.from({ length: 10 }, (_, i) => i).map((_, i) => (
+      <DigitDisplay digit={i} key={i} />
+    ))}
   </div>
-);
+)
 
 export default App
