@@ -75,7 +75,53 @@ const timeCoordinates = (time: Date) => {
   return positionToDirections
 }
 
+const isInPadding = (
+  x: number,
+  y: number
+): boolean => {
+  return (
+    x < 2 ||
+    x >= totalWidth - 2 ||
+    y < 2 ||
+    y >= totalHeight - 2
+  )
+}
+
 export const getHandDirections = (time: Date, x: number, y: number) => {
+  if (isInPadding(x, y)) {
+    if (x < xColonLeft) {
+      return {
+        hour: HandDirection.RIGHT,
+        minute: HandDirection.RIGHT
+      }
+    }
+
+    if (x === xColonLeft) {
+      const direction = y <= padding ? HandDirection.DOWN : HandDirection.UP
+
+      return {
+        hour: direction,
+        minute: direction
+      }
+    }
+
+    if (x > xColonRight) {
+      return {
+        hour: HandDirection.LEFT,
+        minute: HandDirection.LEFT
+      }
+    }
+
+    if (x === xColonRight) {
+      const direction = y <= padding ? HandDirection.DOWN : HandDirection.UP
+
+      return {
+        hour: direction,
+        minute: direction
+      }
+    }
+  }
+
   const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
 
   if (digitHandDirections) {
