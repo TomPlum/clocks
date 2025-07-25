@@ -16,15 +16,16 @@ export const TimeDisplay = () => {
       {Array.from({ length: totalWidth }, (_, i) => i).flatMap((x: number) => (
         <div className={styles.TimeDisplay__Column}>
           {Array.from({ length: totalHeight }, (_, i) => i).map((y: number) => {
-            const { hour, minute, digit } = getHandDirections(time, x, y)
+            const { hour, minute, digit, isColon } = getHandDirections(time, x, y)
 
             return (
               <Clock
                 digit={digit}
+                pulse={isColon}
+                id={`(${x},${y})`}
                 hourDirection={hour}
                 minuteDirection={minute}
                 key={`clock-${x}-${y}`}
-                id={`(${x},${y})`}
               />
             )
           })}

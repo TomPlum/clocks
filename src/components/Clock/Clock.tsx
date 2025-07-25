@@ -2,8 +2,15 @@ import { useEffect, useState } from 'react'
 import styles from './Clock.module.scss'
 import type { ClockProps } from './types.ts'
 import { HandDirection } from '../TimeDisplay'
+import classNames from 'classnames'
 
-export const Clock = ({ id, digit, hourDirection, minuteDirection }: ClockProps) => {
+export const Clock = ({
+  id,
+  pulse,
+  digit,
+  hourDirection,
+  minuteDirection,
+}: ClockProps) => {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -34,7 +41,10 @@ export const Clock = ({ id, digit, hourDirection, minuteDirection }: ClockProps)
       data-testid={`clock-${id}-number-${digit ?? 'none'}`}
     >
       <div
-        className={styles.Clock__HourHand}
+        className={classNames(
+          styles.Clock__HourHand,
+          { [styles.Clock__Pulse]: pulse }
+        )}
         data-testid={`hour-hand-${hourDirection}`}
         style={{
           transform: animate ? `rotate(${hourAngle}deg)` : 'rotate(0deg)',
@@ -42,7 +52,10 @@ export const Clock = ({ id, digit, hourDirection, minuteDirection }: ClockProps)
       />
 
       <div
-        className={styles.Clock__MinuteHand}
+        className={classNames(
+          styles.Clock__MinuteHand,
+          { [styles.Clock__Pulse]: pulse }
+        )}
         data-testid={`minute-hand-${minuteDirection}`}
         style={{
           transform: animate ? `rotate(${minuteAngle}deg)` : 'rotate(0deg)',

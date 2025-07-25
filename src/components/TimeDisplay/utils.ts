@@ -9,11 +9,17 @@ export const totalHeight = padding * 2 + digitHeight
 const xColonLeft = (totalWidth / 2) - 1
 const xColonRight = (totalWidth / 2)
 
-const colonCoordinates = [
+const centreLineCoordinates = [
   // Top Line
   { x: xColonLeft, y: 2, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.RIGHT },
   { x: xColonRight, y: 2, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.LEFT },
 
+  // Bottom Line
+  { x: xColonLeft, y: 7, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.RIGHT },
+  { x: xColonRight, y: 7, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.LEFT }
+]
+
+const colonCoordinates = [
   // Top Colon
   { x: xColonLeft, y: 3, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.RIGHT },
   { x: xColonRight, y: 3, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.LEFT },
@@ -25,10 +31,6 @@ const colonCoordinates = [
   { x: xColonRight, y: 5, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.LEFT },
   { x: xColonLeft, y: 6, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.UP },
   { x: xColonRight, y: 6, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.UP },
-
-  // Bottom Line
-  { x: xColonLeft, y: 7, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.RIGHT },
-  { x: xColonRight, y: 7, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.LEFT }
 ]
 
 const getDigitStartX = (digitIndex: number): number => {
@@ -132,12 +134,17 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
     }
   }
 
-  const colonHandDirections = colonCoordinates.find(coords => coords.x === Number(x) && coords.y === Number(y))
+  const colonHandDirections = [...colonCoordinates, ...centreLineCoordinates].find(coords => {
+    return coords.x === Number(x) && coords.y === Number(y)
+  })
 
   if (colonHandDirections) {
     return {
       hour: colonHandDirections.hourDirection,
-      minute: colonHandDirections.minuteDirection
+      minute: colonHandDirections.minuteDirection,
+      isColon: !!colonCoordinates.find(coords => {
+        return coords.x === Number(x) && coords.y === Number(y)
+      })
     }
   }
 
