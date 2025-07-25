@@ -19,6 +19,7 @@
     left: calc(50% - $hand-width / 4);
     transform-origin: bottom center;
     background-color: black;
+    transition: transform 1s ease;
   }
 
   &__HourHand {

@@ -1,24 +1,32 @@
+import { useEffect, useState } from 'react'
 import styles from './Clock.module.scss'
 import type { ClockProps } from './types.ts'
 import { HandDirection } from '../TimeDisplay'
 
 export const Clock = ({ id, digit, hourDirection, minuteDirection }: ClockProps) => {
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      setAnimate(true)
+    })
+  }, [])
+
   const directionToAngle = (direction: HandDirection) => {
     switch (direction) {
-      case HandDirection.UP: {
+      case HandDirection.UP:
         return 0
-      }
-      case HandDirection.RIGHT: {
+      case HandDirection.RIGHT:
         return 90
-      }
-      case HandDirection.DOWN: {
+      case HandDirection.DOWN:
         return 180
-      }
-      case HandDirection.LEFT: {
+      case HandDirection.LEFT:
         return 270
-      }
     }
   }
+
+  const hourAngle = directionToAngle(hourDirection)
+  const minuteAngle = directionToAngle(minuteDirection)
 
   return (
     <div
@@ -28,13 +36,17 @@ export const Clock = ({ id, digit, hourDirection, minuteDirection }: ClockProps)
       <div
         className={styles.Clock__HourHand}
         data-testid={`hour-hand-${hourDirection}`}
-        style={{ transform: `rotate(${directionToAngle(hourDirection)}deg)` }}
+        style={{
+          transform: animate ? `rotate(${hourAngle}deg)` : 'rotate(0deg)',
+        }}
       />
 
       <div
         className={styles.Clock__MinuteHand}
         data-testid={`minute-hand-${minuteDirection}`}
-        style={{ transform: `rotate(${directionToAngle(minuteDirection)}deg)` }}
+        style={{
+          transform: animate ? `rotate(${minuteAngle}deg)` : 'rotate(0deg)',
+        }}
       />
 
       <div className={styles.Clock__CenterDot} />
