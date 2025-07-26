@@ -4,10 +4,10 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
   switch (theme) {
     case 'light': {
       return {
-        background: '#ffffff',
-        centerDot: '#000000',
-        clockBackground: '#ffffff',
-        clockBorder: '#ffffff',
+        backgroundColour: '#ffffff',
+        centreDotColour: '#000000',
+        clockBackgroundColour: '#ffffff',
+        clockBorderColour: '#ffffff',
         clockShadowOuterColour: 'rgba(0, 0, 0, 0.3)',
         clockShadowInnerColour: 'rgba(0, 0, 0, 0.4)',
         hourHandColour: '#000000',
@@ -18,10 +18,10 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
     }
     case 'dark': {
       return {
-        background: '#1a1a1a',
-        centerDot: '#ffffff',
-        clockBackground: '#1e1e1e',
-        clockBorder: '#262626',
+        backgroundColour: '#1a1a1a',
+        centreDotColour: '#ffffff',
+        clockBackgroundColour: '#1e1e1e',
+        clockBorderColour: '#262626',
         clockShadowOuterColour: 'rgba(255,255,255,0.3)',
         clockShadowInnerColour: 'rgba(255,255,255,0.4)',
         hourHandColour: '#ffffff',

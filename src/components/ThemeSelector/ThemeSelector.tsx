@@ -1,5 +1,7 @@
 import { CustomSelect } from '../CustomSelect'
 import { type Theme, useThemeContext } from 'context/ThemeContext'
+import { ThemePreview } from 'components/ThemeSelector/ThemePreview.tsx'
+import { getThemeColours } from 'context/ThemeContext/getThemeColours.ts'
 
 export const ThemeSelector = () => {
   const { theme, setTheme } = useThemeContext()
@@ -13,12 +15,22 @@ export const ThemeSelector = () => {
       onChange={setTheme}
       options={[
         {
-          label: 'Light',
-          value: 'light'
+          value: 'light',
+          label: (
+            <ThemePreview
+              theme='light'
+              themeColours={getThemeColours('light')}
+            />
+          )
         },
         {
-          label: 'Dark',
-          value: 'dark'
+          value: 'dark',
+          label: (
+            <ThemePreview
+              theme='dark'
+              themeColours={getThemeColours('dark')}
+            />
+          )
         }
       ]}
     />

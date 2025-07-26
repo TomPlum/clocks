@@ -7,10 +7,10 @@ export interface ThemeContextBag {
 export type Theme = 'light' | 'dark'
 
 export interface ThemeColours {
-  background: string
-  clockBackground: string
-  clockBorder: string
-  centerDot: string
+  backgroundColour: string
+  clockBackgroundColour: string
+  clockBorderColour: string
+  centreDotColour: string
   minuteHandColour: string
   hourHandColour: string
   clockShadowOuterColour: string

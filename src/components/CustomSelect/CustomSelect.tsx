@@ -5,7 +5,15 @@ import Chevron from 'assets/chevron.svg?react'
 import styles from './CustomSelect.module.scss'
 import classNames from 'classnames'
 
-export const CustomSelect = <T extends string,>({ label, value, onChange, className, options, theme, width }: CustomSelectProps<T>) => {
+export const CustomSelect = <T extends string,>({
+  label,
+  value,
+  onChange,
+  className,
+  options,
+  theme,
+  width
+}: CustomSelectProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const textColour = theme === 'dark' ? 'rgb(239,239,239)' : 'rgb(0,0,0)'

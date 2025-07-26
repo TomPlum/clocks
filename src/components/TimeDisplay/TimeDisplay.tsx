@@ -16,7 +16,7 @@ export const TimeDisplay = () => {
   }, [])
 
   return (
-    <div className={styles.Container} style={{ backgroundColor: themeColours.background }}>
+    <div className={styles.Container} style={{ backgroundColor: themeColours.backgroundColour }}>
       <div>
         <ThemeSelector />
       </div>

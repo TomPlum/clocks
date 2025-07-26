@@ -1,19 +1,28 @@
 import { type CSSProperties, useEffect, useState } from 'react'
 import styles from './Clock.module.scss'
-import type { ClockProps } from './types.ts'
+import type { ClockProps } from './types'
 import { HandDirection } from '../TimeDisplay'
 import classNames from 'classnames'
-import { useThemeContext } from '../../context/ThemeContext'
+import { useThemeContext } from 'context/ThemeContext'
 
 export const Clock = ({
   id,
+  size,
   pulse,
   digit,
+  className,
   hourDirection,
   minuteDirection,
+  styles: styleOverrides,
 }: ClockProps) => {
-  const { themeColours } = useThemeContext()
   const [animate, setAnimate] = useState(false)
+
+  const { themeColours: currentThemeColours } = useThemeContext()
+
+  const themeColours = {
+    ...currentThemeColours,
+    ...styleOverrides
+  }
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -42,8 +51,9 @@ export const Clock = ({
       className={styles.Clock}
       data-testid={`clock-${id}-number-${digit ?? 'none'}`}
       style={{
-        borderColor: themeColours.clockBorder,
-        backgroundColor: themeColours.clockBackground,
+        borderColor: themeColours.clockBorderColour,
+        backgroundColor: themeColours.clockBackgroundColour,
+        '--clock-diameter': `${size ?? 40}px`,
         '--shadow-colour-outer': themeColours.clockShadowOuterColour,
         '--shadow-colour-inner': themeColours.clockShadowInnerColour,
         '--colon-pulse-start-colour': themeColours.colonPulseStartColour,
@@ -53,7 +63,8 @@ export const Clock = ({
       <div
         className={classNames(
           styles.Clock__HourHand,
-          { [styles.Clock__Pulse]: pulse }
+          { [styles.Clock__Pulse]: pulse },
+          className
         )}
         data-testid={`hour-hand-${hourDirection}`}
         style={{
@@ -75,9 +86,12 @@ export const Clock = ({
       />
 
       <div
-        className={styles.Clock__CenterDot}
+        className={classNames(
+          styles.Clock__CenterDot,
+          { [styles.Clock__Pulse]: pulse }
+        )}
         style={{
-          backgroundColor: themeColours.centerDot
+          backgroundColor: themeColours.centreDotColour
         }}
       />
     </div>
