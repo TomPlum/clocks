@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
 import styles from './Clock.module.scss'
 import type { ClockProps } from './types.ts'
 import { HandDirection } from '../TimeDisplay'
 import classNames from 'classnames'
+import { useThemeContext } from '../../context/ThemeContext'
 
 export const Clock = ({
   id,
@@ -11,6 +12,7 @@ export const Clock = ({
   hourDirection,
   minuteDirection,
 }: ClockProps) => {
+  const { themeColours } = useThemeContext()
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -39,6 +41,12 @@ export const Clock = ({
     <div
       className={styles.Clock}
       data-testid={`clock-${id}-number-${digit ?? 'none'}`}
+      style={{
+        borderColor: themeColours.clockBorder,
+        backgroundColor: themeColours.clockBackground,
+        '--shadow-colour-outer': themeColours.clockShadowOuterColour,
+        '--shadow-colour-inner': themeColours.clockShadowInnerColour
+      } as CSSProperties}
     >
       <div
         className={classNames(
@@ -47,6 +55,7 @@ export const Clock = ({
         )}
         data-testid={`hour-hand-${hourDirection}`}
         style={{
+          backgroundColor: themeColours.hourHandColour,
           transform: animate ? `rotate(${hourAngle}deg)` : 'rotate(0deg)',
         }}
       />
@@ -58,11 +67,17 @@ export const Clock = ({
         )}
         data-testid={`minute-hand-${minuteDirection}`}
         style={{
+          backgroundColor: themeColours.minuteHandColour,
           transform: animate ? `rotate(${minuteAngle}deg)` : 'rotate(0deg)',
         }}
       />
 
-      <div className={styles.Clock__CenterDot} />
+      <div
+        className={styles.Clock__CenterDot}
+        style={{
+          backgroundColor: themeColours.centerDot
+        }}
+      />
     </div>
   )
 }
