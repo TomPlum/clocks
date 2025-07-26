@@ -15,5 +15,6 @@ export interface ThemeColours {
   hourHandColour: string
   clockShadowOuterColour: string
   clockShadowInnerColour: string
-  colonPulseColour: string
+  colonPulseStartColour: string
+  colonPulseEndColour: string
 }

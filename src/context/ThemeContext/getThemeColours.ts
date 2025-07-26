@@ -12,7 +12,8 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
         clockShadowInnerColour: 'rgba(0, 0, 0, 0.4)',
         hourHandColour: '#000000',
         minuteHandColour: '#000000',
-        colonPulseColour: '#7e7e7e'
+        colonPulseStartColour: '#000000',
+        colonPulseEndColour: '#7e7e7e'
       }
     }
     case 'dark': {
@@ -25,7 +26,8 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
         clockShadowInnerColour: 'rgba(255,255,255,0.4)',
         hourHandColour: '#ffffff',
         minuteHandColour: '#ffffff',
-        colonPulseColour: '#7e7e7e'
+        colonPulseStartColour: '#ffffff',
+        colonPulseEndColour: '#7e7e7e'
       }
     }
   }

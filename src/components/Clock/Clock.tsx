@@ -45,7 +45,9 @@ export const Clock = ({
         borderColor: themeColours.clockBorder,
         backgroundColor: themeColours.clockBackground,
         '--shadow-colour-outer': themeColours.clockShadowOuterColour,
-        '--shadow-colour-inner': themeColours.clockShadowInnerColour
+        '--shadow-colour-inner': themeColours.clockShadowInnerColour,
+        '--colon-pulse-start-colour': themeColours.colonPulseStartColour,
+        '--colon-pulse-end-colour': themeColours.colonPulseEndColour
       } as CSSProperties}
     >
       <div
