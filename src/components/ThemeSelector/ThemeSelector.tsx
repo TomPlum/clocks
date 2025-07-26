@@ -1,7 +1,7 @@
 import { CustomSelect } from '../CustomSelect'
 import { type Theme, useThemeContext } from 'context/ThemeContext'
-import { ThemePreview } from 'components/ThemeSelector/ThemePreview.tsx'
-import { getThemeColours } from 'context/ThemeContext/getThemeColours.ts'
+import { ThemePreview } from 'components/ThemeSelector/ThemePreview'
+import { getThemeColours } from 'context/ThemeContext/getThemeColours'
 
 export const ThemeSelector = () => {
   const { theme, setTheme } = useThemeContext()

@@ -11,11 +11,12 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
       </p>
 
       <Clock
-        size={25}
-        id={`${theme}-preview`}
+        size={30}
+        animation='random'
         styles={themeColours}
-        hourDirection={HandDirection.RIGHT}
+        id={`${theme}-preview`}
         minuteDirection={HandDirection.UP}
+        hourDirection={HandDirection.RIGHT}
       />
     </div>
   )
