@@ -46,9 +46,9 @@ export const digitSegments: Record<number, DigitHand[]> = {
     { x: 1, y: 3, minuteDirection: HandDirection.DOWN, hourDirection: HandDirection.UP },
     { x: 1, y: 2, minuteDirection: HandDirection.DOWN, hourDirection: HandDirection.UP },
 
-    // Two Middle Clocks
-    { x: 2, y: 2, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
-    { x: 2, y: 3, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT }
+    // Two Middle Clocks (Commented out for now so they don't get coloured in certain themes)
+    // { x: 2, y: 2, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    // { x: 2, y: 3, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT }
   ],
   1: [
     // The Number 1 Itself
@@ -122,16 +122,22 @@ export const digitSegments: Record<number, DigitHand[]> = {
     { x: 3, y: 3, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.DOWN },
     { x: 3, y: 4, minuteDirection: HandDirection.UP, hourDirection: HandDirection.LEFT },
     { x: 3, y: 1, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.DOWN },
+    { x: 1, y: 1, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 1, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 1, y: 2, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 2, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 1, y: 3, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 3, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 1, y: 4, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 4, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT }
   ],
   4: [
     { x: 0, y: 0, minuteDirection: HandDirection.DOWN, hourDirection: HandDirection.RIGHT },
     { x: 1, y: 0, minuteDirection: HandDirection.DOWN, hourDirection: HandDirection.LEFT },
-    { x: 2, y: 0, minuteDirection: HandDirection.RIGHT, hourDirection: HandDirection.LEFT },
     { x: 3, y: 0, minuteDirection: HandDirection.RIGHT, hourDirection: HandDirection.DOWN },
     { x: 4, y: 0, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.DOWN },
     { x: 0, y: 1, minuteDirection: HandDirection.UP, hourDirection: HandDirection.DOWN },
     { x: 1, y: 1, minuteDirection: HandDirection.UP, hourDirection: HandDirection.DOWN },
-    { x: 2, y: 1, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
     { x: 3, y: 1, minuteDirection: HandDirection.UP, hourDirection: HandDirection.DOWN },
     { x: 4, y: 1, minuteDirection: HandDirection.UP, hourDirection: HandDirection.DOWN },
     { x: 0, y: 2, minuteDirection: HandDirection.UP, hourDirection: HandDirection.DOWN },
@@ -175,6 +181,12 @@ export const digitSegments: Record<number, DigitHand[]> = {
     { x: 2, y: 5, minuteDirection: HandDirection.RIGHT, hourDirection: HandDirection.LEFT },
     { x: 1, y: 5, minuteDirection: HandDirection.RIGHT, hourDirection: HandDirection.LEFT },
     { x: 0, y: 5, minuteDirection: HandDirection.UP, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 1, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 3, y: 1, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 2, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 3, y: 2, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 1, y: 4, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
+    { x: 2, y: 4, minuteDirection: HandDirection.LEFT, hourDirection: HandDirection.RIGHT },
   ],
   6: [
     { x: 0, y: 0, minuteDirection: HandDirection.DOWN, hourDirection: HandDirection.RIGHT },

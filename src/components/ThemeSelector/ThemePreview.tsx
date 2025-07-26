@@ -13,8 +13,8 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
       <Clock
         size={30}
         animation='random'
-        styles={themeColours}
         id={`${theme}-preview`}
+        styles={themeColours.digitClock}
         minuteDirection={HandDirection.UP}
         hourDirection={HandDirection.RIGHT}
       />

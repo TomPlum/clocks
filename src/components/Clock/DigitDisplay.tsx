@@ -1,5 +1,5 @@
 import styles from '../TimeDisplay/TimeDisplay.module.scss'
-import { Clock } from './Clock.tsx'
+import { Clock } from './Clock'
 import { digitSegments, HandDirection } from '../TimeDisplay'
 
 export const DigitDisplay = ({ digit }: { digit: number }) => {

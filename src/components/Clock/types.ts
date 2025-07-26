@@ -1,5 +1,5 @@
 import { HandDirection } from '../TimeDisplay'
-import type { ThemeColours } from 'context/ThemeContext'
+import type { ClockThemeColours } from 'context/ThemeContext'
 
 /**
  * Props for a single clock cell in the digit display.
@@ -48,16 +48,7 @@ export interface ClockProps {
    * Overrides the default styles of the
    * current theme.
    */
-  styles?: Pick<
-    ThemeColours,
-    'clockBackgroundColour' |
-    'clockBorderColour' |
-    'clockShadowInnerColour' |
-    'clockShadowOuterColour' |
-    'minuteHandColour' |
-    'hourHandColour' |
-    'centreDotColour'
-  >
+  styles?: ClockThemeColours
 
   /**
    * Sets which animation the clock

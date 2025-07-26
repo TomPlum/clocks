@@ -6,15 +6,21 @@ export interface ThemeContextBag {
 
 export type Theme = 'light' | 'dark' | 'matrix'
 
-export interface ThemeColours {
+export interface ClockThemeColours {
   backgroundColour: string
-  clockBackgroundColour: string
-  clockBorderColour: string
+  borderColour: string
   centreDotColour: string
   minuteHandColour: string
   hourHandColour: string
-  clockShadowOuterColour: string
-  clockShadowInnerColour: string
-  colonPulseStartColour: string
-  colonPulseEndColour: string
+  outerShadowColour: string
+  innerShadowColour: string
+  handPulseStartColour: string
+  handPulseEndColour: string
+}
+
+export interface ThemeColours {
+  backgroundColour: string
+  digitClock: ClockThemeColours
+  borderClocks: ClockThemeColours
+  colonClocks: ClockThemeColours
 }

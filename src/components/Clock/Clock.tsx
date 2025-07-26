@@ -3,7 +3,7 @@ import styles from './Clock.module.scss'
 import type { ClockProps } from './types'
 import { HandDirection } from '../TimeDisplay'
 import classNames from 'classnames'
-import { useThemeContext } from 'context/ThemeContext'
+import { type ClockThemeColours, useThemeContext } from 'context/ThemeContext'
 
 export const Clock = ({
   id,
@@ -18,15 +18,15 @@ export const Clock = ({
   animation = 'ease-to-time'
 }: ClockProps) => {
   const [animate, setAnimate] = useState(false)
-  const [randomHourAngle, setRandomHourAngle] = useState(0)
+  const [randomHourAngle, setRandomHourAngle] = useState(90)
   const [randomMinuteAngle, setRandomMinuteAngle] = useState(0)
 
   const { themeColours: currentThemeColours } = useThemeContext()
 
-  const themeColours = useMemo(() => ({
-    ...currentThemeColours,
+  const themeColours = useMemo<ClockThemeColours>(() => ({
+    ...(digit !== undefined ? currentThemeColours.digitClock : currentThemeColours.borderClocks),
     ...styleOverrides
-  }), [currentThemeColours, styleOverrides])
+  }), [currentThemeColours.borderClocks, currentThemeColours.digitClock, digit, styleOverrides])
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -72,16 +72,18 @@ export const Clock = ({
   const hourAngle = directionToAngle(hourDirection)
   const minuteAngle = directionToAngle(minuteDirection)
 
-  const style = useMemo<CSSProperties>(() => ({
-    borderColor: themeColours.clockBorderColour,
-    backgroundColor: themeColours.clockBackgroundColour,
-    '--clock-diameter': `${size ?? 40}px`,
-    '--animation-duration': `${animationDuration ?? 1000}ms`,
-    '--shadow-colour-outer': themeColours.clockShadowOuterColour,
-    '--shadow-colour-inner': themeColours.clockShadowInnerColour,
-    '--colon-pulse-start-colour': themeColours.colonPulseStartColour,
-    '--colon-pulse-end-colour': themeColours.colonPulseEndColour
-  } as CSSProperties), [animationDuration, size, themeColours])
+  const style = useMemo<CSSProperties>(() => {
+    return {
+      borderColor: themeColours.borderColour,
+      backgroundColor: themeColours.backgroundColour,
+      '--clock-diameter': `${size ?? 40}px`,
+      '--animation-duration': `${animationDuration ?? 1000}ms`,
+      '--shadow-colour-outer': themeColours.outerShadowColour,
+      '--shadow-colour-inner': themeColours.innerShadowColour,
+      '--colon-pulse-start-colour': themeColours.handPulseStartColour,
+      '--colon-pulse-end-colour': themeColours.handPulseEndColour
+    } as CSSProperties
+  }, [animationDuration, size, themeColours])
 
   return (
     <div
