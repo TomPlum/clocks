@@ -9,8 +9,14 @@ export const TimeDisplay = () => {
   const { themeColours } = useThemeContext()
 
   const [time, setTime] = useState(new Date())
+  const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+
     const interval = setInterval(() => setTime(new Date()), 1000)
     return () => clearInterval(interval)
   }, [])
@@ -35,6 +41,8 @@ export const TimeDisplay = () => {
                   hourDirection={hour}
                   minuteDirection={minute}
                   key={`clock-${x}-${y}`}
+                  animationDuration={5000}
+                  animation={loading ? 'random' : 'ease-to-time'}
                 />
               )
             })}

@@ -18,8 +18,9 @@ export const Clock = ({
   animation = 'ease-to-time'
 }: ClockProps) => {
   const [animate, setAnimate] = useState(false)
-  const [randomHourAngle, setRandomHourAngle] = useState(90)
-  const [randomMinuteAngle, setRandomMinuteAngle] = useState(0)
+
+  const [randomHourAngle, setRandomHourAngle] = useState(Math.random() * 360)
+  const [randomMinuteAngle, setRandomMinuteAngle] = useState(Math.random() * 360)
 
   const { themeColours: currentThemeColours } = useThemeContext()
 
@@ -55,7 +56,7 @@ export const Clock = ({
 
       setRandomHourAngle(hourAngle)
       setRandomMinuteAngle(minuteAngle)
-    }, 500)
+    }, 100)
 
     return () => clearInterval(interval)
   }, [animation])
@@ -72,7 +73,7 @@ export const Clock = ({
   const hourAngle = directionToAngle(hourDirection)
   const minuteAngle = directionToAngle(minuteDirection)
 
-  const style = useMemo<CSSProperties>(() => {
+  const clockStyle = useMemo<CSSProperties>(() => {
     return {
       borderColor: themeColours.borderColour,
       backgroundColor: themeColours.backgroundColour,
@@ -85,37 +86,50 @@ export const Clock = ({
     } as CSSProperties
   }, [animationDuration, size, themeColours])
 
+  const hourHandStyle = useMemo<CSSProperties>(() => {
+    const handDirectionAngle = animate ? hourAngle : 0
+    const rotationAngle = animation === 'random' ? randomHourAngle : handDirectionAngle
+
+    return {
+      backgroundColor: themeColours.hourHandColour,
+      transform: `rotate(${rotationAngle}deg)`,
+      transition: animation === 'ease-to-time' ? `transform ${animationDuration}ms ease` : 'none'
+    }
+  }, [animate, animation, animationDuration, hourAngle, randomHourAngle, themeColours.hourHandColour])
+
+  const minuteHandStyle = useMemo<CSSProperties>(() => {
+    const handDirectionAngle = animate ? minuteAngle : 0
+    const rotationAngle = animation === 'random' ? randomMinuteAngle : handDirectionAngle
+
+    return {
+      backgroundColor: themeColours.minuteHandColour,
+      transform: `rotate(${rotationAngle}deg)`,
+      transition: animation === 'ease-to-time' ? `transform ${animationDuration}ms ease` : 'none'
+    }
+  }, [animate, animation, animationDuration, minuteAngle, randomMinuteAngle, themeColours.minuteHandColour])
+
   return (
     <div
-      style={style}
-      className={styles.Clock}
+      style={clockStyle}
+      className={classNames(styles.Clock, className)}
       data-testid={`clock-${id}-number-${digit ?? 'none'}`}
     >
       <div
+        style={hourHandStyle}
+        data-testid={`hour-hand-${hourDirection}`}
         className={classNames(
           styles.Clock__HourHand,
-          { [styles.Clock__Pulse]: pulse },
-          className
+          { [styles.Clock__Pulse]: pulse }
         )}
-        data-testid={`hour-hand-${hourDirection}`}
-        style={{
-          backgroundColor: themeColours.hourHandColour,
-          transform: `rotate(${animation === 'random' ? randomHourAngle : animate ? hourAngle : 0}deg)`,
-          transition: animation === 'ease-to-time' ? 'transform var(--animation-duration) ease' : 'none'
-        }}
       />
 
       <div
+        style={minuteHandStyle}
+        data-testid={`minute-hand-${minuteDirection}`}
         className={classNames(
           styles.Clock__MinuteHand,
           { [styles.Clock__Pulse]: pulse }
         )}
-        data-testid={`minute-hand-${minuteDirection}`}
-        style={{
-          backgroundColor: themeColours.minuteHandColour,
-          transform: `rotate(${animation === 'random' ? randomMinuteAngle : animate ? minuteAngle : 0}deg)`,
-          transition: animation === 'ease-to-time' ? 'transform var(--animation-duration) ease' : 'none'
-        }}
       />
 
       <div
