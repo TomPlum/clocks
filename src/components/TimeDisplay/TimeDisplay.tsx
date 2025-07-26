@@ -1,47 +1,57 @@
 import { Clock } from '../Clock'
 import styles from './TimeDisplay.module.scss'
 import { useEffect, useState } from 'react'
-import { getHandDirections, totalHeight, totalWidth } from './utils'
+import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
 import { useThemeContext } from 'context/ThemeContext'
 import { ThemeSelector } from 'components/ThemeSelector'
+
+const loadingAnimationDuration = 5000
+const defaultAnimationDuration = 3000
 
 export const TimeDisplay = () => {
   const { themeColours } = useThemeContext()
 
   const [time, setTime] = useState(new Date())
   const [loading, setLoading] = useState(true)
-
+  const [animationDuration, setAnimationDuration] = useState(loadingAnimationDuration)
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
-    }, 3000)
+
+      setTimeout(() => {
+        setAnimationDuration(defaultAnimationDuration)
+      }, loadingAnimationDuration)
+    }, defaultAnimationDuration)
 
     const interval = setInterval(() => setTime(new Date()), 1000)
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className={styles.Container} style={{ backgroundColor: themeColours.backgroundColour }}>
+    <div
+      className={styles.Container}
+      style={{ backgroundColor: themeColours.backgroundColour }}
+    >
       <div>
         <ThemeSelector />
       </div>
       
       <div className={styles.TimeDisplay}>
-        {Array.from({ length: totalWidth }, (_, i) => i).flatMap((x: number) => (
+        {iterateTimes(totalWidth).flatMap((x: number) => (
           <div className={styles.TimeDisplay__Column} key={`row-${x}`}>
-            {Array.from({ length: totalHeight }, (_, i) => i).map((y: number) => {
+            {iterateTimes(totalHeight).map((y: number) => {
               const { hour, minute, digit, isColon } = getHandDirections(time, x, y)
 
               return (
                 <Clock
                   digit={digit}
-                  pulse={isColon}
                   id={`(${x},${y})`}
                   hourDirection={hour}
                   minuteDirection={minute}
                   key={`clock-${x}-${y}`}
-                  animationDuration={5000}
+                  pulse={!loading && isColon}
+                  animationDuration={animationDuration}
                   animation={loading ? 'random' : 'ease-to-time'}
                 />
               )

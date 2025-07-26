@@ -153,3 +153,7 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
     minute: HandDirection.RIGHT
   }
 }
+
+export const iterateTimes = (size: number) => {
+  return Array.from({ length: size }, (_, i) => i)
+}
