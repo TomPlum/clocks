@@ -1,4 +1,4 @@
-import type { Theme, ThemeColours } from './types.ts'
+import type { Theme, ThemeColours } from './types'
 
 export const getThemeColours = (theme: Theme): ThemeColours => {
   switch (theme) {
@@ -18,10 +18,10 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
     }
     case 'dark': {
       return {
-        background: '#000000',
+        background: '#1a1a1a',
         centerDot: '#ffffff',
-        clockBackground: '#000000',
-        clockBorder: '#000000',
+        clockBackground: '#1e1e1e',
+        clockBorder: '#262626',
         clockShadowOuterColour: 'rgba(255,255,255,0.3)',
         clockShadowInnerColour: 'rgba(255,255,255,0.4)',
         hourHandColour: '#ffffff',

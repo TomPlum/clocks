@@ -1,22 +1,23 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
 
+import svgr from 'vite-plugin-svgr'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import react from '@vitejs/plugin-react-swc'
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tsconfigPaths(),
+    svgr()
+  ],
   resolve: {
     alias: {
       assets: resolve(__dirname, '/src/assets'),
       components: resolve(__dirname, '/src/components'),
       context: resolve(__dirname, '/src/context'),
-      hooks: resolve(__dirname, '/src/hooks')
-    }
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler'
-      }
+      hooks: resolve(__dirname, '/src/hooks'),
+      types: resolve(__dirname, '/src/types')
     }
   },
   test: {

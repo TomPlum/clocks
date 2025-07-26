@@ -42,6 +42,13 @@ export default tseslint.config(
         },
       ]
     },
-    ignores: ['**/dist']
+    ignores: ['**/dist'],
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: './tsconfig.json'
+        }
+      }
+    }
   }
 )
