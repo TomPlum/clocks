@@ -17,6 +17,7 @@ export default defineConfig({
       components: resolve(__dirname, '/src/components'),
       context: resolve(__dirname, '/src/context'),
       hooks: resolve(__dirname, '/src/hooks'),
+      fonts: resolve(__dirname, '/src/fonts'),
       types: resolve(__dirname, '/src/types')
     }
   },

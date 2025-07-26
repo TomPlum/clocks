@@ -13,7 +13,8 @@
       "components/*": ["src/components/*"],
       "context/*": ["src/context/*"],
       "hooks/*": ["src/hooks/*"],
-      "types/*": ["src/types/*"]
+      "types/*": ["src/types/*"],
+      "fonts/*": ["src/fonts/*"]
     },
     "types": ["vitest/globals", "vite/client"],
 
