@@ -4,7 +4,7 @@ export interface ThemeContextBag {
   setTheme: (theme: Theme) => void
 }
 
-export type Theme = 'light' | 'dark'
+export type Theme = 'light' | 'dark' | 'matrix'
 
 export interface ThemeColours {
   backgroundColour: string

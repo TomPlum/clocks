@@ -31,6 +31,15 @@ export const ThemeSelector = () => {
               themeColours={getThemeColours('dark')}
             />
           )
+        },
+        {
+          value: 'matrix',
+          label: (
+            <ThemePreview
+              theme='matrix'
+              themeColours={getThemeColours('matrix')}
+            />
+          )
         }
       ]}
     />

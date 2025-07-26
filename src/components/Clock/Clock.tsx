@@ -55,7 +55,7 @@ export const Clock = ({
 
       setRandomHourAngle(hourAngle)
       setRandomMinuteAngle(minuteAngle)
-    }, 50)
+    }, 500)
 
     return () => clearInterval(interval)
   }, [animation])

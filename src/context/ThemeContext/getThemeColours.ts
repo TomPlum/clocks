@@ -30,5 +30,19 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
         colonPulseEndColour: '#7e7e7e'
       }
     }
+    case 'matrix': {
+      return {
+        backgroundColour: '#1a1a1a',
+        centreDotColour: '#196b12',
+        clockBackgroundColour: '#1e1e1e',
+        clockBorderColour: '#262626',
+        clockShadowOuterColour: 'rgba(255,255,255,0.3)',
+        clockShadowInnerColour: 'rgba(255,255,255,0.4)',
+        hourHandColour: '#34c226',
+        minuteHandColour: '#34c226',
+        colonPulseStartColour: '#ffffff',
+        colonPulseEndColour: '#7e7e7e'
+      }
+    }
   }
 }
