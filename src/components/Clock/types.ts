@@ -58,4 +58,18 @@ export interface ClockProps {
     'hourHandColour' |
     'centreDotColour'
   >
+
+  /**
+   * Sets which animation the clock
+   * should use.
+   */
+  animation?: ClockAnimation
+
+  /**
+   * Sets the time, in milliseconds, that
+   * the clocks' animation should use.
+   */
+  animationDuration?: number
 }
+
+export type ClockAnimation = 'ease-to-time' | 'random'

@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useMemo, useState } from 'react'
 import styles from './Clock.module.scss'
 import type { ClockProps } from './types'
 import { HandDirection } from '../TimeDisplay'
@@ -11,8 +11,10 @@ export const Clock = ({
   pulse,
   digit,
   className,
+  animation,
   hourDirection,
   minuteDirection,
+  animationDuration,
   styles: styleOverrides,
 }: ClockProps) => {
   const [animate, setAnimate] = useState(false)
@@ -43,22 +45,25 @@ export const Clock = ({
     }
   }
 
+  const style = useMemo<CSSProperties>(() => ({
+    borderColor: themeColours.clockBorderColour,
+    backgroundColor: themeColours.clockBackgroundColour,
+    '--clock-diameter': `${size ?? 40}px`,
+    '--animation-duration': `${animationDuration ?? 1000}ms`,
+    '--shadow-colour-outer': themeColours.clockShadowOuterColour,
+    '--shadow-colour-inner': themeColours.clockShadowInnerColour,
+    '--colon-pulse-start-colour': themeColours.colonPulseStartColour,
+    '--colon-pulse-end-colour': themeColours.colonPulseEndColour
+  } as CSSProperties), [animationDuration, size, themeColours.clockBackgroundColour, themeColours.clockBorderColour, themeColours.clockShadowInnerColour, themeColours.clockShadowOuterColour, themeColours.colonPulseEndColour, themeColours.colonPulseStartColour])
+
   const hourAngle = directionToAngle(hourDirection)
   const minuteAngle = directionToAngle(minuteDirection)
 
   return (
     <div
+      style={style}
       className={styles.Clock}
       data-testid={`clock-${id}-number-${digit ?? 'none'}`}
-      style={{
-        borderColor: themeColours.clockBorderColour,
-        backgroundColor: themeColours.clockBackgroundColour,
-        '--clock-diameter': `${size ?? 40}px`,
-        '--shadow-colour-outer': themeColours.clockShadowOuterColour,
-        '--shadow-colour-inner': themeColours.clockShadowInnerColour,
-        '--colon-pulse-start-colour': themeColours.colonPulseStartColour,
-        '--colon-pulse-end-colour': themeColours.colonPulseEndColour
-      } as CSSProperties}
     >
       <div
         className={classNames(

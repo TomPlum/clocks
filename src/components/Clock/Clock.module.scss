@@ -26,7 +26,7 @@
     bottom: 50%;
     left: calc(50% - $hand-width / 4);
     transform-origin: bottom center;
-    transition: transform 1s ease;
+    transition: transform var(--animation-duration) ease;
   }
 
   &__HourHand {
