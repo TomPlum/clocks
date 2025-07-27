@@ -1,6 +1,6 @@
 import styles from '../TimeDisplay/TimeDisplay.module.scss'
 import { Clock } from './Clock'
-import { digitSegments, HandDirection } from '../TimeDisplay'
+import { digitSegments } from '../TimeDisplay'
 
 export const DigitDisplay = ({ digit }: { digit: number }) => {
   return (
@@ -9,18 +9,18 @@ export const DigitDisplay = ({ digit }: { digit: number }) => {
       {Array.from({ length: 5 }, (_, i) => i).flatMap((x: number) => (
         <div>
           {Array.from({ length: 6 }, (_, i) => i).map((y: number) => {
-            const { x: xClock, y: yClock, hourDirection, minuteDirection } = digitSegments[digit].find(it => it.x === x && it.y === y) ?? {
+            const { x: xClock, y: yClock, hourHandAngle, minuteHandAngle } = digitSegments[digit].find(it => it.x === x && it.y === y) ?? {
               x,
               y,
-              minuteDirection: HandDirection.LEFT,
-              hourDirection: HandDirection.RIGHT
+              minuteHandAngle: 270,
+              hourHandAngle: 90
             }
 
             return (
               <Clock
                 digit={digit}
-                hourDirection={hourDirection}
-                minuteDirection={minuteDirection}
+                hourHandAngle={hourHandAngle}
+                minuteHandAngle={minuteHandAngle}
                 id={`(${xClock},${yClock})`}
                 key={`clock-${xClock}-${yClock}`}
               />

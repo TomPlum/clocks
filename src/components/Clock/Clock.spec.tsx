@@ -1,48 +1,29 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { Clock } from './Clock'
-import { HandDirection } from '../TimeDisplay'
-
-const getExpectedDirectionAngle = (direction: HandDirection): number => {
-  switch (direction) {
-    case HandDirection.UP:
-      return 0
-    case HandDirection.RIGHT:
-      return 90
-    case HandDirection.DOWN:
-      return 180
-    case HandDirection.LEFT:
-      return 270
-  }
-}
 
 describe('Clock', () => {
-  const directions = [
-    HandDirection.UP,
-    HandDirection.RIGHT,
-    HandDirection.DOWN,
-    HandDirection.LEFT,
-  ]
+  const angles = [0, 90, 180, 270, 110, 55]
 
-  directions.forEach((hourDir) => {
-    directions.forEach((minuteDir) => {
-      it(`should render the clock with the hour=${hourDir} and minute=${minuteDir} minute hands at the correct angles`, () => {
+  angles.forEach((hourAngle) => {
+    angles.forEach((minuteAngle) => {
+      it(`should render the clock with the hour=${hourAngle} and minute=${minuteAngle} minute hands at the correct angles`, async () => {
         render(
           <Clock
             id='0,0'
-            hourDirection={hourDir}
-            minuteDirection={minuteDir}
+            animation='ease-to-time'
+            hourHandAngle={hourAngle}
+            minuteHandAngle={minuteAngle}
           />
         )
 
-        const hourHand = screen.getByTestId(`hour-hand-${hourDir}`)
-        const minuteHand = screen.getByTestId(`minute-hand-${minuteDir}`)
+        const hourHand = screen.getByTestId('clock-0,0-hour-hand')
+        const minuteHand = screen.getByTestId('clock-0,0-minute-hand')
 
-        const expectedHourAngle = getExpectedDirectionAngle(hourDir)
-        const expectedMinuteAngle = getExpectedDirectionAngle(minuteDir)
-
-        expect(hourHand.style.transform).toBe(`rotate(${expectedHourAngle}deg)`)
-        expect(minuteHand.style.transform).toBe(`rotate(${expectedMinuteAngle}deg)`)
+        await waitFor(() => {
+          expect(hourHand.style.transform).toBe(`rotate(${hourAngle}deg)`)
+          expect(minuteHand.style.transform).toBe(`rotate(${minuteAngle}deg)`)
+        })
       })
     })
   })

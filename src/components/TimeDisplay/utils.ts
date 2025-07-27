@@ -1,4 +1,4 @@
-import { digitSegments, HandDirection } from './types.ts'
+import { digitSegments } from './types'
 
 const digitHeight = 6
 const padding = 2
@@ -11,26 +11,26 @@ const xColonRight = (totalWidth / 2)
 
 const centreLineCoordinates = [
   // Top Line
-  { x: xColonLeft, y: 2, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.RIGHT },
-  { x: xColonRight, y: 2, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.LEFT },
+  { x: xColonLeft, y: 2, hourDirection: 90, minuteDirection: 90 },
+  { x: xColonRight, y: 2, hourDirection: 270, minuteDirection: 270 },
 
   // Bottom Line
-  { x: xColonLeft, y: 7, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.RIGHT },
-  { x: xColonRight, y: 7, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.LEFT }
+  { x: xColonLeft, y: 7, hourDirection: 90, minuteDirection: 90 },
+  { x: xColonRight, y: 7, hourDirection: 270, minuteDirection: 270 }
 ]
 
 const colonCoordinates = [
   // Top Colon
-  { x: xColonLeft, y: 3, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.RIGHT },
-  { x: xColonRight, y: 3, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.LEFT },
-  { x: xColonLeft, y: 4, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.UP },
-  { x: xColonRight, y: 4, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.UP },
+  { x: xColonLeft, y: 3, hourDirection: 180, minuteDirection: 90 },
+  { x: xColonRight, y: 3, hourDirection: 180, minuteDirection: 270 },
+  { x: xColonLeft, y: 4, hourDirection: 90, minuteDirection: 0 },
+  { x: xColonRight, y: 4, hourDirection: 270, minuteDirection: 0 },
 
   // Bottom Colon
-  { x: xColonLeft, y: 5, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.RIGHT },
-  { x: xColonRight, y: 5, hourDirection: HandDirection.DOWN, minuteDirection: HandDirection.LEFT },
-  { x: xColonLeft, y: 6, hourDirection: HandDirection.RIGHT, minuteDirection: HandDirection.UP },
-  { x: xColonRight, y: 6, hourDirection: HandDirection.LEFT, minuteDirection: HandDirection.UP },
+  { x: xColonLeft, y: 5, hourDirection: 180, minuteDirection: 90 },
+  { x: xColonRight, y: 5, hourDirection: 180, minuteDirection: 270 },
+  { x: xColonLeft, y: 6, hourDirection: 90, minuteDirection: 0 },
+  { x: xColonRight, y: 6, hourDirection: 270, minuteDirection: 0 },
 ]
 
 const getDigitStartX = (digitIndex: number): number => {
@@ -58,7 +58,7 @@ const timeCoordinates = (time: Date) => {
 
   const digits = [h1, h2, m1, m2] as const
 
-  const positionToDirections = new Map<string, [HandDirection, HandDirection, number]>()
+  const positionToDirections = new Map<string, [number, number, number]>()
 
   digits.forEach((digit, index) => {
     const startX = getDigitStartX(index)
@@ -70,7 +70,7 @@ const timeCoordinates = (time: Date) => {
       const globalY = startY + segment.y
       const key = `${globalX},${globalY}`
 
-      positionToDirections.set(key, [segment.hourDirection, segment.minuteDirection, digit])
+      positionToDirections.set(key, [segment.hourHandAngle, segment.minuteHandAngle, digit])
     }
   })
 
@@ -93,13 +93,13 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
   if (isInPadding(x, y)) {
     if (x < xColonLeft) {
       return {
-        hour: HandDirection.RIGHT,
-        minute: HandDirection.RIGHT
+        hour: 90,
+        minute: 90
       }
     }
 
     if (x === xColonLeft) {
-      const direction = y <= padding ? HandDirection.DOWN : HandDirection.UP
+      const direction = y <= padding ? 180 : 0
 
       return {
         hour: direction,
@@ -109,13 +109,13 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
 
     if (x > xColonRight) {
       return {
-        hour: HandDirection.LEFT,
-        minute: HandDirection.LEFT
+        hour: 270,
+        minute: 270
       }
     }
 
     if (x === xColonRight) {
-      const direction = y <= padding ? HandDirection.DOWN : HandDirection.UP
+      const direction = y <= padding ? 180 : 0
 
       return {
         hour: direction,
@@ -149,8 +149,8 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
   }
 
   return {
-    hour: HandDirection.LEFT,
-    minute: HandDirection.RIGHT
+    hour: 270,
+    minute: 90
   }
 }
 

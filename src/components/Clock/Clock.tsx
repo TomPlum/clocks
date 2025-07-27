@@ -1,7 +1,6 @@
 import { type CSSProperties, useEffect, useMemo, useState } from 'react'
 import styles from './Clock.module.scss'
 import type { ClockProps } from './types'
-import { HandDirection } from '../TimeDisplay'
 import classNames from 'classnames'
 import { type ClockThemeColours, useThemeContext } from 'context/ThemeContext'
 
@@ -11,8 +10,8 @@ export const Clock = ({
   pulse,
   digit,
   className,
-  hourDirection,
-  minuteDirection,
+  hourHandAngle,
+  minuteHandAngle,
   animationDuration,
   styles: styleOverrides,
   animation = 'ease-to-time'
@@ -61,18 +60,6 @@ export const Clock = ({
     return () => clearInterval(interval)
   }, [animation])
 
-  const directionToAngle = (direction: HandDirection) => {
-    switch (direction) {
-      case HandDirection.UP: return 0
-      case HandDirection.RIGHT: return 90
-      case HandDirection.DOWN: return 180
-      case HandDirection.LEFT: return 270
-    }
-  }
-
-  const hourAngle = directionToAngle(hourDirection)
-  const minuteAngle = directionToAngle(minuteDirection)
-
   const clockStyle = useMemo<CSSProperties>(() => {
     return {
       borderColor: themeColours.borderColour,
@@ -87,7 +74,7 @@ export const Clock = ({
   }, [animationDuration, size, themeColours])
 
   const hourHandStyle = useMemo<CSSProperties>(() => {
-    const handDirectionAngle = animate ? hourAngle : 0
+    const handDirectionAngle = animate ? hourHandAngle : 0
     const rotationAngle = animation === 'random' ? randomHourAngle : handDirectionAngle
 
     return {
@@ -95,10 +82,10 @@ export const Clock = ({
       transform: `rotate(${rotationAngle}deg)`,
       transition: animation === 'ease-to-time' ? `transform ${animationDuration}ms ease` : 'none'
     }
-  }, [animate, animation, animationDuration, hourAngle, randomHourAngle, themeColours.hourHandColour])
+  }, [animate, animation, animationDuration, hourHandAngle, randomHourAngle, themeColours.hourHandColour])
 
   const minuteHandStyle = useMemo<CSSProperties>(() => {
-    const handDirectionAngle = animate ? minuteAngle : 0
+    const handDirectionAngle = animate ? minuteHandAngle : 0
     const rotationAngle = animation === 'random' ? randomMinuteAngle : handDirectionAngle
 
     return {
@@ -106,7 +93,7 @@ export const Clock = ({
       transform: `rotate(${rotationAngle}deg)`,
       transition: animation === 'ease-to-time' ? `transform ${animationDuration}ms ease` : 'none'
     }
-  }, [animate, animation, animationDuration, minuteAngle, randomMinuteAngle, themeColours.minuteHandColour])
+  }, [animate, animation, animationDuration, minuteHandAngle, randomMinuteAngle, themeColours.minuteHandColour])
 
   return (
     <div
@@ -116,7 +103,7 @@ export const Clock = ({
     >
       <div
         style={hourHandStyle}
-        data-testid={`hour-hand-${hourDirection}`}
+        data-testid={`clock-${id}-hour-hand`}
         className={classNames(
           styles.Clock__HourHand,
           { [styles.Clock__Pulse]: pulse }
@@ -125,7 +112,7 @@ export const Clock = ({
 
       <div
         style={minuteHandStyle}
-        data-testid={`minute-hand-${minuteDirection}`}
+        data-testid={`clock-${id}-minute-hand`}
         className={classNames(
           styles.Clock__MinuteHand,
           { [styles.Clock__Pulse]: pulse }

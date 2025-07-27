@@ -1,4 +1,3 @@
-import { HandDirection } from '../TimeDisplay'
 import type { ClockThemeColours } from 'context/ThemeContext'
 
 /**
@@ -18,14 +17,14 @@ export interface ClockProps {
   digit?: number
 
   /**
-   * Direction of the hour hand.
+   * Angle of the hour hand.
    */
-  hourDirection: HandDirection
+  hourHandAngle: number
 
   /**
-   * Direction of the minute hand.
+   * Angle of the minute hand.
    */
-  minuteDirection: HandDirection
+  minuteHandAngle: number
 
   /**
    * Whether this clock should pulse.

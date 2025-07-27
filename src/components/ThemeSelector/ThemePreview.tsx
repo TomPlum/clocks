@@ -1,6 +1,5 @@
 import { Clock } from 'components/Clock'
 import type { ThemePreviewProps } from 'components/ThemeSelector/types'
-import { HandDirection } from 'components/TimeDisplay'
 import styles from './ThemePreview.module.scss'
 
 export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
@@ -15,8 +14,8 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
         animation='random'
         id={`${theme}-preview`}
         styles={themeColours.digitClock}
-        minuteDirection={HandDirection.UP}
-        hourDirection={HandDirection.RIGHT}
+        minuteHandAngle={20}
+        hourHandAngle={120}
       />
     </div>
   )

@@ -24,8 +24,13 @@ export const TimeDisplay = () => {
       }, loadingAnimationDuration)
     }, defaultAnimationDuration)
 
-    const interval = setInterval(() => setTime(new Date()), 1000)
-    return () => clearInterval(interval)
+    const interval = setInterval(() => {
+      setTime(new Date())
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   return (
@@ -47,8 +52,8 @@ export const TimeDisplay = () => {
                 <Clock
                   digit={digit}
                   id={`(${x},${y})`}
-                  hourDirection={hour}
-                  minuteDirection={minute}
+                  hourHandAngle={hour}
+                  minuteHandAngle={minute}
                   key={`clock-${x}-${y}`}
                   pulse={!loading && isColon}
                   animationDuration={animationDuration}
