@@ -8,6 +8,10 @@ export const totalHeight = padding * 2 + digitHeight
 
 const xColonLeft = (totalWidth / 2) - 1
 const xColonRight = (totalWidth / 2)
+const yTopColonOne = 3
+const yTopColonTwo = 4
+const yBottomColonOne = 5
+const yBottomColonTwo = 6
 
 const centreLineCoordinates = [
   // Top Line
@@ -21,16 +25,16 @@ const centreLineCoordinates = [
 
 const colonCoordinates = [
   // Top Colon
-  { x: xColonLeft, y: 3, hourDirection: 180, minuteDirection: 90 },
-  { x: xColonRight, y: 3, hourDirection: 180, minuteDirection: 270 },
-  { x: xColonLeft, y: 4, hourDirection: 90, minuteDirection: 0 },
-  { x: xColonRight, y: 4, hourDirection: 270, minuteDirection: 0 },
+  { x: xColonLeft, y: yTopColonOne, hourDirection: 180, minuteDirection: 90 },
+  { x: xColonRight, y: yTopColonOne, hourDirection: 180, minuteDirection: 270 },
+  { x: xColonLeft, y: yTopColonTwo, hourDirection: 90, minuteDirection: 0 },
+  { x: xColonRight, y: yTopColonTwo, hourDirection: 270, minuteDirection: 0 },
 
   // Bottom Colon
-  { x: xColonLeft, y: 5, hourDirection: 180, minuteDirection: 90 },
-  { x: xColonRight, y: 5, hourDirection: 180, minuteDirection: 270 },
-  { x: xColonLeft, y: 6, hourDirection: 90, minuteDirection: 0 },
-  { x: xColonRight, y: 6, hourDirection: 270, minuteDirection: 0 },
+  { x: xColonLeft, y: yBottomColonOne, hourDirection: 180, minuteDirection: 90 },
+  { x: xColonRight, y: yBottomColonOne, hourDirection: 180, minuteDirection: 270 },
+  { x: xColonLeft, y: yBottomColonTwo, hourDirection: 90, minuteDirection: 0 },
+  { x: xColonRight, y: yBottomColonTwo, hourDirection: 270, minuteDirection: 0 }
 ]
 
 const getDigitStartX = (digitIndex: number): number => {
@@ -89,41 +93,48 @@ const isInPadding = (
   )
 }
 
-export const getHandDirections = (time: Date, x: number, y: number) => {
-  if (isInPadding(x, y)) {
-    if (x < xColonLeft) {
-      return {
-        hour: 90,
-        minute: 90
-      }
-    }
-
-    if (x === xColonLeft) {
-      const direction = y <= padding ? 180 : 0
-
-      return {
-        hour: direction,
-        minute: direction
-      }
-    }
-
-    if (x > xColonRight) {
-      return {
-        hour: 270,
-        minute: 270
-      }
-    }
-
-    if (x === xColonRight) {
-      const direction = y <= padding ? 180 : 0
-
-      return {
-        hour: direction,
-        minute: direction
-      }
-    }
+const getAngleForCircularEffect = (x: number, y: number) => {
+  const getAngleToTarget = (fromX: number, fromY: number, toX: number, toY: number): number => {
+    const dx = toX - fromX
+    const dy = toY - fromY
+    const radians = Math.atan2(dy, dx)
+    const degrees = (radians * 180) / Math.PI
+    return (degrees + 360) % 360 // Normalize to 0–360
   }
 
+  const colonTargets = [
+    { x: xColonLeft, y: yTopColonTwo },
+    { x: xColonRight, y: yTopColonTwo },
+    { x: xColonLeft, y: yBottomColonOne },
+    { x: xColonRight, y: yBottomColonOne }
+  ]
+
+  const getAngle = (x: number, y: number): number => {
+    let closest = colonTargets[0]
+    let minDist = Infinity
+
+    for (const target of colonTargets) {
+      const dx = target.x - x
+      const dy = target.y - y
+      const dist = dx * dx + dy * dy
+      if (dist < minDist) {
+        minDist = dist
+        closest = target
+      }
+    }
+
+    return getAngleToTarget(x, y, closest.x, closest.y)
+  }
+
+  const angle = getAngle(x, y)
+
+  return {
+    hour: angle,
+    minute: angle
+  }
+}
+
+export const getHandDirections = (time: Date, x: number, y: number) => {
   const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
 
   if (digitHandDirections) {
@@ -148,10 +159,7 @@ export const getHandDirections = (time: Date, x: number, y: number) => {
     }
   }
 
-  return {
-    hour: 270,
-    minute: 90
-  }
+  return getAngleForCircularEffect(x, y)
 }
 
 export const iterateTimes = (size: number) => {
