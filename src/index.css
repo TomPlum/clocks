@@ -30,10 +30,10 @@ html, body, #root {
   overflow: hidden;
 }
 
-body {
-  display: flex;
-  min-width: 320px;
-  min-height: 100vh;
+label {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  display: block;
 }
 
 @font-face {

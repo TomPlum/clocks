@@ -1,16 +1,21 @@
 import { ThemeContext } from './ThemeContext'
-import { type PropsWithChildren, useMemo, useState } from 'react'
+import { type PropsWithChildren, useMemo } from 'react'
 import type { Theme, ThemeContextBag } from './types'
 import { getThemeColours } from './getThemeColours'
+import { useLocalStorage } from '@mantine/hooks'
 
 export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useLocalStorage<Theme>({
+    key: 'tomplum.github.io/clocks-theme',
+    defaultValue: 'light'
+  })
+
 
   const value = useMemo<ThemeContextBag>(() => ({
     theme,
     setTheme,
     themeColours: getThemeColours(theme)
-  }), [theme])
+  }), [setTheme, theme])
 
   return (
     <ThemeContext.Provider value={value}>
