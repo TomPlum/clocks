@@ -1,9 +1,12 @@
-import { TimeDisplay } from './components/TimeDisplay'
-import { ThemeContextProvider } from './context/ThemeContext'
+import { ThemeContextProvider } from 'context/ThemeContext'
+import { Layout } from 'components/Layout'
+import { MantineProvider } from '@mantine/core'
 
 const ClocksApplication = () => (
   <ThemeContextProvider>
-    <TimeDisplay />
+    <MantineProvider>
+      <Layout />
+    </MantineProvider>
   </ThemeContextProvider>
 )
 
