@@ -14,7 +14,7 @@ export const Layout = () => {
   return (
     <MantineProvider
       theme={{ fontFamily: 'JetBrains Mono' }}
-      defaultColorScheme={themeColours.mantineColourScheme}
+      forceColorScheme={themeColours.mantineColourScheme}
     >
       <div
         className={styles.Container}

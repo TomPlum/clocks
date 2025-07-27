@@ -1,5 +1,3 @@
-import type { MantineColorScheme } from '@mantine/core'
-
 /**
  * A union type representing the available themes in the app.
  */
@@ -62,7 +60,7 @@ export interface ThemeColours {
    * The colour scheme to apply to Mantine UI
    * components.
    */
-  mantineColourScheme: MantineColorScheme
+  mantineColourScheme: 'light' | 'dark'
 }
 
 /**
