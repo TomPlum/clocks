@@ -1,10 +1,9 @@
-import { TimeDisplay } from 'components/TimeDisplay'
+import { TimeDisplay } from 'modules/TimeDisplay'
 import styles from './Layout.module.scss'
-import { ThemeSelector } from 'components/ThemeSelector'
 import { useThemeContext } from 'context/ThemeContext'
-import { Drawer } from '@mantine/core'
-import { SettingsButton } from 'components/SettingsButton'
+import { SettingsButton } from 'modules/ConfigurationDrawer/components/SettingsButton'
 import { useDisclosure } from '@mantine/hooks'
+import { ConfigurationDrawer } from 'modules/ConfigurationDrawer'
 
 export const Layout = () => {
   const { themeColours } = useThemeContext()
@@ -16,15 +15,10 @@ export const Layout = () => {
       className={styles.Container}
       style={{ backgroundColor: themeColours.backgroundColour }}
     >
-      <Drawer
-        size='sm'
+      <ConfigurationDrawer
         opened={opened}
         onClose={close}
-        position='right'
-        title='Configuration'
-      >
-        <ThemeSelector />
-      </Drawer>
+      />
 
       <SettingsButton
         onClick={open}

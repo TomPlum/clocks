@@ -1,5 +1,5 @@
-import { Clock } from 'components/Clock'
-import type { ThemePreviewProps } from 'components/ThemeSelector/types'
+import { Clock } from 'modules/TimeDisplay/components/Clock'
+import type { ThemePreviewProps } from './types'
 import styles from './ThemePreview.module.scss'
 
 export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {

@@ -1,4 +1,4 @@
-import { Clock } from '../Clock'
+import { Clock } from 'modules/TimeDisplay/components/Clock'
 import styles from './TimeDisplay.module.scss'
 import { useEffect, useState } from 'react'
 import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'

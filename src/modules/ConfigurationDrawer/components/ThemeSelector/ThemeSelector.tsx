@@ -1,5 +1,5 @@
 import { type Theme, useThemeContext } from 'context/ThemeContext'
-import { ThemePreview } from 'components/ThemeSelector/ThemePreview'
+import { ThemePreview } from './ThemePreview'
 import { getThemeColours } from 'context/ThemeContext/getThemeColours'
 import { Combobox, InputBase, useCombobox } from '@mantine/core'
 
