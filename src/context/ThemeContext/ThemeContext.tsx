@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import type { Theme, ThemeContextBag } from './types.ts'
-import { getThemeColours } from './getThemeColours.ts'
+import type { Theme, ThemeContextBag } from './types'
+import { getThemeColours } from './getThemeColours'
 
 export const ThemeContext = createContext<ThemeContextBag>({
   theme: 'light',

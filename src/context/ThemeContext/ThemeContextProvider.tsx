@@ -1,7 +1,7 @@
-import { ThemeContext } from './ThemeContext.tsx'
+import { ThemeContext } from './ThemeContext'
 import { type PropsWithChildren, useMemo, useState } from 'react'
-import type { Theme, ThemeContextBag } from './types.ts'
-import { getThemeColours } from './getThemeColours.ts'
+import type { Theme, ThemeContextBag } from './types'
+import { getThemeColours } from './getThemeColours'
 
 export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState<Theme>('light')

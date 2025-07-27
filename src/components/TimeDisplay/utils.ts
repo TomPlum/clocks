@@ -81,18 +81,6 @@ const timeCoordinates = (time: Date) => {
   return positionToDirections
 }
 
-const isInPadding = (
-  x: number,
-  y: number
-): boolean => {
-  return (
-    x < 2 ||
-    x >= totalWidth - 2 ||
-    y < 2 ||
-    y >= totalHeight - 2
-  )
-}
-
 const getAngleForCircularEffect = (x: number, y: number) => {
   const getAngleToTarget = (fromX: number, fromY: number, toX: number, toY: number): number => {
     const dx = toX - fromX
@@ -134,7 +122,14 @@ const getAngleForCircularEffect = (x: number, y: number) => {
   }
 }
 
-export const getHandDirections = (time: Date, x: number, y: number) => {
+export interface HandDirections {
+  hour: number
+  minute: number
+  digit?: number
+  isColon?: boolean
+}
+
+export const getHandDirections = (time: Date, x: number, y: number): HandDirections => {
   const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
 
   if (digitHandDirections) {
