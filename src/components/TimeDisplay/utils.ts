@@ -122,7 +122,14 @@ const getAngleForCircularEffect = (x: number, y: number) => {
   }
 }
 
-export const getHandDirections = (time: Date, x: number, y: number) => {
+export interface HandDirections {
+  hour: number
+  minute: number
+  digit?: number
+  isColon?: boolean
+}
+
+export const getHandDirections = (time: Date, x: number, y: number): HandDirections => {
   const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
 
   if (digitHandDirections) {
