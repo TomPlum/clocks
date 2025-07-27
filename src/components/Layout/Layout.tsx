@@ -20,7 +20,10 @@ export const Layout = () => {
         <ThemeSelector />
       </Drawer>
 
-      <SettingsButton onClick={open} />
+      <SettingsButton
+        onClick={open}
+        className={styles.SettingsButton}
+      />
 
       <TimeDisplay />
     </div>
