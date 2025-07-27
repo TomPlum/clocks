@@ -5,7 +5,8 @@ import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import react from '@vitejs/plugin-react-swc'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/clocks/' : '',
   plugins: [
     react(),
     tsconfigPaths(),
@@ -45,4 +46,4 @@ export default defineConfig({
       ]
     }
   }
-})
+}))
