@@ -57,9 +57,24 @@ export interface ClockProps {
 
   /**
    * Sets the time, in milliseconds, that
-   * the clocks' animation should use.
+   * the clocks' animations should use.
+   *
+   * Usually, this is how long it should
+   * take a hand to move from its source
+   * to its target angle.
    */
   animationDuration?: number
+
+  /**
+   * Sets the speed, in milliseconds, that
+   * the clocks' animations should use.
+   *
+   * Animations like "random" don't have set
+   * hand angles, and so the animationSpeed can
+   * be used to set how quickly the animation
+   * progresses.
+   */
+  animationSpeed?: number
 }
 
 export type ClockAnimation = 'ease-to-time' | 'random'

@@ -11,6 +11,7 @@ export const Clock = ({
   digit,
   className,
   hourHandAngle,
+  animationSpeed,
   minuteHandAngle,
   animationDuration,
   styles: styleOverrides,
@@ -35,30 +36,59 @@ export const Clock = ({
   }, [])
 
   useEffect(() => {
-    if (animation !== 'random') {
-      return
-    }
+    if (animation !== 'random') return
+
+    const tickDuration = 50
+
+    const hourMaxSpeed =
+      animationSpeed
+        ? 360 / (animationSpeed / tickDuration)
+        : 1.2
+    const hourMinSpeed = 0.4
+
+    const minuteMaxSpeed =
+      animationSpeed
+        ? 2 * (360 / (animationSpeed / tickDuration))
+        : 2.4
+    const minuteMinSpeed = 0.8
 
     let hourAngle = Math.random() * 360
     let minuteAngle = Math.random() * 360
-    let hourSpeed = (Math.random() * 0.5 + 0.1) * (Math.random() < 0.5 ? -1 : 1)
-    let minuteSpeed = (Math.random() + 0.5) * (Math.random() < 0.5 ? -1 : 1)
+
+    let hourSpeed = randomSpeed(hourMinSpeed, hourMaxSpeed)
+    let minuteSpeed = randomSpeed(minuteMinSpeed, minuteMaxSpeed)
+
+    let targetHourSpeed = hourSpeed
+    let targetMinuteSpeed = minuteSpeed
+
+    const smoothingFactor = 0.05
+
+    function randomSpeed(min: number, max: number) {
+      const speed = Math.random() * (max - min) + min
+      return Math.random() < 0.5 ? -speed : speed
+    }
 
     const interval = setInterval(() => {
+      if (Math.random() < 0.01) {
+        targetHourSpeed = randomSpeed(hourMinSpeed, hourMaxSpeed)
+      }
+
+      if (Math.random() < 0.01) {
+        targetMinuteSpeed = randomSpeed(minuteMinSpeed, minuteMaxSpeed)
+      }
+
+      hourSpeed += (targetHourSpeed - hourSpeed) * smoothingFactor
+      minuteSpeed += (targetMinuteSpeed - minuteSpeed) * smoothingFactor
+
       hourAngle = (hourAngle + hourSpeed + 360) % 360
       minuteAngle = (minuteAngle + minuteSpeed + 360) % 360
 
-      if (Math.random() < 0.05) {
-        hourSpeed = (Math.random() * 0.5 + 0.1) * (Math.random() < 0.5 ? -1 : 1)
-        minuteSpeed = (Math.random() + 0.5) * (Math.random() < 0.5 ? -1 : 1)
-      }
-
       setRandomHourAngle(hourAngle)
       setRandomMinuteAngle(minuteAngle)
-    }, 100)
+    }, tickDuration)
 
     return () => clearInterval(interval)
-  }, [animation])
+  }, [animation, animationSpeed])
 
   const clockStyle = useMemo<CSSProperties>(() => {
     return {
