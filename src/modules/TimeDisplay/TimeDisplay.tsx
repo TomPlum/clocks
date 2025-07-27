@@ -2,12 +2,14 @@ import { Clock, type ClockAnimation } from 'modules/TimeDisplay/components/Clock
 import styles from './TimeDisplay.module.scss'
 import { useEffect, useState } from 'react'
 import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
+import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 
 const loadingAnimationDuration = 5000
 const defaultAnimationDuration = 3000
 
 export const TimeDisplay = () => {
-  const [time, setTime] = useState(new Date())
+  const { manualTime } = useConfigContext()
+  const [currentTime, setCurrentTime] = useState(new Date())
 
   const [canPulse, setCanPulse] = useState(false)
   const [animation, setAnimation] = useState<ClockAnimation>('random')
@@ -24,7 +26,7 @@ export const TimeDisplay = () => {
     }, defaultAnimationDuration)
 
     const interval = setInterval(() => {
-      setTime(new Date())
+      setCurrentTime(new Date())
     }, 1000)
 
     return () => {
@@ -37,7 +39,11 @@ export const TimeDisplay = () => {
       {iterateTimes(totalWidth).flatMap((x: number) => (
         <div className={styles.TimeDisplay__Column} key={`row-${x}`}>
           {iterateTimes(totalHeight).map((y: number) => {
-            const { hour, minute, digit, isColon } = getHandDirections(time, x, y)
+            const { hour, minute, digit, isColon } = getHandDirections({
+              time: manualTime ?? currentTime,
+              x,
+              y
+            })
 
             return (
               <Clock

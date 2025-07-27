@@ -10,11 +10,11 @@ export const ConfigContextProvider = ({ children }: PropsWithChildren) => {
   })
 
   const value = useMemo<ConfigContextBag>(() => ({
-    manualTime: storedValue.manualTime,
-    setManualTime: (time: Date) => {
+    manualTime: storedValue.manualTime ? new Date(storedValue.manualTime) : undefined,
+    setManualTime: (time?: Date) => {
       setStoredValue({
         ...value,
-        manualTime: time
+        manualTime: time?.toString()
       })
     }
   }), [setStoredValue, storedValue.manualTime])

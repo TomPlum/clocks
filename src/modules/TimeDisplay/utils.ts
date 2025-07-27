@@ -129,7 +129,13 @@ export interface HandDirections {
   isColon?: boolean
 }
 
-export const getHandDirections = (time: Date, x: number, y: number): HandDirections => {
+export interface GetHandDirectionsProps {
+  time: Date
+  x: number
+  y: number
+}
+
+export const getHandDirections = ({ time, x, y }: GetHandDirectionsProps): HandDirections => {
   const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
 
   if (digitHandDirections) {

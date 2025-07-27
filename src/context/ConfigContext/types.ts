@@ -1,8 +1,8 @@
 export interface ConfigContextBag {
   manualTime?: Date
-  setManualTime: (time: Date) => void
+  setManualTime: (time?: Date) => void
 }
 
 export interface Config {
-  manualTime?: Date
+  manualTime?: string
 }
