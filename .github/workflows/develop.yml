@@ -37,7 +37,7 @@ jobs:
           node-version: 22
           cache: 'npm'
       - run: npm install
-      - run: npm run test:unit:ci
+      - run: npm run test:ci
       - name: Store LCOV Info
         uses: actions/upload-artifact@v4
         with:
