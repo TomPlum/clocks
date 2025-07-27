@@ -32,7 +32,8 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
         settingsButtonColour: '#000000',
         digitClock: lightClockTheme,
         borderClocks: lightClockTheme,
-        colonClocks: lightClockTheme
+        colonClocks: lightClockTheme,
+        mantineColourScheme: 'light'
       }
     }
     case 'dark': {
@@ -41,7 +42,8 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
         settingsButtonColour: '#ffffff',
         digitClock: darkClockTheme,
         borderClocks: darkClockTheme,
-        colonClocks: darkClockTheme
+        colonClocks: darkClockTheme,
+        mantineColourScheme: 'dark'
       }
     }
     case 'matrix': {
@@ -55,7 +57,8 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
           minuteHandColour: '#34c226'
         },
         colonClocks: darkClockTheme,
-        borderClocks: darkClockTheme
+        borderClocks: darkClockTheme,
+        mantineColourScheme: 'dark'
       }
     }
   }

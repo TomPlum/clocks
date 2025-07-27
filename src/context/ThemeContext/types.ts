@@ -1,3 +1,5 @@
+import type { MantineColorScheme } from '@mantine/core'
+
 /**
  * A union type representing the available themes in the app.
  */
@@ -55,6 +57,12 @@ export interface ThemeColours {
 
   /** Theme colours for the colon separator clocks */
   colonClocks: ClockThemeColours
+
+  /**
+   * The colour scheme to apply to Mantine UI
+   * components.
+   */
+  mantineColourScheme: MantineColorScheme
 }
 
 /**
