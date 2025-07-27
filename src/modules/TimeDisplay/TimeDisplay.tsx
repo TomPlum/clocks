@@ -1,4 +1,4 @@
-import { Clock } from 'modules/TimeDisplay/components/Clock'
+import { Clock, type ClockAnimation } from 'modules/TimeDisplay/components/Clock'
 import styles from './TimeDisplay.module.scss'
 import { useEffect, useState } from 'react'
 import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
@@ -8,13 +8,14 @@ const defaultAnimationDuration = 3000
 
 export const TimeDisplay = () => {
   const [time, setTime] = useState(new Date())
-  const [loading, setLoading] = useState(true)
+
   const [canPulse, setCanPulse] = useState(false)
+  const [animation, setAnimation] = useState<ClockAnimation>('random')
   const [animationDuration, setAnimationDuration] = useState(loadingAnimationDuration)
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false)
+      setAnimation('ease-to-time')
 
       setTimeout(() => {
         setCanPulse(true)
@@ -43,11 +44,11 @@ export const TimeDisplay = () => {
                 digit={digit}
                 id={`(${x},${y})`}
                 hourHandAngle={hour}
+                animation={animation}
                 minuteHandAngle={minute}
                 key={`clock-${x}-${y}`}
                 pulse={canPulse && isColon}
                 animationDuration={animationDuration}
-                animation={loading ? 'random' : 'ease-to-time'}
               />
             )
           })}
