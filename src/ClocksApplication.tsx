@@ -4,7 +4,7 @@ import { MantineProvider } from '@mantine/core'
 
 const ClocksApplication = () => (
   <ThemeContextProvider>
-    <MantineProvider>
+    <MantineProvider theme={{ fontFamily: 'JetBrains Mono' }}>
       <Layout />
     </MantineProvider>
   </ThemeContextProvider>

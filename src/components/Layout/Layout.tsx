@@ -16,7 +16,13 @@ export const Layout = () => {
       className={styles.Container}
       style={{ backgroundColor: themeColours.backgroundColour }}
     >
-      <Drawer opened={opened} onClose={close} title='Configuration' position='right'>
+      <Drawer
+        size='sm'
+        opened={opened}
+        onClose={close}
+        position='right'
+        title='Configuration'
+      >
         <ThemeSelector />
       </Drawer>
 

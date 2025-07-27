@@ -30,6 +30,12 @@ html, body, #root {
   overflow: hidden;
 }
 
+label {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  display: block;
+}
+
 @font-face {
   font-family: 'JetBrains Mono';
   src: url('./fonts/JetBrainsMono-Regular.woff2') format('woff2');
