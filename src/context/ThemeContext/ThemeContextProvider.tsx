@@ -1,4 +1,4 @@
-import { ThemeContext } from './ThemeContext'
+import { ThemeContext } from './ThemeContext.ts'
 import { type PropsWithChildren, useMemo } from 'react'
 import type { Theme, ThemeContextBag } from './types'
 import { getThemeColours } from './getThemeColours'
