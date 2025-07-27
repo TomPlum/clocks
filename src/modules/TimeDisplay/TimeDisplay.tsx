@@ -9,6 +9,7 @@ const defaultAnimationDuration = 3000
 export const TimeDisplay = () => {
   const [time, setTime] = useState(new Date())
   const [loading, setLoading] = useState(true)
+  const [canPulse, setCanPulse] = useState(false)
   const [animationDuration, setAnimationDuration] = useState(loadingAnimationDuration)
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export const TimeDisplay = () => {
       setLoading(false)
 
       setTimeout(() => {
+        setCanPulse(true)
         setAnimationDuration(defaultAnimationDuration)
       }, loadingAnimationDuration)
     }, defaultAnimationDuration)
@@ -43,7 +45,7 @@ export const TimeDisplay = () => {
                 hourHandAngle={hour}
                 minuteHandAngle={minute}
                 key={`clock-${x}-${y}`}
-                pulse={!loading && isColon}
+                pulse={canPulse && isColon}
                 animationDuration={animationDuration}
                 animation={loading ? 'random' : 'ease-to-time'}
               />
