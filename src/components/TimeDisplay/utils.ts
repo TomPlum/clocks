@@ -81,18 +81,6 @@ const timeCoordinates = (time: Date) => {
   return positionToDirections
 }
 
-const isInPadding = (
-  x: number,
-  y: number
-): boolean => {
-  return (
-    x < 2 ||
-    x >= totalWidth - 2 ||
-    y < 2 ||
-    y >= totalHeight - 2
-  )
-}
-
 const getAngleForCircularEffect = (x: number, y: number) => {
   const getAngleToTarget = (fromX: number, fromY: number, toX: number, toY: number): number => {
     const dx = toX - fromX
