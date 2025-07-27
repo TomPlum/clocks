@@ -1,4 +1,11 @@
 .Button {
+  opacity: 0.6;
+  transition: all ease-in-out 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+
   &__Icon {
     width: 20px;
     height: 20px;

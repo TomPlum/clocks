@@ -1,9 +1,18 @@
 @keyframes pulse-hand {
-  0%, 100% {
+  0% {
     background-color: var(--colon-pulse-start-colour);
   }
-  50% {
+
+  18.75% {
     background-color: var(--colon-pulse-end-colour);
+  }
+
+  37.5% {
+    background-color: var(--colon-pulse-start-colour);
+  }
+
+  100% {
+    background-color: var(--colon-pulse-start-colour);
   }
 }
 
@@ -31,18 +40,18 @@
 
   &__HourHand {
     width: $hand-width;
-    height: calc(var(--clock-diameter) * 0.40);
+    height: calc(var(--clock-diameter) * 0.35);
   }
 
   &__MinuteHand {
     width: $hand-width;
-    height: calc(var(--clock-diameter) * 0.45);
+    height: calc(var(--clock-diameter) * 0.40);
   }
 
   &__CenterDot {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: calc(50% + 1px);
     $dot-size-ratio: 0.1;
     width: calc(var(--clock-diameter) * $dot-size-ratio);
     height: calc(var(--clock-diameter) * $dot-size-ratio);
@@ -51,6 +60,6 @@
   }
 
   &__Pulse {
-    animation: pulse-hand 1.5s infinite ease-out;
+    animation: pulse-hand 3.2s infinite ease-out;
   }
 }

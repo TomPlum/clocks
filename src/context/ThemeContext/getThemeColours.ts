@@ -17,6 +17,7 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
 
       return {
         backgroundColour: '#ffffff',
+        settingsButtonColour: '#000000',
         digitClock: lightClockTheme,
         borderClocks: lightClockTheme,
         colonClocks: lightClockTheme
@@ -25,18 +26,19 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
     case 'dark': {
       const darkClockTheme: ClockThemeColours = {
         centreDotColour: '#ffffff',
-        backgroundColour: '#1e1e1e',
-        borderColour: '#262626',
-        outerShadowColour: 'rgba(255,255,255,0.3)',
-        innerShadowColour: 'rgba(255,255,255,0.4)',
+        backgroundColour: '#131313',
+        borderColour: '#131313',
+        outerShadowColour: 'rgba(31,31,31,0.3)',
+        innerShadowColour: 'rgba(0,0,0,0.3)',
         hourHandColour: '#ffffff',
         minuteHandColour: '#ffffff',
         handPulseStartColour: '#ffffff',
-        handPulseEndColour: '#7e7e7e'
+        handPulseEndColour: '#626262'
       }
 
       return {
-        backgroundColour: '#1a1a1a',
+        backgroundColour: '#252525',
+        settingsButtonColour: '#ffffff',
         digitClock: darkClockTheme,
         borderClocks: darkClockTheme,
         colonClocks: darkClockTheme
@@ -45,6 +47,7 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
     case 'matrix': {
       return {
         backgroundColour: '#1a1a1a',
+        settingsButtonColour: '#34c226',
         digitClock: {
           centreDotColour: '#196b12',
           backgroundColour: '#1e1e1e',
@@ -65,7 +68,7 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
           hourHandColour: '#34c226',
           minuteHandColour: '#34c226',
           handPulseStartColour: '#ffffff',
-          handPulseEndColour: '#7e7e7e'
+          handPulseEndColour: '#2f2f2f'
         },
         borderClocks: {
           centreDotColour: '#ffffff',

@@ -20,6 +20,7 @@ export interface ClockThemeColours {
 
 export interface ThemeColours {
   backgroundColour: string
+  settingsButtonColour: string
   digitClock: ClockThemeColours
   borderClocks: ClockThemeColours
   colonClocks: ClockThemeColours
