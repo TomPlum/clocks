@@ -13,7 +13,7 @@ export const ThemeSelector = () => {
   })
 
   const options = themes.map((item: Theme) => (
-    <Combobox.Option value={item} key={item}>
+    <Combobox.Option value={item} key={item} selected={item === theme}>
       <ThemePreview
         theme={item}
         themeColours={getThemeColours(item)}
@@ -22,38 +22,32 @@ export const ThemeSelector = () => {
   ))
 
   return (
-    <div>
-      <label htmlFor='theme'>
-        Theme
-      </label>
+    <Combobox
+      store={combobox}
+      onOptionSubmit={(val) => {
+        setTheme(val as Theme)
+        combobox.closeDropdown()
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          pointer
+          id='theme'
+          type="button"
+          component="button"
+          rightSectionPointerEvents="none"
+          rightSection={<Combobox.Chevron />}
+          onClick={() => combobox.toggleDropdown()}
+        >
+          {theme[0].toUpperCase() + theme.slice(1)}
+        </InputBase>
+      </Combobox.Target>
 
-      <Combobox
-        store={combobox}
-        onOptionSubmit={(val) => {
-          setTheme(val as Theme)
-          combobox.closeDropdown()
-        }}
-      >
-        <Combobox.Target>
-          <InputBase
-            pointer
-            id='theme'
-            type="button"
-            component="button"
-            rightSectionPointerEvents="none"
-            rightSection={<Combobox.Chevron />}
-            onClick={() => combobox.toggleDropdown()}
-          >
-            {theme[0].toUpperCase() + theme.slice(1)}
-          </InputBase>
-        </Combobox.Target>
-
-        <Combobox.Dropdown>
-          <Combobox.Options>
-            {options}
-          </Combobox.Options>
-        </Combobox.Dropdown>
-      </Combobox>
-    </div>
+      <Combobox.Dropdown>
+        <Combobox.Options>
+          {options}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
   )
 }

@@ -1,4 +1,10 @@
 .Drawer {
+  &__Title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   &__Content {
     display: flex;
     flex-direction: column;
@@ -6,11 +12,15 @@
 }
 
 .Section {
-  border-bottom: 1px solid;
   padding-bottom: 25px;
   padding-top: 10px;
 
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  &__Heading {
+    border-bottom: 1px solid;
+    font-size: 0.9em;
+  }
 }

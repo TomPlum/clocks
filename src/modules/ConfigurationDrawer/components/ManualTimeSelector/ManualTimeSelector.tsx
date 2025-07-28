@@ -13,25 +13,19 @@ export const ManualTimeSelector = () => {
   }, [manualTime])
 
   return (
-    <div>
-      <label htmlFor='manual-time'>
-        Set Manual Time
-      </label>
-
-      <TimePicker
-        clearable
-        value={value}
-        onChange={(value) => {
-          if (value === '') {
-            setManualTime(undefined)
-          } else {
-            const [hours, minutes, seconds] = value.split(':').map(Number)
-            const date = new Date()
-            date.setHours(hours, minutes, seconds, 0)
-            setManualTime(date ?? undefined)
-          }
-        }}
-      />
-    </div>
+    <TimePicker
+      clearable
+      value={value}
+      onChange={(value) => {
+        if (value === '') {
+          setManualTime(undefined)
+        } else {
+          const [hours, minutes, seconds] = value.split(':').map(Number)
+          const date = new Date()
+          date.setHours(hours, minutes, seconds, 0)
+          setManualTime(date ?? undefined)
+        }
+      }}
+    />
   )
 }

@@ -1,10 +1,11 @@
-import { Drawer } from '@mantine/core'
+import { Drawer, Typography } from '@mantine/core'
 import { ThemeSelector } from 'modules/ConfigurationDrawer/components/ThemeSelector'
 import type { ConfigurationDrawerProps } from 'modules/ConfigurationDrawer/types'
 import { ManualTimeSelector } from 'modules/ConfigurationDrawer/components/ManualTimeSelector'
 import styles from './ConfigurationDrawer.module.scss'
 import { ResetTimeButton } from 'modules/ConfigurationDrawer/components/ResetTimeButton'
 import { SkipTimeButtons } from './components/SkipTimeButtons'
+import { IconSettings } from '@tabler/icons-react'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -13,21 +14,38 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
       opened={opened}
       onClose={onClose}
       position='right'
-      title='Configuration'
+      title={(
+        <div className={styles.Drawer__Title}>
+          <IconSettings size={19} />
+          <Typography>Configuration</Typography>
+        </div>
+      )}
       classNames={{
         body: styles.Drawer__Content
       }}
     >
       <div className={styles.Section}>
+        <Typography className={styles.Section__Heading}>
+          Theming
+        </Typography>
+
         <ThemeSelector />
       </div>
 
       <div className={styles.Section}>
+        <Typography className={styles.Section__Heading}>
+          Manual Time Selection
+        </Typography>
+
         <ManualTimeSelector />
         <SkipTimeButtons />
       </div>
 
       <div className={styles.Section}>
+        <Typography className={styles.Section__Heading}>
+          Animations
+        </Typography>
+
         <ResetTimeButton />
       </div>
     </Drawer>
