@@ -11,5 +11,8 @@ export const ConfigContext = createContext<ConfigContextBag>({
   },
   reloadTime: () => {
     console.log('Tried to call reloadTime() before the ConfigContext was initialised.')
+  },
+  clearStoredConfig: () => {
+    console.log('Tried to call clearStoredConfig() before the ConfigContext was initialised.')
   }
 })
