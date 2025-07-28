@@ -9,8 +9,8 @@ const loadingAnimationDuration = 5000
 const defaultAnimationDuration = 3000
 
 export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
-  const { manualTime } = useConfigContext()
   const [currentTime, setCurrentTime] = useState(new Date())
+  const { manualTime, enableColonAnimation } = useConfigContext()
 
   const [canPulse, setCanPulse] = useState(false)
   const [animation, setAnimation] = useState<ClockAnimation>('random')
@@ -100,8 +100,8 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
                 animation={animation}
                 minuteHandAngle={minute}
                 key={`clock-${x}-${y}`}
-                pulse={canPulse && isColon}
                 animationDuration={animationDuration}
+                pulse={canPulse && isColon && enableColonAnimation}
               />
             )
           })}
