@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => ({
       context: resolve(__dirname, '/src/context'),
       hooks: resolve(__dirname, '/src/hooks'),
       fonts: resolve(__dirname, '/src/fonts'),
+      modules: resolve(__dirname, '/src/modules'),
       types: resolve(__dirname, '/src/types')
     }
   },

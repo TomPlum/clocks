@@ -1,10 +1,10 @@
-import { type CSSProperties, useEffect, useMemo, useState } from 'react'
+import { type CSSProperties, forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import styles from './Clock.module.scss'
-import type { ClockProps } from './types'
+import type { ClockProps, ClockRefHandler } from './types'
 import classNames from 'classnames'
 import { type ClockThemeColours, useThemeContext } from 'context/ThemeContext'
 
-export const Clock = ({
+export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
   id,
   size,
   pulse,
@@ -16,7 +16,7 @@ export const Clock = ({
   animationDuration,
   styles: styleOverrides,
   animation = 'ease-to-time'
-}: ClockProps) => {
+}: ClockProps, ref) => {
   const [animate, setAnimate] = useState(false)
 
   const [randomHourAngle, setRandomHourAngle] = useState(Math.random() * 360)
@@ -28,6 +28,15 @@ export const Clock = ({
     ...(digit !== undefined ? currentThemeColours.digitClock : currentThemeColours.borderClocks),
     ...styleOverrides
   }), [currentThemeColours.borderClocks, currentThemeColours.digitClock, digit, styleOverrides])
+
+  const randomiseHandPositions = () => {
+    setRandomHourAngle(Math.random() *  360)
+    setRandomMinuteAngle(Math.random() *  360)
+  }
+
+  useImperativeHandle(ref, () => ({
+    randomiseHandPositions
+  }))
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -160,4 +169,4 @@ export const Clock = ({
       />
     </div>
   )
-}
+})

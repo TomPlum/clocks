@@ -78,3 +78,7 @@ export interface ClockProps {
 }
 
 export type ClockAnimation = 'ease-to-time' | 'random'
+
+export interface ClockRefHandler {
+  randomiseHandPositions: () => void
+}

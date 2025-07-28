@@ -1,37 +1,40 @@
-import { TimeDisplay } from 'components/TimeDisplay'
+import { TimeDisplay, type TimeDisplayRefHandle } from 'modules/TimeDisplay'
 import styles from './Layout.module.scss'
-import { ThemeSelector } from 'components/ThemeSelector'
 import { useThemeContext } from 'context/ThemeContext'
-import { Drawer } from '@mantine/core'
-import { SettingsButton } from 'components/SettingsButton'
+import { SettingsButton } from 'modules/ConfigurationDrawer/components/SettingsButton'
 import { useDisclosure } from '@mantine/hooks'
+import { ConfigurationDrawer } from 'modules/ConfigurationDrawer'
+import { MantineProvider } from '@mantine/core'
+import { forwardRef } from 'react'
 
-export const Layout = () => {
+export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
   const { themeColours } = useThemeContext()
 
   const [opened, { open, close }] = useDisclosure(false)
-  
+
   return (
-    <div
-      className={styles.Container}
-      style={{ backgroundColor: themeColours.backgroundColour }}
+    <MantineProvider
+      theme={{ fontFamily: 'JetBrains Mono' }}
+      forceColorScheme={themeColours.mantineColourScheme}
     >
-      <Drawer
-        size='sm'
-        opened={opened}
-        onClose={close}
-        position='right'
-        title='Configuration'
+      <div
+        className={styles.Container}
+        style={{ backgroundColor: themeColours.backgroundColour }}
       >
-        <ThemeSelector />
-      </Drawer>
+        <ConfigurationDrawer
+          opened={opened}
+          onClose={close}
+        />
 
-      <SettingsButton
-        onClick={open}
-        className={styles.SettingsButton}
-      />
+        <SettingsButton
+          onClick={open}
+          className={styles.SettingsButton}
+        />
 
-      <TimeDisplay />
-    </div>
+        <TimeDisplay
+          ref={timeDisplayRef}
+        />
+      </div>
+    </MantineProvider>
   )
-}
+})
