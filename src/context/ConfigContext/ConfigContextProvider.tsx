@@ -1,9 +1,9 @@
 import { ConfigContext } from './ConfigContext'
 import { type PropsWithChildren, useMemo } from 'react'
 import { useLocalStorage } from '@mantine/hooks'
-import type { Config, ConfigContextBag } from './types'
+import type { Config, ConfigContextBag, ConfigContextProviderProps } from './types'
 
-export const ConfigContextProvider = ({ children }: PropsWithChildren) => {
+export const ConfigContextProvider = ({ onResetTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
   const [storedValue, setStoredValue] = useLocalStorage<Config>({
     key: 'tomplum.github.io/clocks-config',
     defaultValue: { }
@@ -16,8 +16,9 @@ export const ConfigContextProvider = ({ children }: PropsWithChildren) => {
         ...value,
         manualTime: time?.toString()
       })
-    }
-  }), [setStoredValue, storedValue.manualTime])
+    },
+    reloadTime: onResetTime
+  }), [onResetTime, setStoredValue, storedValue.manualTime])
 
   return (
     <ConfigContext.Provider value={value}>

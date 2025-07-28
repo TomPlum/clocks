@@ -5,6 +5,10 @@ type DigitHand = {
   hourHandAngle: number
 }
 
+export interface TimeDisplayRefHandle {
+  reset: () => void
+}
+
 export const digitSegments: Record<number, DigitHand[]> = {
   0: [
     // Outer Rectangle

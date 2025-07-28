@@ -1,12 +1,13 @@
-import { TimeDisplay } from 'modules/TimeDisplay'
+import { TimeDisplay, type TimeDisplayRefHandle } from 'modules/TimeDisplay'
 import styles from './Layout.module.scss'
 import { useThemeContext } from 'context/ThemeContext'
 import { SettingsButton } from 'modules/ConfigurationDrawer/components/SettingsButton'
 import { useDisclosure } from '@mantine/hooks'
 import { ConfigurationDrawer } from 'modules/ConfigurationDrawer'
 import { MantineProvider } from '@mantine/core'
+import { forwardRef } from 'react'
 
-export const Layout = () => {
+export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
   const { themeColours } = useThemeContext()
 
   const [opened, { open, close }] = useDisclosure(false)
@@ -30,8 +31,10 @@ export const Layout = () => {
           className={styles.SettingsButton}
         />
 
-        <TimeDisplay />
+        <TimeDisplay
+          ref={timeDisplayRef}
+        />
       </div>
     </MantineProvider>
   )
-}
+})

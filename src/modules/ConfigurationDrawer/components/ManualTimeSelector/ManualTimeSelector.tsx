@@ -22,7 +22,6 @@ export const ManualTimeSelector = () => {
         clearable
         value={value}
         onChange={(value) => {
-          console.log(value)
           if (value === '') {
             setManualTime(undefined)
           } else {

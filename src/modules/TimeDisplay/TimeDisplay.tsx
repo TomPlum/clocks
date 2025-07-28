@@ -1,13 +1,14 @@
-import { Clock, type ClockAnimation } from 'modules/TimeDisplay/components/Clock'
+import { Clock, type ClockAnimation, type ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
 import styles from './TimeDisplay.module.scss'
-import { useEffect, useState } from 'react'
+import { createRef, forwardRef, type RefObject, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import type { TimeDisplayRefHandle } from './types'
 
 const loadingAnimationDuration = 5000
 const defaultAnimationDuration = 3000
 
-export const TimeDisplay = () => {
+export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
   const { manualTime } = useConfigContext()
   const [currentTime, setCurrentTime] = useState(new Date())
 
@@ -15,30 +16,75 @@ export const TimeDisplay = () => {
   const [animation, setAnimation] = useState<ClockAnimation>('random')
   const [animationDuration, setAnimationDuration] = useState(loadingAnimationDuration)
 
-  useEffect(() => {
-    setTimeout(() => {
+  const clocks = useRef<Map<string, RefObject<ClockRefHandler | null>>>(new Map())
+  const startEasingToTime = useRef<NodeJS.Timeout>(null)
+  const setDefaultAnimationDuration = useRef<NodeJS.Timeout>(null)
+  const tickTimeInterval = useRef<NodeJS.Timeout>(null)
+
+  const animateAndStartTime = () => {
+    if (startEasingToTime.current) clearTimeout(startEasingToTime.current)
+    if (setDefaultAnimationDuration.current) clearTimeout(setDefaultAnimationDuration.current)
+    if (tickTimeInterval.current) clearInterval(tickTimeInterval.current)
+
+    clocks.current.forEach((ref) => {
+      if (ref.current) {
+        ref.current.randomiseHandPositions()
+      }
+    })
+
+    startEasingToTime.current = setTimeout(() => {
       setAnimation('ease-to-time')
 
-      setTimeout(() => {
+      setDefaultAnimationDuration.current = setTimeout(() => {
         setCanPulse(true)
         setAnimationDuration(defaultAnimationDuration)
       }, loadingAnimationDuration)
     }, defaultAnimationDuration)
 
-    const interval = setInterval(() => {
+    tickTimeInterval.current = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000)
+  }
+
+  useEffect(() => {
+    animateAndStartTime()
 
     return () => {
-      clearInterval(interval)
+      if (startEasingToTime.current) {
+        clearTimeout(startEasingToTime.current)
+      }
+
+      if (setDefaultAnimationDuration.current) {
+        clearTimeout(setDefaultAnimationDuration.current)
+      }
+
+      if (tickTimeInterval.current) {
+        clearInterval(tickTimeInterval.current)
+      }
     }
   }, [])
+
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      setAnimation('random')
+      setCanPulse(false)
+      animateAndStartTime()
+    }
+  }))
 
   return (
     <div className={styles.TimeDisplay}>
       {iterateTimes(totalWidth).flatMap((x: number) => (
         <div className={styles.TimeDisplay__Column} key={`row-${x}`}>
           {iterateTimes(totalHeight).map((y: number) => {
+            const clockId = `(${x},${y})`
+
+            if (!clocks.current.has(clockId)) {
+              clocks.current.set(clockId, createRef<ClockRefHandler>())
+            }
+
+            const clockRef = clocks.current.get(clockId)!
+
             const { hour, minute, digit, isColon } = getHandDirections({
               time: manualTime ?? currentTime,
               x,
@@ -47,8 +93,9 @@ export const TimeDisplay = () => {
 
             return (
               <Clock
+                id={clockId}
                 digit={digit}
-                id={`(${x},${y})`}
+                ref={clockRef}
                 hourHandAngle={hour}
                 animation={animation}
                 minuteHandAngle={minute}
@@ -62,4 +109,4 @@ export const TimeDisplay = () => {
       ))}
     </div>
   )
-}
+})
