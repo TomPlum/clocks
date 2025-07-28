@@ -1,8 +1,16 @@
 .Drawer {
   &__Content {
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
   }
+}
+
+.Section {
+  border-bottom: 1px solid;
+  padding-bottom: 25px;
+  padding-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
