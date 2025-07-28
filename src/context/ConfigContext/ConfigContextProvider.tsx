@@ -4,7 +4,7 @@ import { useLocalStorage } from '@mantine/hooks'
 import type { SerialisedConfig, ConfigContextBag, ConfigContextProviderProps } from './types'
 
 export const ConfigContextProvider = ({ onResetTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
-  const [storedValue, setStoredValue] = useLocalStorage<SerialisedConfig>({
+  const [storedValue, setStoredValue, clearStoredValue] = useLocalStorage<SerialisedConfig>({
     key: 'tomplum.github.io/clocks-config',
     defaultValue: {
       enableColonAnimation: true
@@ -26,8 +26,9 @@ export const ConfigContextProvider = ({ onResetTime, children }: PropsWithChildr
         enableColonAnimation: value
       })
     },
-    reloadTime: onResetTime
-  }), [onResetTime, setStoredValue, storedValue])
+    reloadTime: onResetTime,
+    clearStoredConfig: clearStoredValue
+  }), [clearStoredValue, onResetTime, setStoredValue, storedValue])
 
   return (
     <ConfigContext.Provider value={value}>

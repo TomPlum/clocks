@@ -4,6 +4,7 @@ export interface ConfigContextBag {
   reloadTime?: () => void
   enableColonAnimation: boolean
   setEnableColonAnimation: (value: boolean) => void
+  clearStoredConfig: () => void
 }
 
 export interface SerialisedConfig {

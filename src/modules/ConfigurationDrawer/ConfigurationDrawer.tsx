@@ -7,6 +7,7 @@ import { ResetTimeButton } from 'modules/ConfigurationDrawer/components/ResetTim
 import { SkipTimeButtons } from './components/SkipTimeButtons'
 import { IconSettings } from '@tabler/icons-react'
 import { ColonAnimationToggle } from 'modules/ConfigurationDrawer/components/ColonAnimationToggle'
+import { ClearLocalStorageButton } from 'modules/ConfigurationDrawer/components/ClearLocalStorageButton'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -49,6 +50,10 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
         <ResetTimeButton />
         <ColonAnimationToggle />
+      </div>
+
+      <div className={styles.Footer}>
+        <ClearLocalStorageButton />
       </div>
     </Drawer>
   )
