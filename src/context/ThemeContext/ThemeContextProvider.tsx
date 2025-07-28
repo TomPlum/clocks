@@ -7,7 +7,7 @@ import { useLocalStorage } from '@mantine/hooks'
 export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useLocalStorage<Theme>({
     key: 'tomplum.github.io/clocks-theme',
-    defaultValue: 'light'
+    defaultValue: 'dark'
   })
 
 
