@@ -8,6 +8,8 @@ import { SkipTimeButtons } from './components/SkipTimeButtons'
 import { IconSettings } from '@tabler/icons-react'
 import { ColonAnimationToggle } from 'modules/ConfigurationDrawer/components/ColonAnimationToggle'
 import { ClearLocalStorageButton } from 'modules/ConfigurationDrawer/components/ClearLocalStorageButton'
+import { AnimationSelector } from 'modules/ConfigurationDrawer/components/AnimationSelector'
+import { ResetToDefaultsButton } from 'modules/ConfigurationDrawer/components/ResetToDefaultsButton'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -48,11 +50,17 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
           Animations
         </Typography>
 
+        <AnimationSelector />
         <ResetTimeButton />
         <ColonAnimationToggle />
       </div>
 
-      <div className={styles.Footer}>
+      <div className={styles.Section}>
+        <Typography className={styles.Section__Heading}>
+          Website Data
+        </Typography>
+
+        <ResetToDefaultsButton />
         <ClearLocalStorageButton />
       </div>
     </Drawer>

@@ -6,7 +6,7 @@ export const ColonAnimationToggle = () => {
 
   return (
     <Checkbox
-      color='orange'
+      color='cyan'
       checked={enableColonAnimation}
       label='Enable Colon Flashing Animation'
       onChange={() => setEnableColonAnimation(!enableColonAnimation)}

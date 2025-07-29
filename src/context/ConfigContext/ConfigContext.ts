@@ -1,5 +1,6 @@
 import { createContext } from 'react'
 import type { ConfigContextBag } from './types'
+import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 
 export const ConfigContext = createContext<ConfigContextBag>({
   enableColonAnimation: true,
@@ -14,5 +15,9 @@ export const ConfigContext = createContext<ConfigContextBag>({
   },
   clearStoredConfig: () => {
     console.log('Tried to call clearStoredConfig() before the ConfigContext was initialised.')
+  },
+  loadingAnimation: 'random',
+  setLoadingAnimation: (animation: ClockLoadingAnimation) => {
+    console.log(`Tried to call setLoadingAnimation(${animation}) before the ConfigContext was initialised.`)
   }
 })

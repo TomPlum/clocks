@@ -3,10 +3,7 @@ import styles from './TimeDisplay.module.scss'
 import { createRef, forwardRef, type RefObject, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
-import type { TimeDisplayRefHandle } from './types'
-
-const loadingAnimationDuration = 5000
-const defaultAnimationDuration = 3000
+import { defaultAnimationDuration, loadingAnimationDuration, type TimeDisplayRefHandle } from './types'
 
 export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
   const [currentTime, setCurrentTime] = useState(new Date())
