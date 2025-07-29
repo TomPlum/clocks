@@ -19,5 +19,8 @@ export const ConfigContext = createContext<ConfigContextBag>({
   loadingAnimation: 'random',
   setLoadingAnimation: (animation: ClockLoadingAnimation) => {
     console.log(`Tried to call setLoadingAnimation(${animation}) before the ConfigContext was initialised.`)
+  },
+  resetToDefaults: () => {
+    console.log('Tried to call resetToDefaults() before the ConfigContext was initialised.')
   }
 })

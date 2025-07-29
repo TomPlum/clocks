@@ -46,7 +46,7 @@ export const ConfigContextProvider = ({ onResetTime, children }: PropsWithChildr
       setTheme('dark')
       setStoredValue(defaultConfigValues)
     }
-  }), [clearStoredValue, onResetTime, setStoredValue, storedValue])
+  }), [clearStoredValue, onResetTime, setStoredValue, setTheme, storedValue])
 
   return (
     <ConfigContext.Provider value={value}>
