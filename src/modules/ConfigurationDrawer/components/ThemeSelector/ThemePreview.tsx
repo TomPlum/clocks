@@ -1,8 +1,19 @@
-import { Clock } from 'modules/TimeDisplay/components/Clock'
+import { Clock, type ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
 import type { ThemePreviewProps } from './types'
 import styles from './ThemePreview.module.scss'
+import { useEffect, useRef } from 'react'
 
 export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
+  const ref = useRef<ClockRefHandler>(null)
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.runAnimation('random', {
+        animationDuration: Infinity
+      })
+    }
+  }, [])
+
   return (
     <div className={styles.Preview}>
       <p className={styles.Preview__ThemeName}>
@@ -11,7 +22,7 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
 
       <Clock
         size={30}
-        animation='random'
+        ref={ref}
         id={`${theme}-preview`}
         styles={themeColours.digitClock}
         minuteHandAngle={20}

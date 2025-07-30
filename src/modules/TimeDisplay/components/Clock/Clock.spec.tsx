@@ -11,7 +11,6 @@ describe('Clock', () => {
         render(
           <Clock
             id='0,0'
-            animation='ease-to-time'
             hourHandAngle={hourAngle}
             minuteHandAngle={minuteAngle}
           />

@@ -1,5 +1,5 @@
 import { ConfigContext } from './ConfigContext'
-import { type PropsWithChildren, useMemo } from 'react'
+import { type PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import { useLocalStorage } from '@mantine/hooks'
 import type { SerialisedConfig, ConfigContextBag, ConfigContextProviderProps } from './types'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
@@ -16,9 +16,16 @@ export const ConfigContextProvider = ({ onResetTime, children }: PropsWithChildr
     defaultValue: defaultConfigValues
   })
 
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
   const { setTheme } = useThemeContext()
 
   const value = useMemo<ConfigContextBag>(() => ({
+    isHydrated,
     manualTime: storedValue.manualTime ? new Date(storedValue.manualTime) : undefined,
     setManualTime: (time?: Date) => {
       setStoredValue({
@@ -46,7 +53,7 @@ export const ConfigContextProvider = ({ onResetTime, children }: PropsWithChildr
       setTheme('dark')
       setStoredValue(defaultConfigValues)
     }
-  }), [clearStoredValue, onResetTime, setStoredValue, setTheme, storedValue])
+  }), [clearStoredValue, isHydrated, onResetTime, setStoredValue, setTheme, storedValue])
 
   return (
     <ConfigContext.Provider value={value}>

@@ -1,6 +1,7 @@
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 
 export interface ConfigContextBag {
+  isHydrated: boolean
   manualTime?: Date
   setManualTime: (time?: Date) => void
   loadingAnimation: ClockLoadingAnimation

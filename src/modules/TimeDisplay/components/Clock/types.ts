@@ -26,11 +26,7 @@ export interface ClockProps {
    */
   minuteHandAngle: number
 
-  /**
-   * Whether this clock should pulse.
-   * (used for animation or highlighting).
-   */
-  pulse?: boolean
+  colon?: boolean
 
   /**
    * The diameter, in pixels, of the clock.
@@ -48,22 +44,13 @@ export interface ClockProps {
    * current theme.
    */
   styles?: ClockThemeColours
+}
 
-  /**
-   * Sets which animation the clock
-   * should use.
-   */
-  animation?: ClockAnimation
+export type ClockAnimation = 'ease-to-time' | 'random' | 'clockwise-rotation'
 
-  /**
-   * Sets the time, in milliseconds, that
-   * the clocks' animations should use.
-   *
-   * Usually, this is how long it should
-   * take a hand to move from its source
-   * to its target angle.
-   */
-  animationDuration?: number
+export interface ClockAnimationConfig {
+  hourHandStartingAngle?: number
+  minuteHandStartingAngle?: number
 
   /**
    * Sets the speed, in milliseconds, that
@@ -75,12 +62,13 @@ export interface ClockProps {
    * progresses.
    */
   animationSpeed?: number
-}
 
-export type ClockAnimation = 'ease-to-time' | 'random'
+  animationDuration?: number
+}
 
 export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time'>
 
 export interface ClockRefHandler {
-  randomiseHandPositions: () => void
+  runAnimation: (animation: ClockAnimation, config?: ClockAnimationConfig) => void
+  easeToTime: () => void
 }

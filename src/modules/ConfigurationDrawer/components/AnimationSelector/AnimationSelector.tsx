@@ -2,7 +2,7 @@ import { Combobox, InputBase, useCombobox } from '@mantine/core'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 
-const animations: ClockLoadingAnimation[] = ['random']
+const animations: ClockLoadingAnimation[] = ['random', 'clockwise-rotation']
 
 export const AnimationSelector = () => {
   const { loadingAnimation, setLoadingAnimation } = useConfigContext()

@@ -3,6 +3,7 @@ import type { ConfigContextBag } from './types'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 
 export const ConfigContext = createContext<ConfigContextBag>({
+  isHydrated: false,
   enableColonAnimation: true,
   setEnableColonAnimation: (value: boolean) => {
     console.log(`Tried to call setEnableColonAnimation(${value}) before the ConfigContext was initialised.`)
