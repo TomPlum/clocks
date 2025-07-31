@@ -9,7 +9,8 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
   useEffect(() => {
     if (ref.current) {
       ref.current.runAnimation('random', {
-        animationDuration: Infinity
+        animationDuration: Infinity,
+        dontNotify: true
       })
     }
   }, [])
@@ -23,10 +24,9 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
       <Clock
         size={30}
         ref={ref}
+        position={{ x: 0, y: 0 }}
         id={`${theme}-preview`}
         styles={themeColours.digitClock}
-        minuteHandAngle={20}
-        hourHandAngle={120}
       />
     </div>
   )

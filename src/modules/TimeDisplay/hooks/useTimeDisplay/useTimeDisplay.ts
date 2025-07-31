@@ -1,16 +1,14 @@
 import { createRef, useCallback, useRef } from 'react'
-import type { TimeDisplayClockRefs } from './types'
-import { getAnimationConfig } from 'modules/TimeDisplay/hooks/useClockAnimation/getAnimationConfig'
+import type { TimeDisplayClockRefs, UseTimeDisplayProps } from './types'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useAnimationContext } from 'context/AnimationContext'
-import type { ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
+import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
 
-export const useTimeDisplay = () => {
+export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
 
   const { loadingAnimation } = useConfigContext()
   const { setInitialAnimating } = useAnimationContext()
-  const { animationDuration: loadingAnimationDuration } = getAnimationConfig(loadingAnimation)
 
   const initialiseClock = (id: string) => {
     if (!clocks.current.has(id)) {
@@ -20,33 +18,44 @@ export const useTimeDisplay = () => {
     return clocks.current.get(id)!
   }
 
-  const easeToSelectedTime = () => {
+  const commandAllClocks = (action: (clock: ClockRefHandler) => void) => {
     clocks.current.forEach((ref) => {
       if (ref.current) {
-        ref.current.easeToTime()
+        action(ref.current)
       }
     })
   }
 
-  const runLoadingAnimation = useCallback(() => {
-    clocks.current.forEach((ref) => {
-      if (ref.current) {
-        ref.current.runAnimation(loadingAnimation)
-
-        setTimeout(() => {
-          ref.current?.easeToTime()
-
-          setTimeout(() => {
-            setInitialAnimating(false)
-          }, getAnimationConfig('ease-to-time').animationDuration)
-        }, loadingAnimationDuration)
-      }
+  const easeToTime = (time: Date) => {
+    commandAllClocks(clock => {
+      clock.easeToTime(time)
     })
-  }, [loadingAnimation, loadingAnimationDuration, setInitialAnimating])
+  }
+
+  const runLoadingAnimation = useCallback(() => {
+    let cleanUpLoadingAnimation: AnimationCleanupFunction
+    let cleanUpEaseAnimation: AnimationCleanupFunction
+
+    const notifyLoadingComplete = () => {
+      setInitialAnimating(false)
+    }
+
+    commandAllClocks(clock => {
+      cleanUpLoadingAnimation = clock.runAnimation(loadingAnimation, {
+        time: currentTime,
+        onComplete: notifyLoadingComplete
+      })
+    })
+
+    return () => {
+      cleanUpLoadingAnimation?.()
+      cleanUpEaseAnimation?.()
+    }
+  }, [currentTime, loadingAnimation, setInitialAnimating])
 
   return {
-    easeToSelectedTime,
     runLoadingAnimation,
-    initialiseClock
+    initialiseClock,
+    easeToTime
   }
 }

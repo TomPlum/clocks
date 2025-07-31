@@ -10,5 +10,8 @@ export const AnimationContext = createContext<AnimationContextBag>({
   initialAnimating: false,
   setInitialAnimating: (initialAnimating: boolean) => {
     console.error(`Tried to invoke setInitialAnimating(${initialAnimating}) before the AnimationContext was initialised.`)
+  },
+  currentAnimationConfig: () => {
+    return {}
   }
 })

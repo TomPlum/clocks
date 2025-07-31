@@ -9,22 +9,14 @@ export interface ClockProps {
    */
   id: string
 
+  position: ClockPositon
+
   /**
    * The digit (0–9) that this clock contributes to rendering.
    * Optional — may be undefined if the clock is not part of
    * an active digit.
    */
   digit?: number
-
-  /**
-   * Angle of the hour hand.
-   */
-  hourHandAngle: number
-
-  /**
-   * Angle of the minute hand.
-   */
-  minuteHandAngle: number
 
   colon?: boolean
 
@@ -64,11 +56,30 @@ export interface ClockAnimationConfig {
   animationSpeed?: number
 
   animationDuration?: number
+
+  dontNotify?: boolean
 }
 
 export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time'>
 
+export type AnimationCleanupFunction = (() => void) | undefined
+
+export interface ClockEventHandler {
+  onComplete?: () => void
+}
+
+export interface PostAnimationInfo {
+  time?: Date
+}
+
+export type RunAnimationConfig = ClockAnimationConfig & ClockEventHandler & PostAnimationInfo
+
 export interface ClockRefHandler {
-  runAnimation: (animation: ClockAnimation, config?: ClockAnimationConfig) => void
-  easeToTime: () => void
+  runAnimation: (animation: ClockAnimation, config?: RunAnimationConfig) => AnimationCleanupFunction
+  easeToTime: (time: Date, config?: RunAnimationConfig) => AnimationCleanupFunction
+}
+
+export interface ClockPositon {
+  x: number
+  y: number
 }

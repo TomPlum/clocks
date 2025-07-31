@@ -3,7 +3,7 @@ import type { ClockAnimation, ClockAnimationConfig } from 'modules/TimeDisplay/c
 export interface AnimationContextBag {
   animating: boolean
   setCurrentAnimation: (animation?: ClockAnimation) => void
-  currentAnimationConfig?: ClockAnimationConfig
+  currentAnimationConfig: () => ClockAnimationConfig | undefined
   initialAnimating: boolean
   setInitialAnimating: (initialAnimating: boolean) => void
 }

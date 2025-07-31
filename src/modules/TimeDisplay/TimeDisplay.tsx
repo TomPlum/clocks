@@ -1,26 +1,29 @@
 import { Clock } from 'modules/TimeDisplay/components/Clock'
 import styles from './TimeDisplay.module.scss'
-import { forwardRef, useEffect, useImperativeHandle } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
-import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { type TimeDisplayRefHandle } from './types'
 import { useAnimationContext } from 'context/AnimationContext'
-import { usePrevious } from '@mantine/hooks'
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 import { useTimeDisplay } from 'modules/TimeDisplay/hooks/useTimeDisplay/useTimeDisplay'
 
 export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
   const { currentTime, previousTime } = useCurrentTime()
-
-  const { manualTime } = useConfigContext()
   const { animating, setInitialAnimating } = useAnimationContext()
-  const previousManualTime = usePrevious(manualTime)
+  const manualTime = useRef<Date>(undefined)
 
-  const { initialiseClock, easeToSelectedTime, runLoadingAnimation } = useTimeDisplay()
+  const [ranInitialLoadingAnimation, setRanInitialLoadingAnimation] = useState(false)
+
+  const { initialiseClock, easeToTime, runLoadingAnimation } = useTimeDisplay({
+    currentTime
+  })
 
   useEffect(() => {
-    runLoadingAnimation()
-  }, [runLoadingAnimation])
+    if (!ranInitialLoadingAnimation) {
+      runLoadingAnimation()
+      setRanInitialLoadingAnimation(true)
+    }
+  }, [ranInitialLoadingAnimation, runLoadingAnimation])
 
   useEffect(() => {
     if (!animating) {
@@ -30,23 +33,19 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
       const currentTimeHasLapsedTheMinute = previousMinute && currentMinute !== previousMinute
 
       if (currentTimeHasLapsedTheMinute) {
-        easeToSelectedTime()
+        easeToTime(currentTime)
       }
     }
-  }, [animating, currentTime, easeToSelectedTime, previousTime])
-
-  useEffect(() => {
-    const hasChanged = manualTime !== previousManualTime
-
-    if (hasChanged) {
-      easeToSelectedTime()
-    }
-  }, [easeToSelectedTime, manualTime, previousManualTime])
+  }, [animating, currentTime, easeToTime, previousTime])
 
   useImperativeHandle(ref, () => ({
     reset: () => {
       setInitialAnimating(true)
       runLoadingAnimation()
+    },
+    setManualTime: (time?: Date) => {
+      manualTime.current = time
+      easeToTime(time ?? currentTime)
     }
   }))
 
@@ -58,8 +57,8 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
             const clockId = `(${x},${y})`
             const clockRef = initialiseClock(clockId)
 
-            const { hour, minute, digit, isColon } = getHandDirections({
-              time: manualTime ?? currentTime,
+            const { digit, isColon } = getHandDirections({
+              time: manualTime.current ?? currentTime,
               x,
               y
             })
@@ -67,11 +66,10 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
             return (
               <Clock
                 id={clockId}
-                digit={digit}
-                colon={isColon}
                 ref={clockRef}
-                hourHandAngle={hour}
-                minuteHandAngle={minute}
+                colon={isColon}
+                digit={digit}
+                position={{ x, y }}
                 key={`clock-${x}-${y}`}
               />
             )

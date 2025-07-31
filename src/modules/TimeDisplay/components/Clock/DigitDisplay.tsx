@@ -9,7 +9,7 @@ export const DigitDisplay = ({ digit }: { digit: number }) => {
       {Array.from({ length: 5 }, (_, i) => i).flatMap((x: number) => (
         <div>
           {Array.from({ length: 6 }, (_, i) => i).map((y: number) => {
-            const { x: xClock, y: yClock, hourHandAngle, minuteHandAngle } = digitSegments[digit].find(it => it.x === x && it.y === y) ?? {
+            const { x: xClock, y: yClock } = digitSegments[digit].find(it => it.x === x && it.y === y) ?? {
               x,
               y,
               minuteHandAngle: 270,
@@ -19,8 +19,7 @@ export const DigitDisplay = ({ digit }: { digit: number }) => {
             return (
               <Clock
                 digit={digit}
-                hourHandAngle={hourHandAngle}
-                minuteHandAngle={minuteHandAngle}
+                position={{ x, y }}
                 id={`(${xClock},${yClock})`}
                 key={`clock-${xClock}-${yClock}`}
               />

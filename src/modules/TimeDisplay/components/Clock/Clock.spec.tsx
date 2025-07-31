@@ -11,8 +11,7 @@ describe('Clock', () => {
         render(
           <Clock
             id='0,0'
-            hourHandAngle={hourAngle}
-            minuteHandAngle={minuteAngle}
+            position={{ x: 0, y: 0 }}
           />
         )
 

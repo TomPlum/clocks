@@ -8,9 +8,17 @@ import { AnimationContextProvider } from 'context/AnimationContext'
 const ClocksApplication = () => {
   const timeDisplayRef = useRef<TimeDisplayRefHandle>(null)
 
+  const resetTime = () => {
+    timeDisplayRef.current?.reset()
+  }
+
+  const handleSetManualTime = (time?: Date) => {
+    timeDisplayRef.current?.setManualTime(time)
+  }
+
   return (
     <ThemeContextProvider>
-      <ConfigContextProvider onResetTime={() => timeDisplayRef.current?.reset()}>
+      <ConfigContextProvider onResetTime={resetTime} onSetManualTime={handleSetManualTime}>
         <AnimationContextProvider>
           <Layout ref={timeDisplayRef} />
         </AnimationContextProvider>

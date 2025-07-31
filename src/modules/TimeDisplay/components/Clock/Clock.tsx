@@ -10,11 +10,10 @@ import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
   id,
   size,
+  position,
   colon = false,
   digit,
   className,
-  hourHandAngle: displayHourAngle,
-  minuteHandAngle: displayMinuteAngle,
   styles: styleOverrides
 }: ClockProps, ref) => {
   const { initialAnimating } = useAnimationContext()
@@ -26,10 +25,7 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
     runAnimation,
     hourHandAngle,
     minuteHandleAngle
-  } = useClockAnimation({
-    displayHourAngle,
-    displayMinuteAngle
-  })
+  } = useClockAnimation({ position })
 
   const themeColours = useMemo<ClockThemeColours>(() => ({
     ...(digit !== undefined ? currentThemeColours.digitClock : currentThemeColours.borderClocks),

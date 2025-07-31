@@ -7,6 +7,7 @@ type DigitHand = {
 
 export interface TimeDisplayRefHandle {
   reset: () => void
+  setManualTime: (time?: Date) => void
 }
 
 export const loadingAnimationDuration = 5000

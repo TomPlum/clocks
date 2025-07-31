@@ -21,4 +21,5 @@ export interface SerialisedConfig {
 
 export interface ConfigContextProviderProps {
   onResetTime?: () => void
+  onSetManualTime: (time?: Date) => void
 }
