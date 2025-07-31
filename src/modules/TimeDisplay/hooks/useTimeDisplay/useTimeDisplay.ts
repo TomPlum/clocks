@@ -7,7 +7,7 @@ import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisp
 export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
 
-  const { loadingAnimation } = useConfigContext()
+  const { loadingAnimation, manualTime } = useConfigContext()
   const { setInitialAnimating } = useAnimationContext()
 
   const initialiseClock = (id: string) => {
@@ -42,7 +42,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
 
     commandAllClocks(clock => {
       cleanUpLoadingAnimation = clock.runAnimation(loadingAnimation, {
-        time: currentTime,
+        time: manualTime ?? currentTime,
         onComplete: notifyLoadingComplete
       })
     })
@@ -51,7 +51,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
       cleanUpLoadingAnimation?.()
       cleanUpEaseAnimation?.()
     }
-  }, [currentTime, loadingAnimation, setInitialAnimating])
+  }, [currentTime, loadingAnimation, manualTime, setInitialAnimating])
 
   return {
     runLoadingAnimation,
