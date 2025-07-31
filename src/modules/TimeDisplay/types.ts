@@ -11,7 +11,6 @@ export interface TimeDisplayRefHandle {
 }
 
 export const loadingAnimationDuration = 5000
-export const defaultAnimationDuration = 3000
 
 export const digitSegments: Record<number, DigitHand[]> = {
   0: [

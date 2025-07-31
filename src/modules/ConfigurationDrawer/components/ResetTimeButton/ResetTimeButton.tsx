@@ -1,11 +1,12 @@
 import { Button } from '@mantine/core'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { IconRestore } from '@tabler/icons-react'
-import { loadingAnimationDuration } from 'modules/TimeDisplay'
 import { useState } from 'react'
+import { getAnimationConfig } from 'modules/TimeDisplay/hooks/useClockAnimation/getAnimationConfig'
 
 export const ResetTimeButton = () => {
-  const { reloadTime } = useConfigContext()
+  const { reloadTime, loadingAnimation } = useConfigContext()
+  const loadingAnimationDuration = getAnimationConfig(loadingAnimation).animationDuration ?? 5000
 
   const [loading, setLoading] = useState(false)
 
@@ -15,7 +16,7 @@ export const ResetTimeButton = () => {
 
     setTimeout(() => {
       setLoading(false)
-    }, loadingAnimationDuration)
+    }, loadingAnimationDuration + 3000)
   }
 
   return (

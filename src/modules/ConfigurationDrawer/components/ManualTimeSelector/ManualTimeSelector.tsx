@@ -1,21 +1,12 @@
 import { TimePicker } from '@mantine/dates'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 
 export const ManualTimeSelector = () => {
   const { manualTime, setManualTime } = useConfigContext()
 
-  const [currentTime, setCurrentTime] = useState(new Date())
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
+  const { currentTime } = useCurrentTime()
 
   const value = useMemo<string>(() => {
     if (!manualTime)  {
