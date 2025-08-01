@@ -5,9 +5,18 @@ import { ManualTimeSelector } from 'modules/ConfigurationDrawer/components/Manua
 import styles from './ConfigurationDrawer.module.scss'
 import { ResetTimeButton } from 'modules/ConfigurationDrawer/components/ResetTimeButton'
 import { SkipTimeButtons } from './components/SkipTimeButtons'
-import { IconSettings } from '@tabler/icons-react'
+import {
+  IconBrush,
+  IconClock,
+  IconDatabase,
+  IconKeyframes,
+  IconSettings
+} from '@tabler/icons-react'
 import { ColonAnimationToggle } from 'modules/ConfigurationDrawer/components/ColonAnimationToggle'
 import { ClearLocalStorageButton } from 'modules/ConfigurationDrawer/components/ClearLocalStorageButton'
+import { AnimationSelector } from 'modules/ConfigurationDrawer/components/AnimationSelector'
+import { ResetToDefaultsButton } from 'modules/ConfigurationDrawer/components/ResetToDefaultsButton'
+import { AnimationStaggerControl } from 'modules/ConfigurationDrawer/components/AnimationStaggerControl'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -16,6 +25,9 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
       opened={opened}
       onClose={onClose}
       position='right'
+      overlayProps={{
+        backgroundOpacity: 0.15
+      }}
       title={(
         <div className={styles.Drawer__Title}>
           <IconSettings size={19} />
@@ -28,7 +40,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
     >
       <div className={styles.Section}>
         <Typography className={styles.Section__Heading}>
-          Theming
+          <IconBrush size={16} /> Theming
         </Typography>
 
         <ThemeSelector />
@@ -36,7 +48,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
       <div className={styles.Section}>
         <Typography className={styles.Section__Heading}>
-          Manual Time Selection
+          <IconClock size={16} /> Manual Time Selection
         </Typography>
 
         <ManualTimeSelector />
@@ -45,14 +57,21 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
       <div className={styles.Section}>
         <Typography className={styles.Section__Heading}>
-          Animations
+          <IconKeyframes size={16} /> Animations
         </Typography>
 
         <ResetTimeButton />
+        <AnimationSelector />
         <ColonAnimationToggle />
+        <AnimationStaggerControl />
       </div>
 
-      <div className={styles.Footer}>
+      <div className={styles.Section}>
+        <Typography className={styles.Section__Heading}>
+          <IconDatabase size={16} /> Website Data
+        </Typography>
+
+        <ResetToDefaultsButton />
         <ClearLocalStorageButton />
       </div>
     </Drawer>

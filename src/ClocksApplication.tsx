@@ -3,14 +3,25 @@ import { Layout } from 'components/Layout'
 import { ConfigContextProvider } from 'context/ConfigContext/ConfigContextProvider'
 import { type TimeDisplayRefHandle } from 'modules/TimeDisplay'
 import { useRef } from 'react'
+import { AnimationContextProvider } from 'context/AnimationContext'
 
 const ClocksApplication = () => {
   const timeDisplayRef = useRef<TimeDisplayRefHandle>(null)
 
+  const resetTime = () => {
+    timeDisplayRef.current?.reset()
+  }
+
+  const handleSetManualTime = (time?: Date) => {
+    timeDisplayRef.current?.setManualTime(time)
+  }
+
   return (
     <ThemeContextProvider>
-      <ConfigContextProvider onResetTime={() => timeDisplayRef.current?.reset()}>
-        <Layout ref={timeDisplayRef} />
+      <ConfigContextProvider onResetTime={resetTime} onSetManualTime={handleSetManualTime}>
+        <AnimationContextProvider>
+          <Layout ref={timeDisplayRef} />
+        </AnimationContextProvider>
       </ConfigContextProvider>
     </ThemeContextProvider>
   )

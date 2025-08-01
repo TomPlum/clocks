@@ -15,7 +15,8 @@
       "hooks/*": ["src/hooks/*"],
       "types/*": ["src/types/*"],
       "modules/*": ["src/modules/*"],
-      "fonts/*": ["src/fonts/*"]
+      "fonts/*": ["src/fonts/*"],
+      "utility/*": ["src/utility/*"]
     },
     "types": ["vitest/globals", "vite/client"],
 

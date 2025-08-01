@@ -20,7 +20,8 @@ export default defineConfig(({ mode }) => ({
       hooks: resolve(__dirname, '/src/hooks'),
       fonts: resolve(__dirname, '/src/fonts'),
       modules: resolve(__dirname, '/src/modules'),
-      types: resolve(__dirname, '/src/types')
+      types: resolve(__dirname, '/src/types'),
+      utility: resolve(__dirname, '/src/utility')
     }
   },
   test: {
@@ -28,6 +29,7 @@ export default defineConfig(({ mode }) => ({
     include: ['**/*.spec.{ts,tsx}'],
     globals: true,
     mockReset: true,
+    setupFiles: './vitest.setup.ts',
     css: {
       modules: {
         classNameStrategy: 'non-scoped'

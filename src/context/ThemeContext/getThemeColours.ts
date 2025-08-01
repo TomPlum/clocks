@@ -20,7 +20,7 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
         backgroundColour: '#ffffff',
         borderColour: '#ffffff',
         outerShadowColour: 'rgba(166,166,166,0.3)',
-        innerShadowColour: 'rgba(131,131,131,0.4)',
+        innerShadowColour: 'rgba(152,152,152,0.4)',
         hourHandColour: '#000000',
         minuteHandColour: '#000000',
         handPulseStartColour: '#000000',
@@ -28,7 +28,7 @@ export const getThemeColours = (theme: Theme): ThemeColours => {
       }
 
       return {
-        backgroundColour: '#efefef',
+        backgroundColour: '#f3f3f3',
         settingsButtonColour: '#000000',
         digitClock: lightClockTheme,
         borderClocks: lightClockTheme,
