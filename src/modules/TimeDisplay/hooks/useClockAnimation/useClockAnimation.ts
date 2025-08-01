@@ -6,10 +6,12 @@ import { randomInteger } from 'utility/randomInteger'
 import { useAnimationContext } from 'context/AnimationContext'
 import { getHandDirections } from 'modules/TimeDisplay/utils'
 import { interpolateAngle } from 'utility/interpolateAngle'
+import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 
 export const useClockAnimation = ({
   position
 }: UseClockAnimationProps) => {
+  const { digitAnimationDuration } = useConfigContext()
   const { currentAnimationConfig, setCurrentAnimation } = useAnimationContext()
 
   const [hourHandAngle, setHourHandAngle] = useState(currentAnimationConfig()?.hourHandStartingAngle ?? randomInteger(0, 360))
@@ -58,7 +60,7 @@ export const useClockAnimation = ({
 
     return doAnimation({
       name: 'ease-to-time',
-      duration: 3000,
+      duration: digitAnimationDuration,
       useEasing: true,
       onComplete: config?.onComplete,
       onFrame: (progress: number) => {

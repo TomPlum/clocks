@@ -13,6 +13,8 @@ export interface ConfigContextBag {
   resetToDefaults: () => void
   animationStagger: number
   setAnimationStagger: (value: number) => void
+  digitAnimationDuration: number
+  setDigitAnimationDuration: (value: number) => void
 }
 
 export interface SerialisedConfig {
@@ -20,6 +22,7 @@ export interface SerialisedConfig {
   animationStagger: number
   loadingAnimation: ClockLoadingAnimation
   enableColonAnimation: boolean
+  digitAnimationDuration: number
 }
 
 export interface ConfigContextProviderProps {

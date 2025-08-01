@@ -17,6 +17,7 @@ import { ClearLocalStorageButton } from 'modules/ConfigurationDrawer/components/
 import { AnimationSelector } from 'modules/ConfigurationDrawer/components/AnimationSelector'
 import { ResetToDefaultsButton } from 'modules/ConfigurationDrawer/components/ResetToDefaultsButton'
 import { AnimationStaggerControl } from 'modules/ConfigurationDrawer/components/AnimationStaggerControl'
+import { TimeLapseDurationSelector } from 'modules/ConfigurationDrawer/components/TimeLapseDurationSelector'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -64,6 +65,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         <AnimationSelector />
         <ColonAnimationToggle />
         <AnimationStaggerControl />
+        <TimeLapseDurationSelector />
       </div>
 
       <div className={styles.Section}>

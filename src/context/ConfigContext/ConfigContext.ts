@@ -27,5 +27,9 @@ export const ConfigContext = createContext<ConfigContextBag>({
   animationStagger: 10,
   setAnimationStagger: (animationStagger: number) => {
     console.error(`Tried to call setAnimationStagger(${animationStagger}) before the ConfigContext was initialised.`)
+  },
+  digitAnimationDuration: 3000,
+  setDigitAnimationDuration: (duration: number) => {
+    console.error(`Tried to call setDigitAnimationDuration(${duration}) before the ConfigContext was initialised.`)
   }
 })

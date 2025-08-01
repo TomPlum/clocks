@@ -8,7 +8,8 @@ import { useThemeContext } from 'context/ThemeContext'
 const defaultConfigValues: SerialisedConfig = {
   enableColonAnimation: true,
   loadingAnimation: 'random',
-  animationStagger: 10
+  animationStagger: 10,
+  digitAnimationDuration: 3000
 }
 
 export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
@@ -61,6 +62,13 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
       setStoredValue({
         ...storedValue,
         animationStagger: value
+      })
+    },
+    digitAnimationDuration: storedValue.digitAnimationDuration,
+    setDigitAnimationDuration: (value: number) => {
+      setStoredValue({
+        ...storedValue,
+        digitAnimationDuration: value
       })
     }
   }), [clearStoredValue, isHydrated, onResetTime, onSetManualTime, setStoredValue, setTheme, storedValue])
