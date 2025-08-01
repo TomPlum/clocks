@@ -7,6 +7,7 @@
 
   &__Content {
     display: flex;
+    overflow-x: hidden;
     flex-direction: column;
   }
 }
@@ -22,5 +23,9 @@
   &__Heading {
     border-bottom: 1px solid;
     font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-bottom: 3px;
   }
 }

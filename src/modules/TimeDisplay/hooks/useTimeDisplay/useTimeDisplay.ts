@@ -1,5 +1,5 @@
 import { createRef, useCallback, useRef } from 'react'
-import type { TimeDisplayClockRefs, UseTimeDisplayProps } from './types'
+import type { TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useAnimationContext } from 'context/AnimationContext'
 import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
@@ -7,8 +7,8 @@ import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisp
 export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
 
-  const { loadingAnimation, manualTime } = useConfigContext()
   const { setInitialAnimating } = useAnimationContext()
+  const { loadingAnimation, manualTime, animationStagger } = useConfigContext()
 
   const initialiseClock = (id: string) => {
     if (!clocks.current.has(id)) {
@@ -18,17 +18,33 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     return clocks.current.get(id)!
   }
 
-  const commandAllClocks = (action: (clock: ClockRefHandler) => void) => {
-    clocks.current.forEach((ref) => {
-      if (ref.current) {
-        action(ref.current)
-      }
-    })
+  const commandAllClocks = ({ action, stagger }: TimeDisplayCommand) => {
+    if (stagger) {
+      let animationOffset = 0
+
+      clocks.current.forEach((ref) => {
+        setTimeout(() => {
+          if (ref.current) {
+            action(ref.current)
+          }
+        }, animationOffset)
+
+        animationOffset += animationStagger
+      })
+    } else {
+      clocks.current.forEach((ref) => {
+        if (ref.current) {
+          action(ref.current)
+        }
+      })
+    }
   }
 
   const easeToTime = (time: Date) => {
-    commandAllClocks(clock => {
-      clock.easeToTime(time)
+    commandAllClocks({
+      action: clock => {
+        clock.easeToTime(time)
+      }
     })
   }
 
@@ -40,11 +56,14 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
       setInitialAnimating(false)
     }
 
-    commandAllClocks(clock => {
-      cleanUpLoadingAnimation = clock.runAnimation(loadingAnimation, {
-        postAnimationTimeTarget: manualTime ?? currentTime,
-        onComplete: notifyLoadingComplete
-      })
+    commandAllClocks({
+      stagger: true,
+      action: clock => {
+        cleanUpLoadingAnimation = clock.runAnimation(loadingAnimation, {
+          postAnimationTimeTarget: manualTime ?? currentTime,
+          onComplete: notifyLoadingComplete
+        })
+      }
     })
 
     return () => {

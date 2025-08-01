@@ -6,3 +6,8 @@ export type TimeDisplayClockRefs = Map<string, RefObject<ClockRefHandler | null>
 export interface UseTimeDisplayProps {
   currentTime: Date
 }
+
+export interface TimeDisplayCommand {
+  action: (clock: ClockRefHandler) => void
+  stagger?: boolean
+}

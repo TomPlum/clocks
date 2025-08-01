@@ -11,10 +11,13 @@ export interface ConfigContextBag {
   setEnableColonAnimation: (value: boolean) => void
   clearStoredConfig: () => void
   resetToDefaults: () => void
+  animationStagger: number
+  setAnimationStagger: (value: number) => void
 }
 
 export interface SerialisedConfig {
   manualTime?: string
+  animationStagger: number
   loadingAnimation: ClockLoadingAnimation
   enableColonAnimation: boolean
 }

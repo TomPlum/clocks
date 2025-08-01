@@ -1,4 +1,4 @@
-import { Combobox, InputBase, useCombobox } from '@mantine/core'
+import { Combobox, InputBase, InputLabel, InputWrapper, useCombobox } from '@mantine/core'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 
@@ -22,32 +22,38 @@ export const AnimationSelector = () => {
   ))
 
   return (
-    <Combobox
-      store={combobox}
-      onOptionSubmit={(val) => {
-        setLoadingAnimation(val as ClockLoadingAnimation)
-        combobox.closeDropdown()
-      }}
-    >
-      <Combobox.Target>
-        <InputBase
-          pointer
-          id='theme'
-          type="button"
-          component="button"
-          rightSectionPointerEvents="none"
-          rightSection={<Combobox.Chevron />}
-          onClick={() => combobox.toggleDropdown()}
-        >
-          {toDisplayName(loadingAnimation)}
-        </InputBase>
-      </Combobox.Target>
+    <InputWrapper>
+      <InputLabel>
+        Loading Animation
+      </InputLabel>
+      
+      <Combobox
+        store={combobox}
+        onOptionSubmit={(val) => {
+          setLoadingAnimation(val as ClockLoadingAnimation)
+          combobox.closeDropdown()
+        }}
+      >
+        <Combobox.Target>
+          <InputBase
+            pointer
+            id='theme'
+            type="button"
+            component="button"
+            rightSectionPointerEvents="none"
+            rightSection={<Combobox.Chevron />}
+            onClick={() => combobox.toggleDropdown()}
+          >
+            {toDisplayName(loadingAnimation)}
+          </InputBase>
+        </Combobox.Target>
 
-      <Combobox.Dropdown>
-        <Combobox.Options>
-          {options}
-        </Combobox.Options>
-      </Combobox.Dropdown>
-    </Combobox>
+        <Combobox.Dropdown>
+          <Combobox.Options>
+            {options}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </InputWrapper>
   )
 }
