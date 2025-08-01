@@ -69,7 +69,7 @@ export interface ClockEventHandler {
 }
 
 export interface PostAnimationInfo {
-  time?: Date
+  postAnimationTimeTarget?: Date
 }
 
 export type RunAnimationConfig = ClockAnimationConfig & ClockEventHandler & PostAnimationInfo

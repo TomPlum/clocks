@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import type { UseClockAnimationProps } from './types'
+import type { RequestAnimationFrameConfig, UseClockAnimationProps } from './types'
 import type { ClockAnimation, RunAnimationConfig } from 'modules/TimeDisplay/components/Clock'
 import { getAnimationConfig } from './getAnimationConfig'
 import { randomInteger } from 'utility/randomInteger'
 import { useAnimationContext } from 'context/AnimationContext'
 import { getHandDirections } from 'modules/TimeDisplay/utils'
+import { interpolateAngle } from 'utility/interpolateAngle'
 
 export const useClockAnimation = ({
   position
@@ -14,45 +15,60 @@ export const useClockAnimation = ({
   const [hourHandAngle, setHourHandAngle] = useState(currentAnimationConfig()?.hourHandStartingAngle ?? randomInteger(0, 360))
   const [minuteHandleAngle, setMinuteHandleAngle] = useState(currentAnimationConfig()?.minuteHandStartingAngle ?? randomInteger(0, 360))
 
-  const easeToTime = (time: Date, config?: RunAnimationConfig) => {
-    const animationDuration = 3000
-    setCurrentAnimation('ease-to-time')
-
-    const { x, y } = position
-    const { hour: endHour, minute: endMinute } = getHandDirections({ time, x, y })
+  const doAnimation = ({
+    name,
+    onFrame,
+    duration,
+    onComplete,
+    useEasing = false,
+    shouldNotify = true
+  }: RequestAnimationFrameConfig) => {
+    if (shouldNotify) {
+      setCurrentAnimation(name)
+    }
 
     let animationFrameId: number
 
-    const startHour = hourHandAngle
-    const startMinute = minuteHandleAngle
     const startTime = performance.now()
 
-    const interpolateAngle = (start: number, end: number, t: number) => {
-      const delta = ((end - start + 540) % 360) - 180
-      return (start + delta * t + 360) % 360
-    }
-
-    const animate = (now: number) => {
+    const frame = (now: number) => {
       const elapsed = now - startTime
-      const t = Math.min(elapsed / animationDuration, 1)
+      const value = useEasing
+        ? Math.min(elapsed / duration, 1)
+        : Math.min(elapsed, duration)
 
-      const hourAngle = interpolateAngle(startHour, endHour, t)
-      const minuteAngle = interpolateAngle(startMinute, endMinute, t)
+      onFrame(value)
 
-      setHourHandAngle(hourAngle)
-      setMinuteHandleAngle(minuteAngle)
-
-      if (t < 1) {
-        animationFrameId = requestAnimationFrame(animate)
+      if (elapsed < duration) {
+        animationFrameId = requestAnimationFrame(frame)
       } else {
         setCurrentAnimation(undefined)
-        config?.onComplete?.()
+        onComplete?.()
       }
     }
 
-    animationFrameId = requestAnimationFrame(animate)
+    animationFrameId = requestAnimationFrame(frame)
 
     return () => cancelAnimationFrame(animationFrameId)
+  }
+
+  const easeToTime = (time: Date, config?: RunAnimationConfig) => {
+    const { x, y } = position
+    const { hour: endHour, minute: endMinute } = getHandDirections({ time, x, y })
+
+    return doAnimation({
+      name: 'ease-to-time',
+      duration: 3000,
+      useEasing: true,
+      onComplete: config?.onComplete,
+      onFrame: (progress: number) => {
+        const hourAngle = interpolateAngle(hourHandAngle, endHour, progress)
+        const minuteAngle = interpolateAngle(minuteHandleAngle, endMinute, progress)
+
+        setHourHandAngle(hourAngle)
+        setMinuteHandleAngle(minuteAngle)
+      }
+    })
   }
 
   const runAnimation = (animation: ClockAnimation, config?: RunAnimationConfig) => {
@@ -61,23 +77,14 @@ export const useClockAnimation = ({
       ...config
     }
 
-    const easeConfig = getAnimationConfig('ease-to-time')
-    const easeDuration = easeConfig?.animationDuration ?? 0
-    const finalDuration = animationDuration + easeDuration
-
-    if (!config?.dontNotify) {
-      setCurrentAnimation(animation)
-    }
-
-    const { x, y } = position
-    const { hour, minute } = getHandDirections({ time: config?.time ?? new Date(), x, y })
-
     switch (animation) {
       case 'random': {
-        let animationFrameId: number
+        const easeConfig = getAnimationConfig('ease-to-time')
+        const easeDuration = easeConfig?.animationDuration ?? 0
+        const finalDuration = animationDuration + easeDuration
+
         const startHourAngle = hourHandAngle
         const startMinuteAngle = minuteHandleAngle
-        const startTime = performance.now()
 
         const hourDirection = 1
         const minuteDirection = -1
@@ -88,74 +95,53 @@ export const useClockAnimation = ({
         let finalHourAngle = 0
         let finalMinuteAngle = 0
 
-        const animate = (now: number) => {
-          const elapsed = now - startTime
+        const { x, y } = position
+        const { hour, minute } = getHandDirections({ time: config?.postAnimationTimeTarget ?? new Date(), x, y })
 
-          if (elapsed < animationDuration) {
-            const hourAngle = (startHourAngle + hourDirection * hourDegreesPerMs * elapsed) % 360
-            const minuteAngle = (startMinuteAngle + minuteDirection * minuteDegreesPerMs * elapsed) % 360
+        return doAnimation({
+          name: 'random',
+          onComplete: config?.onComplete,
+          useEasing: false,
+          duration: finalDuration,
+          shouldNotify: !config?.dontNotify,
+          onFrame: (elapsed: number) => {
+            if (elapsed < animationDuration) {
+              const hourAngle = (startHourAngle + hourDirection * hourDegreesPerMs * elapsed) % 360
+              const minuteAngle = (startMinuteAngle + minuteDirection * minuteDegreesPerMs * elapsed) % 360
 
-            finalHourAngle = hourAngle
-            finalMinuteAngle = minuteAngle
+              finalHourAngle = hourAngle
+              finalMinuteAngle = minuteAngle
 
-            setHourHandAngle((hourAngle + 360) % 360)
-            setMinuteHandleAngle((minuteAngle + 360) % 360)
+              setHourHandAngle((hourAngle + 360) % 360)
+              setMinuteHandleAngle((minuteAngle + 360) % 360)
+            } else if (elapsed < finalDuration) {
+              const t = (elapsed - animationDuration) / easeDuration
 
-            animationFrameId = requestAnimationFrame(animate)
-          } else if (elapsed < finalDuration) {
-            const t = (elapsed - animationDuration) / easeDuration
+              const hourAngle = finalHourAngle + t * (hour - finalHourAngle)
+              const minuteAngle = finalMinuteAngle + t * (minute - finalMinuteAngle)
 
-            const hourAngle = finalHourAngle + t * (hour - finalHourAngle)
-            const minuteAngle = finalMinuteAngle + t * (minute - finalMinuteAngle)
-
-            setHourHandAngle((hourAngle + 360) % 360)
-            setMinuteHandleAngle((minuteAngle + 360) % 360)
-
-            animationFrameId = requestAnimationFrame(animate)
-          } else {
-            setHourHandAngle(hour)
-            setMinuteHandleAngle(minute)
-
-            config?.onComplete?.()
-            setCurrentAnimation(undefined)
+              setHourHandAngle((hourAngle + 360) % 360)
+              setMinuteHandleAngle((minuteAngle + 360) % 360)
+            }
           }
-        }
-
-        animationFrameId = requestAnimationFrame(animate)
-
-        return () => cancelAnimationFrame(animationFrameId)
+        })
       }
       case 'clockwise-rotation': {
-        let animationFrameId: number
-        const startHourAngle = hourHandAngle
-        const startMinuteAngle = minuteHandleAngle
-        const startTime = performance.now()
-
         const degreesPerMs = 360 / animationSpeed
 
-        const animate = (now: number) => {
-          const elapsed = now - startTime
-
-          if (elapsed < animationDuration) {
-            const hourAngle = (startHourAngle + degreesPerMs * elapsed) % 360
-            const minuteAngle = (startMinuteAngle + degreesPerMs * elapsed) % 360
-
-            setHourHandAngle((hourAngle + 360) % 360)
-            setMinuteHandleAngle((minuteAngle + 360) % 360)
-
-            animationFrameId = requestAnimationFrame(animate)
-          } else {
-            const hourAngle = (startHourAngle + degreesPerMs * animationDuration) % 360
-            const minuteAngle = (startMinuteAngle + degreesPerMs * animationDuration) % 360
+        return doAnimation({
+          name: 'clockwise-rotation',
+          useEasing: false,
+          duration: animationDuration,
+          onComplete: config?.onComplete,
+          onFrame: (elapsed: number) => {
+            const hourAngle = (hourHandAngle + degreesPerMs * elapsed) % 360
+            const minuteAngle = (minuteHandleAngle + degreesPerMs * elapsed) % 360
 
             setHourHandAngle((hourAngle + 360) % 360)
             setMinuteHandleAngle((minuteAngle + 360) % 360)
           }
-        }
-
-        animationFrameId = requestAnimationFrame(animate)
-
-        return () => cancelAnimationFrame(animationFrameId)
+        })
       }
     }
   }

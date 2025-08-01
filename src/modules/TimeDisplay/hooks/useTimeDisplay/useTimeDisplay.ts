@@ -42,7 +42,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
 
     commandAllClocks(clock => {
       cleanUpLoadingAnimation = clock.runAnimation(loadingAnimation, {
-        time: manualTime ?? currentTime,
+        postAnimationTimeTarget: manualTime ?? currentTime,
         onComplete: notifyLoadingComplete
       })
     })
