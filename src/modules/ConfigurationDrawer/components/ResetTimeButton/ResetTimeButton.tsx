@@ -5,8 +5,12 @@ import { useState } from 'react'
 import { getAnimationConfig } from 'modules/TimeDisplay/hooks/useClockAnimation/getAnimationConfig'
 
 export const ResetTimeButton = () => {
-  const { reloadTime, loadingAnimation } = useConfigContext()
+  const { reloadTime, loadingAnimation, animationStagger } = useConfigContext()
+
   const loadingAnimationDuration = getAnimationConfig(loadingAnimation).animationDuration ?? 5000
+  const easeToTimeDuration = getAnimationConfig('ease-to-time').animationDuration ?? 3000
+  const animationStaggerOffset = 260 * animationStagger // 260 clocks
+  const totalAnimationDuration = loadingAnimationDuration + easeToTimeDuration + animationStaggerOffset
 
   const [loading, setLoading] = useState(false)
 
@@ -16,7 +20,7 @@ export const ResetTimeButton = () => {
 
     setTimeout(() => {
       setLoading(false)
-    }, loadingAnimationDuration + 3000)
+    }, totalAnimationDuration)
   }
 
   return (

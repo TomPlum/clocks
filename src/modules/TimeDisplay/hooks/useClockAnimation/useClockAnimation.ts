@@ -9,6 +9,7 @@ import { interpolateAngle } from 'utility/interpolateAngle'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 
 export const useClockAnimation = ({
+  id,
   position
 }: UseClockAnimationProps) => {
   const { digitAnimationDuration } = useConfigContext()
@@ -45,7 +46,7 @@ export const useClockAnimation = ({
         animationFrameId = requestAnimationFrame(frame)
       } else {
         setCurrentAnimation(undefined)
-        onComplete?.()
+        onComplete?.(id)
       }
     }
 

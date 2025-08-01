@@ -18,7 +18,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     return clocks.current.get(id)!
   }
 
-  const commandAllClocks = ({ action, stagger }: TimeDisplayCommand) => {
+  const commandAllClocks = useCallback(({ action, stagger }: TimeDisplayCommand) => {
     if (stagger) {
       let animationOffset = 0
 
@@ -38,7 +38,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
         }
       })
     }
-  }
+  }, [animationStagger])
 
   const easeToTime = (time: Date) => {
     commandAllClocks({
@@ -52,8 +52,12 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     let cleanUpLoadingAnimation: AnimationCleanupFunction
     let cleanUpEaseAnimation: AnimationCleanupFunction
 
-    const notifyLoadingComplete = () => {
-      setInitialAnimating(false)
+    const notifyLoadingComplete = (clockId: string) => {
+      const finalClockIdentifier = '(25,9)'
+
+      if (clockId === finalClockIdentifier) {
+        setInitialAnimating(false)
+      }
     }
 
     commandAllClocks({
@@ -70,7 +74,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
       cleanUpLoadingAnimation?.()
       cleanUpEaseAnimation?.()
     }
-  }, [currentTime, loadingAnimation, manualTime, setInitialAnimating])
+  }, [commandAllClocks, currentTime, loadingAnimation, manualTime, setInitialAnimating])
 
   return {
     runLoadingAnimation,

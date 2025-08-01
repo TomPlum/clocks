@@ -25,7 +25,10 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
     runAnimation,
     hourHandAngle,
     minuteHandleAngle
-  } = useClockAnimation({ position })
+  } = useClockAnimation({
+    id,
+    position
+  })
 
   const themeColours = useMemo<ClockThemeColours>(() => ({
     ...(digit !== undefined ? currentThemeColours.digitClock : currentThemeColours.borderClocks),

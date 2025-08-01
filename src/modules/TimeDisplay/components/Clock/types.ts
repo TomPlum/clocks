@@ -65,7 +65,7 @@ export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time'>
 export type AnimationCleanupFunction = (() => void) | undefined
 
 export interface ClockEventHandler {
-  onComplete?: () => void
+  onComplete?: (clockId: string) => void
 }
 
 export interface PostAnimationInfo {

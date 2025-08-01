@@ -3,6 +3,7 @@
 import type { ClockAnimation, ClockPositon } from 'modules/TimeDisplay/components/Clock'
 
 export interface UseClockAnimationProps {
+  id: string
   position: ClockPositon
 }
 
@@ -12,5 +13,5 @@ export interface RequestAnimationFrameConfig {
   useEasing?: boolean
   shouldNotify?: boolean
   onFrame: (value: number) => void
-  onComplete?: () => void
+  onComplete?: (clockId: string) => void
 }

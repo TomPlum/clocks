@@ -7,6 +7,7 @@ import { ConfigurationDrawer } from 'modules/ConfigurationDrawer'
 import { Anchor, LoadingOverlay, MantineProvider, Typography } from '@mantine/core'
 import { forwardRef } from 'react'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import classNames from 'classnames'
 
 export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
   const { themeColours } = useThemeContext()
@@ -20,7 +21,10 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
       forceColorScheme={themeColours.mantineColourScheme}
     >
       <div
-        className={styles.Container}
+        className={classNames(
+          styles.Container,
+          { [styles.DrawerOffset]: opened }
+        )}
         style={{ backgroundColor: themeColours.backgroundColour }}
       >
         {isHydrated && (
