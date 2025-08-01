@@ -1,28 +1,56 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Clock } from './Clock'
 
+vi.mock('modules/TimeDisplay/hooks/useClockAnimation', () => ({
+  useClockAnimation: () => ({
+    easeToTime: vi.fn(),
+    runAnimation: vi.fn(),
+    hourHandAngle: 90,
+    minuteHandleAngle: 180
+  })
+}))
+
+vi.mock('context/AnimationContext', () => ({
+  useAnimationContext: () => ({ initialAnimating: false })
+}))
+
+vi.mock('context/ConfigContext/useConfigContext', () => ({
+  useConfigContext: () => ({ enableColonAnimation: true })
+}))
+
+vi.mock('context/ThemeContext', () => ({
+  useThemeContext: () => ({
+    themeColours: {
+      digitClock: {
+        borderColour: 'blue',
+        backgroundColour: 'green',
+        outerShadowColour: 'black',
+        innerShadowColour: 'gray',
+        handPulseStartColour: 'white',
+        handPulseEndColour: 'purple',
+        hourHandColour: 'red',
+        minuteHandColour: 'yellow',
+        centreDotColour: 'orange'
+      },
+      borderClocks: {}
+    }
+  })
+}))
+
 describe('Clock', () => {
-  const angles = [0, 90, 180, 270, 110, 55]
+  it('applies rotation styles from useClockAnimation', () => {
+    render(<Clock id="angle-check" position={{ x: 0, y: 0 }} />)
+    const hourHand = screen.getByTestId('clock-angle-check-hour-hand')
+    const minuteHand = screen.getByTestId('clock-angle-check-minute-hand')
 
-  angles.forEach((hourAngle) => {
-    angles.forEach((minuteAngle) => {
-      it(`should render the clock with the hour=${hourAngle} and minute=${minuteAngle} minute hands at the correct angles`, async () => {
-        render(
-          <Clock
-            id='0,0'
-            position={{ x: 0, y: 0 }}
-          />
-        )
+    expect(hourHand).toHaveStyle({ transform: 'rotate(90deg)' })
+    expect(minuteHand).toHaveStyle({ transform: 'rotate(180deg)' })
+  })
 
-        const hourHand = screen.getByTestId('clock-0,0-hour-hand')
-        const minuteHand = screen.getByTestId('clock-0,0-minute-hand')
-
-        await waitFor(() => {
-          expect(hourHand.style.transform).toBe(`rotate(${hourAngle}deg)`)
-          expect(minuteHand.style.transform).toBe(`rotate(${minuteAngle}deg)`)
-        })
-      })
-    })
+  it('adds pulse animation classes if colon and animation enabled', () => {
+    render(<Clock id="pulse-check" position={{ x: 0, y: 0 }}  colon />)
+    expect(screen.getByTestId('clock-pulse-check-hour-hand')).toHaveClass('Clock__Pulse')
+    expect(screen.getByTestId('clock-pulse-check-minute-hand')).toHaveClass('Clock__Pulse')
   })
 })

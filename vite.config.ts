@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => ({
     include: ['**/*.spec.{ts,tsx}'],
     globals: true,
     mockReset: true,
+    setupFiles: './vitest.setup.ts',
     css: {
       modules: {
         classNameStrategy: 'non-scoped'
