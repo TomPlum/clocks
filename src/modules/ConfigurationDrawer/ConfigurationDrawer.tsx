@@ -20,6 +20,7 @@ import { AnimationStaggerControl } from 'modules/ConfigurationDrawer/components/
 import { TimeLapseDurationSelector } from 'modules/ConfigurationDrawer/components/TimeLapseDurationSelector'
 import { ViewGithubButton } from 'modules/ConfigurationDrawer/components/ViewGithubButton'
 import { ClockDiameterControl } from 'modules/ConfigurationDrawer/components/ClockDiameterControl'
+import { ClockPatternSelector } from 'modules/ConfigurationDrawer/components/ClockPatternSelector'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -47,6 +48,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         </Typography>
 
         <ThemeSelector />
+        <ClockPatternSelector />
         <ClockDiameterControl />
       </div>
 

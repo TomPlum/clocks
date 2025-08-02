@@ -4,12 +4,14 @@ import { useLocalStorage } from '@mantine/hooks'
 import type { SerialisedConfig, ConfigContextBag, ConfigContextProviderProps } from './types'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 import { useThemeContext } from 'context/ThemeContext'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 const defaultConfigValues: SerialisedConfig = {
   enableColonAnimation: true,
   loadingAnimation: 'random',
   animationStagger: 10,
-  digitAnimationDuration: 3000
+  digitAnimationDuration: 3000,
+  timeDisplayPattern: 'circular'
 }
 
 export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
@@ -76,6 +78,13 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
       setStoredValue({
         ...storedValue,
         clockDiameter: value
+      })
+    },
+    timeDisplayPattern: storedValue.timeDisplayPattern,
+    setTimeDisplayPattern: (value: TimeDisplayPattern) => {
+      setStoredValue({
+        ...storedValue,
+        timeDisplayPattern: value
       })
     }
   }), [clearStoredValue, isHydrated, onResetTime, onSetManualTime, setStoredValue, setTheme, storedValue])

@@ -10,7 +10,7 @@ export interface TimeDisplayRefHandle {
   setManualTime: (time?: Date) => void
 }
 
-export const loadingAnimationDuration = 5000
+export type TimeDisplayPattern = 'circular' | 'point-towards-middle'
 
 export const digitSegments: Record<number, DigitHand[]> = {
   0: [

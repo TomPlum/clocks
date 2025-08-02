@@ -1,36 +1,43 @@
-import { type Theme, useThemeContext } from 'context/ThemeContext'
-import { ThemePreview } from './ThemePreview'
-import { getThemeColours } from 'context/ThemeContext/getThemeColours'
 import { Combobox, InputBase, InputLabel, InputWrapper, useCombobox } from '@mantine/core'
+import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
-const themes: Theme[] = ['light', 'dark', 'matrix']
+const patterns: TimeDisplayPattern[] = ['circular', 'point-towards-middle']
 
-export const ThemeSelector = () => {
-  const { theme, setTheme } = useThemeContext()
+export const ClockPatternSelector = () => {
+  const { timeDisplayPattern, setTimeDisplayPattern } = useConfigContext()
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption()
   })
 
-  const options = themes.map((item: Theme) => (
-    <Combobox.Option value={item} key={item} selected={item === theme}>
-      <ThemePreview
-        theme={item}
-        themeColours={getThemeColours(item)}
-      />
+  const toDisplayName = (animation: TimeDisplayPattern) => {
+    switch (animation) {
+      case 'circular': {
+        return 'Circular'
+      }
+      case 'point-towards-middle': {
+        return 'Point Towards Center'
+      }
+    }
+  }
+
+  const options = patterns.map((item: TimeDisplayPattern) => (
+    <Combobox.Option value={item} key={item} selected={item === timeDisplayPattern}>
+      {toDisplayName(item)}
     </Combobox.Option>
   ))
 
   return (
     <InputWrapper>
       <InputLabel>
-        Theme
+        Non-Digit Clocks Pattern
       </InputLabel>
       
       <Combobox
         store={combobox}
         onOptionSubmit={(val) => {
-          setTheme(val as Theme)
+          setTimeDisplayPattern(val as TimeDisplayPattern)
           combobox.closeDropdown()
         }}
       >
@@ -44,7 +51,7 @@ export const ThemeSelector = () => {
             rightSection={<Combobox.Chevron />}
             onClick={() => combobox.toggleDropdown()}
           >
-            {theme[0].toUpperCase() + theme.slice(1)}
+            {toDisplayName(timeDisplayPattern)}
           </InputBase>
         </Combobox.Target>
 

@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 import type { ConfigContextBag } from './types'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 export const ConfigContext = createContext<ConfigContextBag>({
   isHydrated: false,
@@ -34,5 +35,9 @@ export const ConfigContext = createContext<ConfigContextBag>({
   },
   setClockDiameter: (value?: number) => {
     console.error(`Tried to call setClockDiameter(${value}) before the ConfigContext was initialised.`)
+  },
+  timeDisplayPattern: 'circular',
+  setTimeDisplayPattern: (value: TimeDisplayPattern) => {
+    console.error(`Tried to call setTimeDisplayPattern(${value}) before the ConfigContext was initialised.`)
   }
 })
