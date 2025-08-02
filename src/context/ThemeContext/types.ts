@@ -79,4 +79,19 @@ export interface ThemeContextBag {
    * @param theme - The new theme to apply
    */
   setTheme: (theme: Theme) => void
+
+  /**
+   * The current size of the viewport.
+   */
+  viewportSize: {
+    /**
+     * The height, in pixels, of the viewport.
+     */
+    height: number
+
+    /**
+     * The width, in pixels, of the viewport.
+     */
+    width: number
+  }
 }
