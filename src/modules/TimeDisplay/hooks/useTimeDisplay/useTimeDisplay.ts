@@ -10,7 +10,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const digitClocks = useRef(new Map<string, boolean>())
   const colonClocks = useRef(new Map<string, boolean>())
 
-  const { setInitialAnimating } = useAnimationContext()
+  const { initialAnimating, setInitialAnimating } = useAnimationContext()
   const { loadingAnimation, manualTime, animationStagger, timeDisplayPattern } = useConfigContext()
 
   const initialiseClock = ({ id, isDigit, isColon }: InitialiseClockProps) => {
@@ -109,12 +109,14 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   }, [commandAllClocks, currentTime, loadingAnimation, manualTime, setInitialAnimating])
 
   useEffect(() => {
-    commandNonDigitClocks({
-      action: clock => {
-        clock.easeToCurrentPattern()
-      }
-    })
-  }, [commandNonDigitClocks, timeDisplayPattern])
+    if (!initialAnimating) {
+      commandNonDigitClocks({
+        action: clock => {
+          clock.easeToCurrentPattern()
+        }
+      })
+    }
+  }, [commandNonDigitClocks, initialAnimating, timeDisplayPattern])
 
   return {
     runLoadingAnimation,

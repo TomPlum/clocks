@@ -1,11 +1,13 @@
 import { Clock } from 'modules/TimeDisplay/components/Clock'
 import styles from './TimeDisplay.module.scss'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { getClockMetadata, iterateTimes, totalHeight, totalWidth } from './utils'
 import { type TimeDisplayRefHandle } from './types'
 import { useAnimationContext } from 'context/AnimationContext'
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 import { useTimeDisplay } from 'modules/TimeDisplay/hooks/useTimeDisplay/useTimeDisplay'
+import { iterateTimes } from 'modules/TimeDisplay/animation/iterateTimes'
+import { totalHeight, totalWidth } from './grid'
+import { getClockMetadata } from './animation/getClockMetadata'
 
 export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
   const { currentTime, previousTime } = useCurrentTime()
@@ -26,7 +28,7 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
   }, [ranInitialLoadingAnimation, runLoadingAnimation])
 
   useEffect(() => {
-    if (!animating) {
+    if (!animating && !manualTime.current) {
       const currentMinute = currentTime.getMinutes()
       const previousMinute = previousTime?.getMinutes()
 

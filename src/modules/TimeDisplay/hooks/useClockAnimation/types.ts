@@ -1,5 +1,3 @@
-//TODO Move clock animation type here
-
 import type { ClockAnimation, ClockPositon } from 'modules/TimeDisplay/components/Clock'
 
 export interface UseClockAnimationProps {

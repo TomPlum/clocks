@@ -4,9 +4,10 @@ import type { ClockAnimation, RunAnimationConfig } from 'modules/TimeDisplay/com
 import { getAnimationConfig } from './getAnimationConfig'
 import { randomInteger } from 'utility/randomInteger'
 import { useAnimationContext } from 'context/AnimationContext'
-import { getHandAnglesForPattern, getHandDirections } from 'modules/TimeDisplay/utils'
 import { interpolateAngle } from 'utility/interpolateAngle'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import { getHandAnglesForPattern } from 'modules/TimeDisplay/animation/displayPatternFactory'
+import { getHandDirections } from 'modules/TimeDisplay/animation/getHandDirections'
 
 export const useClockAnimation = ({
   id,
