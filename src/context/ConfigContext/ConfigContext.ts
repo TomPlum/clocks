@@ -31,5 +31,8 @@ export const ConfigContext = createContext<ConfigContextBag>({
   digitAnimationDuration: 3000,
   setDigitAnimationDuration: (duration: number) => {
     console.error(`Tried to call setDigitAnimationDuration(${duration}) before the ConfigContext was initialised.`)
+  },
+  setClockDiameter: (value?: number) => {
+    console.error(`Tried to call setClockDiameter(${value}) before the ConfigContext was initialised.`)
   }
 })

@@ -15,6 +15,8 @@ export interface ConfigContextBag {
   setAnimationStagger: (value: number) => void
   digitAnimationDuration: number
   setDigitAnimationDuration: (value: number) => void
+  clockDiameter?: number
+  setClockDiameter: (value?: number) => void
 }
 
 export interface SerialisedConfig {
@@ -23,6 +25,7 @@ export interface SerialisedConfig {
   loadingAnimation: ClockLoadingAnimation
   enableColonAnimation: boolean
   digitAnimationDuration: number
+  clockDiameter?: number
 }
 
 export interface ConfigContextProviderProps {

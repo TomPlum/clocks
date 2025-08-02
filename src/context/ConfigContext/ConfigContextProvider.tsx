@@ -70,6 +70,13 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
         ...storedValue,
         digitAnimationDuration: value
       })
+    },
+    clockDiameter: storedValue.clockDiameter,
+    setClockDiameter: (value?: number) => {
+      setStoredValue({
+        ...storedValue,
+        clockDiameter: value
+      })
     }
   }), [clearStoredValue, isHydrated, onResetTime, onSetManualTime, setStoredValue, setTheme, storedValue])
 

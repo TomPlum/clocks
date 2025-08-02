@@ -19,6 +19,7 @@ import { ResetToDefaultsButton } from 'modules/ConfigurationDrawer/components/Re
 import { AnimationStaggerControl } from 'modules/ConfigurationDrawer/components/AnimationStaggerControl'
 import { TimeLapseDurationSelector } from 'modules/ConfigurationDrawer/components/TimeLapseDurationSelector'
 import { ViewGithubButton } from 'modules/ConfigurationDrawer/components/ViewGithubButton'
+import { ClockDiameterControl } from 'modules/ConfigurationDrawer/components/ClockDiameterControl'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -46,6 +47,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         </Typography>
 
         <ThemeSelector />
+        <ClockDiameterControl />
       </div>
 
       <div className={styles.Section}>
