@@ -4,7 +4,7 @@ import { IconRestore } from '@tabler/icons-react'
 import { useState } from 'react'
 import { getAnimationConfig } from 'modules/TimeDisplay/hooks/useClockAnimation/getAnimationConfig'
 
-export const ResetTimeButton = () => {
+export const ReplayLoadingAnimationButton = () => {
   const { reloadTime, loadingAnimation, animationStagger } = useConfigContext()
 
   const loadingAnimationDuration = getAnimationConfig(loadingAnimation).animationDuration ?? 5000

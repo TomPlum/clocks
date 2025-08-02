@@ -3,7 +3,7 @@ import { ThemeSelector } from 'modules/ConfigurationDrawer/components/ThemeSelec
 import type { ConfigurationDrawerProps } from 'modules/ConfigurationDrawer/types'
 import { ManualTimeSelector } from 'modules/ConfigurationDrawer/components/ManualTimeSelector'
 import styles from './ConfigurationDrawer.module.scss'
-import { ResetTimeButton } from 'modules/ConfigurationDrawer/components/ResetTimeButton'
+import { ReplayLoadingAnimationButton } from 'modules/ConfigurationDrawer/components/ReplayLoadingAnimationButton'
 import { SkipTimeButtons } from './components/SkipTimeButtons'
 import {
   IconBrush,
@@ -64,7 +64,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
           <IconKeyframes size={16} /> Animations
         </Typography>
 
-        <ResetTimeButton />
+        <ReplayLoadingAnimationButton />
         <LoadingAnimationSelector />
         <ColonAnimationToggle />
         <AnimationStaggerControl />
