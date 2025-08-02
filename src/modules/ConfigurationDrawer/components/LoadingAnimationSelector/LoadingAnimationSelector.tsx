@@ -4,7 +4,7 @@ import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 
 const animations: ClockLoadingAnimation[] = ['random', 'clockwise-rotation']
 
-export const AnimationSelector = () => {
+export const LoadingAnimationSelector = () => {
   const { loadingAnimation, setLoadingAnimation } = useConfigContext()
 
   const combobox = useCombobox({

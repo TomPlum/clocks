@@ -14,7 +14,7 @@ import {
 } from '@tabler/icons-react'
 import { ColonAnimationToggle } from 'modules/ConfigurationDrawer/components/ColonAnimationToggle'
 import { ClearLocalStorageButton } from 'modules/ConfigurationDrawer/components/ClearLocalStorageButton'
-import { AnimationSelector } from 'modules/ConfigurationDrawer/components/AnimationSelector'
+import { LoadingAnimationSelector } from 'modules/ConfigurationDrawer/components/LoadingAnimationSelector'
 import { ResetToDefaultsButton } from 'modules/ConfigurationDrawer/components/ResetToDefaultsButton'
 import { AnimationStaggerControl } from 'modules/ConfigurationDrawer/components/AnimationStaggerControl'
 import { TimeLapseDurationSelector } from 'modules/ConfigurationDrawer/components/TimeLapseDurationSelector'
@@ -65,7 +65,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         </Typography>
 
         <ResetTimeButton />
-        <AnimationSelector />
+        <LoadingAnimationSelector />
         <ColonAnimationToggle />
         <AnimationStaggerControl />
         <TimeLapseDurationSelector />
