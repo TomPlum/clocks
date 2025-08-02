@@ -11,10 +11,11 @@ const defaultConfigValues: SerialisedConfig = {
   loadingAnimation: 'random',
   animationStagger: 10,
   digitAnimationDuration: 3000,
-  timeDisplayPattern: 'circular'
+  timeDisplayPattern: 'circular',
+  showDebugTools: false
 }
 
-export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
+export const ConfigContextProvider = ({ onReplayLoadingAnimation, onSetManualTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
   const [storedValue, setStoredValue, clearStoredValue] = useLocalStorage<SerialisedConfig>({
     key: 'tomplum.github.io/clocks-config',
     defaultValue: defaultConfigValues
@@ -46,7 +47,7 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
         enableColonAnimation: value
       })
     },
-    reloadTime: onResetTime,
+    reloadTime: onReplayLoadingAnimation,
     clearStoredConfig: clearStoredValue,
     loadingAnimation: storedValue.loadingAnimation,
     setLoadingAnimation: (animation: ClockLoadingAnimation) => {
@@ -86,8 +87,15 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
         ...storedValue,
         timeDisplayPattern: value
       })
+    },
+    showDebugTools: storedValue.showDebugTools,
+    setShowDebugTools: (showDebugTools: boolean) => {
+      setStoredValue({
+        ...storedValue,
+        showDebugTools
+      })
     }
-  }), [clearStoredValue, isHydrated, onResetTime, onSetManualTime, setStoredValue, setTheme, storedValue])
+  }), [clearStoredValue, isHydrated, onReplayLoadingAnimation, onSetManualTime, setStoredValue, setTheme, storedValue])
 
   return (
     <ConfigContext.Provider value={value}>

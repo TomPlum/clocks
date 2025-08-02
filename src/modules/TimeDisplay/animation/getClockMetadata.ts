@@ -1,9 +1,9 @@
-import { timeCoordinates } from './getTimeCoordinates'
+import { getHandAnglesForTime } from './getTimeCoordinates'
 import { centreLineCoordinates, colonCoordinates } from '../grid'
 import type { ClockMetadata, GetClockMetadataProps } from 'modules/TimeDisplay'
 
 export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMetadata => {
-  const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
+  const digitHandDirections = getHandAnglesForTime(time).get(`${x},${y}`)
 
   if (digitHandDirections) {
     return {

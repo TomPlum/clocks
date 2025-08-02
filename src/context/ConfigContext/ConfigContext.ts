@@ -39,5 +39,9 @@ export const ConfigContext = createContext<ConfigContextBag>({
   timeDisplayPattern: 'circular',
   setTimeDisplayPattern: (value: TimeDisplayPattern) => {
     console.error(`Tried to call setTimeDisplayPattern(${value}) before the ConfigContext was initialised.`)
+  },
+  showDebugTools: false,
+  setShowDebugTools: (showDebugTools: boolean) => {
+    console.error(`Tried to call setShowDebugTools(${showDebugTools}) before the ConfigContext was initialised.`)
   }
 })

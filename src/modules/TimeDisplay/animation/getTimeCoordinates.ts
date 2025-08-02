@@ -1,7 +1,7 @@
 import { digitSegments, padding } from 'modules/TimeDisplay/grid'
 import { getDigitStartX } from './getDigitStartX'
 
-export const timeCoordinates = (time: Date) => {
+export const getHandAnglesForTime = (time: Date) => {
   const hours = time.getHours()
   const minutes = time.getMinutes()
 

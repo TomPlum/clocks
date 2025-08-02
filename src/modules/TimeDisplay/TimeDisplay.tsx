@@ -41,7 +41,7 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
   }, [animating, currentTime, easeToTime, previousTime])
 
   useImperativeHandle(ref, () => ({
-    reset: () => {
+    replayLoadingAnimation: () => {
       setInitialAnimating(true)
       runLoadingAnimation()
     },

@@ -20,6 +20,8 @@ export interface ConfigContextBag {
   setClockDiameter: (value?: number) => void
   timeDisplayPattern: TimeDisplayPattern
   setTimeDisplayPattern: (value: TimeDisplayPattern) => void
+  showDebugTools: boolean
+  setShowDebugTools: (showDebugTools: boolean) => void
 }
 
 export interface SerialisedConfig {
@@ -29,10 +31,11 @@ export interface SerialisedConfig {
   enableColonAnimation: boolean
   digitAnimationDuration: number
   clockDiameter?: number
+  showDebugTools: boolean
   timeDisplayPattern: TimeDisplayPattern
 }
 
 export interface ConfigContextProviderProps {
-  onResetTime?: () => void
+  onReplayLoadingAnimation?: () => void
   onSetManualTime: (time?: Date) => void
 }

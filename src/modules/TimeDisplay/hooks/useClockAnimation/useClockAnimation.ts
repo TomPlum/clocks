@@ -81,7 +81,7 @@ export const useClockAnimation = ({
 
   const easeToCurrentPattern = () => {
     const { hour, minute } = getHandAnglesForPattern(position.x, position.y, timeDisplayPattern)
-    
+
     return doAnimation({
       name: 'ease-to-pattern',
       duration: 2000,

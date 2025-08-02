@@ -21,6 +21,7 @@
     "dayjs": "^1.11.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-fps": "^1.0.6",
     "react-tiny-popover": "^8.1.6"
   },
   "devDependencies": {

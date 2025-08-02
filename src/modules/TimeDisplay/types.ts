@@ -6,7 +6,7 @@ export interface DigitClockCoordinate {
 }
 
 export interface TimeDisplayRefHandle {
-  reset: () => void
+  replayLoadingAnimation: () => void
   setManualTime: (time?: Date) => void
 }
 

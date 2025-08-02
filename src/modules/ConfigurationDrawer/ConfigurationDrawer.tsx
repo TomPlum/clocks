@@ -8,9 +8,8 @@ import { SkipTimeButtons } from './components/SkipTimeButtons'
 import {
   IconBrush,
   IconClock,
-  IconDatabase,
   IconKeyframes,
-  IconSettings
+  IconSettings, IconTerminal2
 } from '@tabler/icons-react'
 import { ColonAnimationToggle } from 'modules/ConfigurationDrawer/components/ColonAnimationToggle'
 import { ClearLocalStorageButton } from 'modules/ConfigurationDrawer/components/ClearLocalStorageButton'
@@ -21,6 +20,8 @@ import { TimeLapseDurationSelector } from 'modules/ConfigurationDrawer/component
 import { ViewGithubButton } from 'modules/ConfigurationDrawer/components/ViewGithubButton'
 import { ClockDiameterControl } from 'modules/ConfigurationDrawer/components/ClockDiameterControl'
 import { ClockPatternSelector } from 'modules/ConfigurationDrawer/components/ClockPatternSelector'
+import { DebugToolsToggle } from 'modules/ConfigurationDrawer/components/DebugToolsToggle'
+import classNames from 'classnames'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -73,11 +74,12 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         <TimeLapseDurationSelector />
       </div>
 
-      <div className={styles.Section}>
+      <div className={classNames(styles.Section, styles['Section--Condensed'])}>
         <Typography className={styles.Section__Heading}>
-          <IconDatabase size={16} /> Website Data
+          <IconTerminal2 size={16} /> Developer
         </Typography>
 
+        <DebugToolsToggle />
         <ResetToDefaultsButton />
         <ClearLocalStorageButton />
         <ViewGithubButton />

@@ -8,10 +8,11 @@ import { Anchor, LoadingOverlay, MantineProvider, Typography } from '@mantine/co
 import { forwardRef } from 'react'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import classNames from 'classnames'
+import { DebugTools } from 'modules/DebugTools'
 
 export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
   const { themeColours } = useThemeContext()
-  const { isHydrated } = useConfigContext()
+  const { isHydrated, showDebugTools } = useConfigContext()
 
   const [opened, { open, close }] = useDisclosure(false)
 
@@ -29,6 +30,10 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
       >
         {isHydrated && (
           <>
+            {showDebugTools && (
+              <DebugTools />
+            )}
+            
             <Typography className={styles.Container__Inspiration}>
               Inspired by 'A million times' by
 

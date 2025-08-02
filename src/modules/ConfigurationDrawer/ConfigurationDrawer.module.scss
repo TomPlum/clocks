@@ -20,6 +20,10 @@
   flex-direction: column;
   gap: 20px;
 
+  &--Condensed {
+    gap: 10px;
+  }
+
   &__Heading {
     border-bottom: 1px solid;
     font-size: 0.9em;

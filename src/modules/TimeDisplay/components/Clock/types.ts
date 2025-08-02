@@ -55,8 +55,16 @@ export interface ClockAnimationConfig {
    */
   animationSpeed?: number
 
+  /**
+   * Sets the time, in milliseconds, that
+   * the clocks will animate for.
+   */
   animationDuration?: number
 
+  /**
+   * When true, doesn't notify other components
+   * that the animation has started or finished.
+   */
   dontNotify?: boolean
 }
 
@@ -81,6 +89,17 @@ export interface ClockRefHandler {
 }
 
 export interface ClockPositon {
+  /**
+   * A zero-based x-ordinate in the
+   * {@link TimeDisplay} in which a
+   * clock resides.
+   */
   x: number
+
+  /**
+   * A zero-based y-ordinate in the
+   * {@link TimeDisplay} in which a
+   * clock resides.
+   */
   y: number
 }
