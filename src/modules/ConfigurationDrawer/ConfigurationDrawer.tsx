@@ -18,6 +18,7 @@ import { AnimationSelector } from 'modules/ConfigurationDrawer/components/Animat
 import { ResetToDefaultsButton } from 'modules/ConfigurationDrawer/components/ResetToDefaultsButton'
 import { AnimationStaggerControl } from 'modules/ConfigurationDrawer/components/AnimationStaggerControl'
 import { TimeLapseDurationSelector } from 'modules/ConfigurationDrawer/components/TimeLapseDurationSelector'
+import { ViewGithubButton } from 'modules/ConfigurationDrawer/components/ViewGithubButton'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   return (
@@ -75,6 +76,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
         <ResetToDefaultsButton />
         <ClearLocalStorageButton />
+        <ViewGithubButton />
       </div>
     </Drawer>
   )
