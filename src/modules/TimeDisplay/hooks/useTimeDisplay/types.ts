@@ -11,3 +11,9 @@ export interface TimeDisplayCommand {
   action: (clock: ClockRefHandler) => void
   stagger?: boolean
 }
+
+export interface InitialiseClockProps {
+  id: string
+  isDigit: boolean
+  isColon: boolean
+}

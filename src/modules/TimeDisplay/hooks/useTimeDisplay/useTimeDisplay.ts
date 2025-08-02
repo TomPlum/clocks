@@ -1,5 +1,5 @@
-import { createRef, useCallback, useRef } from 'react'
-import type { TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
+import { createRef, useCallback, useEffect, useRef } from 'react'
+import type { InitialiseClockProps, TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useAnimationContext } from 'context/AnimationContext'
 import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
@@ -7,13 +7,19 @@ import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisp
 export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
 
-  const { setInitialAnimating } = useAnimationContext()
-  const { loadingAnimation, manualTime, animationStagger } = useConfigContext()
+  const digitClocks = useRef(new Map<string, boolean>())
+  const colonClocks = useRef(new Map<string, boolean>())
 
-  const initialiseClock = (id: string) => {
+  const { setInitialAnimating } = useAnimationContext()
+  const { loadingAnimation, manualTime, animationStagger, timeDisplayPattern } = useConfigContext()
+
+  const initialiseClock = ({ id, isDigit, isColon }: InitialiseClockProps) => {
     if (!clocks.current.has(id)) {
       clocks.current.set(id, createRef<ClockRefHandler>())
     }
+
+    digitClocks.current.set(id, isDigit)
+    colonClocks.current.set(id, isColon)
 
     return clocks.current.get(id)!
   }
@@ -34,6 +40,32 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     } else {
       clocks.current.forEach((ref) => {
         if (ref.current) {
+          action(ref.current)
+        }
+      })
+    }
+  }, [animationStagger])
+
+  const commandNonDigitClocks = useCallback(({ action, stagger }: TimeDisplayCommand) => {
+    const isNonDigitClock = (id: string) => {
+      return !digitClocks.current.get(id) && !colonClocks.current.get(id)
+    }
+
+    if (stagger) {
+      let animationOffset = 0
+
+      clocks.current.forEach((ref, id) => {
+        setTimeout(() => {
+          if (isNonDigitClock(id) && ref.current) {
+            action(ref.current)
+          }
+        }, animationOffset)
+
+        animationOffset += animationStagger
+      })
+    } else {
+      clocks.current.forEach((ref, id) => {
+        if (isNonDigitClock(id) && ref.current) {
           action(ref.current)
         }
       })
@@ -75,6 +107,14 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
       cleanUpEaseAnimation?.()
     }
   }, [commandAllClocks, currentTime, loadingAnimation, manualTime, setInitialAnimating])
+
+  useEffect(() => {
+    commandNonDigitClocks({
+      action: clock => {
+        clock.easeToCurrentPattern()
+      }
+    })
+  }, [commandNonDigitClocks, timeDisplayPattern])
 
   return {
     runLoadingAnimation,

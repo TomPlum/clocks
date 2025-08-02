@@ -77,6 +77,7 @@ export type RunAnimationConfig = ClockAnimationConfig & ClockEventHandler & Post
 export interface ClockRefHandler {
   runAnimation: (animation: ClockAnimation, config?: RunAnimationConfig) => AnimationCleanupFunction
   easeToTime: (time: Date, config?: RunAnimationConfig) => AnimationCleanupFunction
+  easeToCurrentPattern: () => AnimationCleanupFunction
 }
 
 export interface ClockPositon {

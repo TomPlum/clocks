@@ -1,7 +1,7 @@
 import { Clock } from 'modules/TimeDisplay/components/Clock'
 import styles from './TimeDisplay.module.scss'
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { getHandDirections, iterateTimes, totalHeight, totalWidth } from './utils'
+import { getClockMetadata, iterateTimes, totalHeight, totalWidth } from './utils'
 import { type TimeDisplayRefHandle } from './types'
 import { useAnimationContext } from 'context/AnimationContext'
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
@@ -54,13 +54,17 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
       {iterateTimes(totalWidth).flatMap((x: number) => (
         <div className={styles.TimeDisplay__Column} key={`row-${x}`}>
           {iterateTimes(totalHeight).map((y: number) => {
-            const clockId = `(${x},${y})`
-            const clockRef = initialiseClock(clockId)
-
-            const { digit, isColon } = getHandDirections({
+            const { digit, isColon } = getClockMetadata({
               time: manualTime.current ?? currentTime,
               x,
               y
+            })
+
+            const clockId = `(${x},${y})`
+            const clockRef = initialiseClock({
+              id: clockId,
+              isDigit: Boolean(digit),
+              isColon
             })
 
             return (

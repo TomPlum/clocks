@@ -1,4 +1,4 @@
-import { digitSegments } from './types'
+import { digitSegments, type TimeDisplayPattern } from './types'
 
 const digitHeight = 6
 const padding = 2
@@ -81,7 +81,7 @@ const timeCoordinates = (time: Date) => {
   return positionToDirections
 }
 
-const getAngleForCircularEffect = (x: number, y: number) => {
+const getAngleForCircularPattern = (x: number, y: number) => {
   const getAngleToTarget = (fromX: number, fromY: number, toX: number, toY: number): number => {
     const dx = toX - fromX
     const dy = toY - fromY
@@ -122,27 +122,69 @@ const getAngleForCircularEffect = (x: number, y: number) => {
   }
 }
 
+const getAngleForPointToCenterPattern = (x: number, y: number) => {
+  const xCenter = (totalWidth - 1) / 2
+  const yCenter = (totalHeight - 1) / 2
+
+  const fromX = x + 0.5
+  const fromY = y + 0.5
+
+  const dx = xCenter - fromX
+  const dy = yCenter - fromY
+
+  const radians = Math.atan2(dy, dx)
+  const degrees = (radians * 180) / Math.PI
+
+  // Adjust to match CSS rotate (0° = up, clockwise).
+  const clockAngle = (degrees + 90 + 360) % 360
+
+  return {
+    hour: clockAngle,
+    minute: clockAngle
+  }
+}
+
+export const getHandAnglesForPattern = (x: number, y: number, pattern: TimeDisplayPattern) => {
+  switch (pattern) {
+    case 'circular': {
+      return getAngleForCircularPattern(x, y)
+    }
+    case 'point-towards-middle': {
+      return getAngleForPointToCenterPattern(x, y)
+    }
+  }
+}
+
 export interface HandDirections {
   hour: number
   minute: number
+}
+
+export interface ClockMetadata {
   digit?: number
-  isColon?: boolean
+  isColon: boolean
 }
 
 export interface GetHandDirectionsProps {
   time: Date
   x: number
   y: number
+  pattern: TimeDisplayPattern
 }
 
-export const getHandDirections = ({ time, x, y }: GetHandDirectionsProps): HandDirections => {
+export interface GetClockMetadataProps {
+  time: Date
+  x: number
+  y: number
+}
+
+export const getHandDirections = ({ time, x, y, pattern }: GetHandDirectionsProps): HandDirections => {
   const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
 
   if (digitHandDirections) {
     return {
       hour: digitHandDirections[0],
-      minute: digitHandDirections[1],
-      digit: digitHandDirections[2]
+      minute: digitHandDirections[1]
     }
   }
 
@@ -153,14 +195,40 @@ export const getHandDirections = ({ time, x, y }: GetHandDirectionsProps): HandD
   if (colonHandDirections) {
     return {
       hour: colonHandDirections.hourDirection,
-      minute: colonHandDirections.minuteDirection,
+      minute: colonHandDirections.minuteDirection
+    }
+  }
+
+  return getHandAnglesForPattern(x, y, pattern)
+}
+
+export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMetadata => {
+  const digitHandDirections = timeCoordinates(time).get(`${x},${y}`)
+
+  if (digitHandDirections) {
+    return {
+      digit: digitHandDirections[2],
+      isColon: false
+    }
+  }
+
+  const colonHandDirections = [...colonCoordinates, ...centreLineCoordinates].find(coords => {
+    return coords.x === Number(x) && coords.y === Number(y)
+  })
+
+  if (colonHandDirections) {
+    return {
+      digit: undefined,
       isColon: !!colonCoordinates.find(coords => {
         return coords.x === Number(x) && coords.y === Number(y)
       })
     }
   }
 
-  return getAngleForCircularEffect(x, y)
+  return {
+    digit: undefined,
+    isColon: false
+  }
 }
 
 export const iterateTimes = (size: number) => {
