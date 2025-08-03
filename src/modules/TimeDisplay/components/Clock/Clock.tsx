@@ -27,7 +27,7 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
     runAnimation,
     hourHandAngle,
     minuteHandleAngle,
-    easeToCurrentPattern
+    easeToPattern
   } = useClockAnimation({
     id,
     position
@@ -41,7 +41,7 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
   useImperativeHandle(ref, () => ({
     runAnimation,
     easeToTime,
-    easeToCurrentPattern
+    easeToPattern
   }))
 
   const clockStyle = useMemo<CSSProperties>(() => {

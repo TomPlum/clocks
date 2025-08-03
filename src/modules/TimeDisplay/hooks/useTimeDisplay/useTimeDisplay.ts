@@ -1,8 +1,12 @@
-import { createRef, useCallback, useEffect, useRef } from 'react'
+import { createRef, useCallback, useRef } from 'react'
 import type { InitialiseClockProps, TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useAnimationContext } from 'context/AnimationContext'
 import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
+import { iterateTimes } from 'modules/TimeDisplay/animation/iterateTimes'
+import { totalHeight, totalWidth } from 'modules/TimeDisplay/grid'
+import { getClockMetadata } from 'modules/TimeDisplay/animation/getClockMetadata'
 
 export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
@@ -10,8 +14,8 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const digitClocks = useRef(new Map<string, boolean>())
   const colonClocks = useRef(new Map<string, boolean>())
 
-  const { initialAnimating, setInitialAnimating } = useAnimationContext()
-  const { loadingAnimation, manualTime, animationStagger, timeDisplayPattern } = useConfigContext()
+  const { setInitialAnimating } = useAnimationContext()
+  const { loadingAnimation, manualTime, animationStagger } = useConfigContext()
 
   const initialiseClock = ({ id, isDigit, isColon }: InitialiseClockProps) => {
     if (!clocks.current.has(id)) {
@@ -108,19 +112,38 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     }
   }, [commandAllClocks, currentTime, loadingAnimation, manualTime, setInitialAnimating])
 
-  useEffect(() => {
-    if (!initialAnimating) {
-      commandNonDigitClocks({
-        action: clock => {
-          clock.easeToCurrentPattern()
+  const easeToPattern = (pattern: TimeDisplayPattern) => {
+    commandNonDigitClocks({
+      action: clock => {
+        clock.easeToPattern(pattern)
+      }
+    })
+  }
+
+  const resetDigitClocks = (time: Date) => {
+    digitClocks.current = new Map()
+
+    iterateTimes(totalWidth).flatMap(x => {
+      return iterateTimes(totalHeight).map(y => {
+        const { digit } = getClockMetadata({ x, y, time })
+
+        return {
+          isDigit: digit !== undefined,
+          id: `(${x},${y})`
         }
       })
-    }
-  }, [commandNonDigitClocks, initialAnimating, timeDisplayPattern])
+    }).forEach(({ id, isDigit }) => {
+      if (isDigit) {
+        digitClocks.current.set(id, true)
+      }
+    })
+  }
 
   return {
     runLoadingAnimation,
     initialiseClock,
-    easeToTime
+    easeToTime,
+    easeToPattern,
+    resetDigitClocks
   }
 }

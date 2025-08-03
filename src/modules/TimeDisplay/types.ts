@@ -8,6 +8,7 @@ export interface DigitClockCoordinate {
 export interface TimeDisplayRefHandle {
   replayLoadingAnimation: () => void
   setManualTime: (time?: Date) => void
+  changePattern: (pattern: TimeDisplayPattern) => void
 }
 
 export type TimeDisplayPattern = 'circular' | 'point-towards-middle'

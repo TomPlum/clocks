@@ -15,7 +15,12 @@ const defaultConfigValues: SerialisedConfig = {
   showDebugTools: false
 }
 
-export const ConfigContextProvider = ({ onReplayLoadingAnimation, onSetManualTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
+export const ConfigContextProvider = ({
+  onReplayLoadingAnimation,
+  onChangeDisplayPattern,
+  onSetManualTime,
+  children
+}: PropsWithChildren<ConfigContextProviderProps>) => {
   const [storedValue, setStoredValue, clearStoredValue] = useLocalStorage<SerialisedConfig>({
     key: 'tomplum.github.io/clocks-config',
     defaultValue: defaultConfigValues
@@ -83,6 +88,7 @@ export const ConfigContextProvider = ({ onReplayLoadingAnimation, onSetManualTim
     },
     timeDisplayPattern: storedValue.timeDisplayPattern,
     setTimeDisplayPattern: (value: TimeDisplayPattern) => {
+      onChangeDisplayPattern(value)
       setStoredValue({
         ...storedValue,
         timeDisplayPattern: value
@@ -95,7 +101,7 @@ export const ConfigContextProvider = ({ onReplayLoadingAnimation, onSetManualTim
         showDebugTools
       })
     }
-  }), [clearStoredValue, isHydrated, onReplayLoadingAnimation, onSetManualTime, setStoredValue, setTheme, storedValue])
+  }), [clearStoredValue, isHydrated, onChangeDisplayPattern, onReplayLoadingAnimation, onSetManualTime, setStoredValue, setTheme, storedValue])
 
   return (
     <ConfigContext.Provider value={value}>

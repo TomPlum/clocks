@@ -1,7 +1,7 @@
 import { ThemeContextProvider } from 'context/ThemeContext'
 import { Layout } from 'components/Layout'
 import { ConfigContextProvider } from 'context/ConfigContext/ConfigContextProvider'
-import { type TimeDisplayRefHandle } from 'modules/TimeDisplay'
+import { type TimeDisplayPattern, type TimeDisplayRefHandle } from 'modules/TimeDisplay'
 import { useRef } from 'react'
 import { AnimationContextProvider } from 'context/AnimationContext'
 
@@ -16,9 +16,14 @@ const ClocksApplication = () => {
     timeDisplayRef.current?.setManualTime(time)
   }
 
+  const handleChangeDisplayPattern = (pattern: TimeDisplayPattern) => {
+    timeDisplayRef.current?.changePattern(pattern)
+  }
+
   return (
     <ThemeContextProvider>
       <ConfigContextProvider
+        onChangeDisplayPattern={handleChangeDisplayPattern}
         onReplayLoadingAnimation={replayLoadingAnimation}
         onSetManualTime={handleSetManualTime}
       >

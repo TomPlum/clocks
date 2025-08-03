@@ -1,4 +1,5 @@
 import type { ClockThemeColours } from 'context/ThemeContext'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 /**
  * Props for a single clock cell in the digit display.
@@ -85,7 +86,7 @@ export type RunAnimationConfig = ClockAnimationConfig & ClockEventHandler & Post
 export interface ClockRefHandler {
   runAnimation: (animation: ClockAnimation, config?: RunAnimationConfig) => AnimationCleanupFunction
   easeToTime: (time: Date, config?: RunAnimationConfig) => AnimationCleanupFunction
-  easeToCurrentPattern: () => AnimationCleanupFunction
+  easeToPattern: (pattern: TimeDisplayPattern) => AnimationCleanupFunction
 }
 
 export interface ClockPositon {

@@ -38,4 +38,5 @@ export interface SerialisedConfig {
 export interface ConfigContextProviderProps {
   onReplayLoadingAnimation?: () => void
   onSetManualTime: (time?: Date) => void
+  onChangeDisplayPattern: (pattern: TimeDisplayPattern) => void
 }

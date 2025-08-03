@@ -8,6 +8,7 @@ import { interpolateAngle } from 'utility/interpolateAngle'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { getHandAnglesForPattern } from 'modules/TimeDisplay/animation/displayPatternFactory'
 import { getHandDirections } from 'modules/TimeDisplay/animation/getHandDirections'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 export const useClockAnimation = ({
   id,
@@ -79,8 +80,8 @@ export const useClockAnimation = ({
     })
   }
 
-  const easeToCurrentPattern = () => {
-    const { hour, minute } = getHandAnglesForPattern(position.x, position.y, timeDisplayPattern)
+  const easeToPattern = (pattern: TimeDisplayPattern) => {
+    const { hour, minute } = getHandAnglesForPattern(position.x, position.y, pattern)
 
     return doAnimation({
       name: 'ease-to-pattern',
@@ -180,6 +181,6 @@ export const useClockAnimation = ({
     minuteHandleAngle,
     runAnimation,
     easeToTime,
-    easeToCurrentPattern
+    easeToPattern
   }
 }
