@@ -16,4 +16,5 @@ export interface InitialiseClockProps {
   id: string
   isDigit: boolean
   isColon: boolean
+  isCenterLine: boolean
 }

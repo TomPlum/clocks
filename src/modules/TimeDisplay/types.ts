@@ -21,6 +21,7 @@ export interface HandDirections {
 export interface ClockMetadata {
   digit?: number
   isColon: boolean
+  isColonCenterLine: boolean
 }
 
 export interface GetHandDirectionsProps {

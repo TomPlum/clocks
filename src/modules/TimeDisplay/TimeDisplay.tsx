@@ -62,7 +62,7 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
           {iterateTimes(totalHeight).map((y: number) => {
             const clockId = `(${x},${y})`
 
-            const { digit, isColon } = getClockMetadata({
+            const { digit, isColon, isColonCenterLine } = getClockMetadata({
               time: manualTime.current ?? currentTime,
               x,
               y
@@ -70,6 +70,7 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
 
             const clockRef = initialiseClock({
               id: clockId,
+              isCenterLine: isColonCenterLine,
               isDigit: Boolean(digit),
               isColon
             })

@@ -39,7 +39,7 @@ export interface ClockProps {
   styles?: ClockThemeColours
 }
 
-export type ClockAnimation = 'ease-to-time' | 'random' | 'clockwise-rotation'
+export type ClockAnimation = 'ease-to-time' | 'random' | 'clockwise-rotation' | 'ease-to-pattern'
 
 export interface ClockAnimationConfig {
   hourHandStartingAngle?: number
@@ -69,7 +69,7 @@ export interface ClockAnimationConfig {
   dontNotify?: boolean
 }
 
-export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time'>
+export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time' | 'ease-to-pattern'>
 
 export type AnimationCleanupFunction = (() => void) | undefined
 

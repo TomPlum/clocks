@@ -8,7 +8,8 @@ export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMe
   if (digitHandDirections) {
     return {
       digit: digitHandDirections[2],
-      isColon: false
+      isColon: false,
+      isColonCenterLine: false
     }
   }
 
@@ -19,6 +20,9 @@ export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMe
   if (colonHandDirections) {
     return {
       digit: undefined,
+      isColonCenterLine: !!centreLineCoordinates.find(coords => {
+        return coords.x === Number(x) && coords.y === Number(y)
+      }),
       isColon: !!colonCoordinates.find(coords => {
         return coords.x === Number(x) && coords.y === Number(y)
       })
@@ -27,6 +31,7 @@ export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMe
 
   return {
     digit: undefined,
-    isColon: false
+    isColon: false,
+    isColonCenterLine: false
   }
 }

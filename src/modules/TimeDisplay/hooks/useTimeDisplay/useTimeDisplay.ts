@@ -17,13 +17,13 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const { setInitialAnimating } = useAnimationContext()
   const { loadingAnimation, manualTime, animationStagger } = useConfigContext()
 
-  const initialiseClock = ({ id, isDigit, isColon }: InitialiseClockProps) => {
+  const initialiseClock = ({ id, isDigit, isColon, isCenterLine }: InitialiseClockProps) => {
     if (!clocks.current.has(id)) {
       clocks.current.set(id, createRef<ClockRefHandler>())
     }
 
     digitClocks.current.set(id, isDigit)
-    colonClocks.current.set(id, isColon)
+    colonClocks.current.set(id, isColon || isCenterLine)
 
     return clocks.current.get(id)!
   }
