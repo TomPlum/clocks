@@ -12,12 +12,10 @@ import {
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useFps } from 'react-fps'
-import { useThemeContext } from 'context/ThemeContext'
 
 export const DebugTools = () => {
   const { currentTime } = useCurrentTime()
-  const { viewportSize } = useThemeContext()
-  const { currentFps, avgFps, maxFps } = useFps(viewportSize.width)
+  const { currentFps, avgFps, maxFps } = useFps(20)
   const { enableColonAnimation } = useConfigContext()
   const { animating, initialAnimating, currentAnimation } = useAnimationContext()
 
@@ -63,7 +61,7 @@ export const DebugTools = () => {
           current animation:
         </Text>
 
-        <Text c={currentAnimation ? 'blue' : 'gray'} size='sm'>
+        <Text c={currentAnimation ? 'yellow' : 'gray'} size='sm'>
           {currentAnimation ?? 'none'}
         </Text>
       </div>
@@ -71,7 +69,6 @@ export const DebugTools = () => {
       <div className={styles.Container__Section}>
         <IconBrandFlickr
           size={16}
-          style={{ transform: 'rotate(90deg)' }}
         />
 
         <Text size='sm'>
