@@ -1,0 +1,85 @@
+{
+  "inspired-by-title": {
+    "start": "『A million times』に着想を得て",
+    "name": "(Humans Since 1982)"
+  },
+  "configuration-drawer": {
+    "title": "設定",
+    "sections": {
+      "theming": {
+        "title": "テーマ設定",
+        "theme-selector": {
+          "label": "テーマ",
+          "themes": {
+            "dark": "ダークテーマ",
+            "light": "ライトテーマ",
+            "matrix": "マトリックス テーマ"
+          }
+        },
+        "pattern-selector": {
+          "label": "非数字時計のパターン",
+          "patterns": {
+            "circular": "円形",
+            "point-towards-middle": "中心を指す"
+          }
+        },
+        "clock-diameter-selector": {
+          "label": "時計の直径（ピクセル）",
+          "dynamic": "ダイナミック"
+        }
+      },
+      "manual-time-selection": {
+        "title": "手動時間選択"
+      },
+      "animations": {
+        "title": "アニメーション",
+        "replay-loading-animation-button": {
+          "label": "読み込みアニメーションを再生"
+        },
+        "loading-animation-selector": {
+          "label": "読み込みアニメーション",
+          "animations": {
+            "random": "ランダム",
+            "clockwise-rotation": "時計回りの回転"
+          }
+        },
+        "colon-flashing-animation-toggle": {
+          "label": "コロンの点滅アニメーションを有効にする"
+        },
+        "animation-stagger-selector": {
+          "label": "アニメーションの遅延（ミリ秒）",
+          "off": "オフ"
+        },
+        "digit-animation-duration-selector": {
+          "label": "数字アニメーションの時間（秒）",
+          "none": "なし"
+        }
+      },
+      "developer": {
+        "title": "開発者向け",
+        "debug-tools-button": {
+          "show": "デバッグツールを表示",
+          "hide": "デバッグツールを非表示"
+        },
+        "reset-to-defaults-button": {
+          "label": "設定を初期化"
+        },
+        "clear-local-storage-button": {
+          "label": "ローカルストレージを削除"
+        },
+        "view-source-button": {
+          "label": "GitHubでソースを表示"
+        }
+      }
+    }
+  },
+  "debug-info": {
+    "animating": "アニメーション化",
+    "initial-animating": "初期アニメーション",
+    "current-animation": "現在のアニメーション",
+    "animating-colons": "コロンをアニメーション化する",
+    "frame-rate": "フレームレート",
+    "frame-rate-avg": "平均",
+    "frame-rate-max": "最大"
+  }
+}

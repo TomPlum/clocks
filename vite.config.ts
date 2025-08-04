@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => ({
       fonts: resolve(__dirname, '/src/fonts'),
       modules: resolve(__dirname, '/src/modules'),
       types: resolve(__dirname, '/src/types'),
+      locales: resolve(__dirname, '/src/locales'),
       utility: resolve(__dirname, '/src/utility')
     }
   },

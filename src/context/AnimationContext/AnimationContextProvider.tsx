@@ -26,12 +26,13 @@ export const AnimationContextProvider = ({ children }: PropsWithChildren) => {
   }, [currentAnimation, initialAnimating, loadingAnimation])
 
   const value = useMemo<AnimationContextBag>(() => ({
+    currentAnimation,
     animating: animating || initialAnimating,
     setCurrentAnimation,
     initialAnimating,
     setInitialAnimating,
     currentAnimationConfig
-  }), [animating, currentAnimationConfig, initialAnimating])
+  }), [animating, currentAnimationConfig, initialAnimating, currentAnimation])
 
   return (
     <AnimationContext.Provider value={value}>

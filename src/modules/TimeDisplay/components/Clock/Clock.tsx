@@ -6,6 +6,7 @@ import { type ClockThemeColours, useThemeContext } from 'context/ThemeContext'
 import { useClockAnimation } from 'modules/TimeDisplay/hooks/useClockAnimation'
 import { useAnimationContext } from 'context/AnimationContext'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import { useClockDiameter } from 'modules/TimeDisplay/hooks/useClockDiameter'
 
 export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
   id,
@@ -16,6 +17,7 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
   className,
   styles: styleOverrides
 }: ClockProps, ref) => {
+  const clockDiameter = useClockDiameter()
   const { initialAnimating } = useAnimationContext()
   const { enableColonAnimation } = useConfigContext()
   const { themeColours: currentThemeColours } = useThemeContext()
@@ -24,8 +26,12 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
     easeToTime,
     runAnimation,
     hourHandAngle,
-    minuteHandleAngle
-  } = useClockAnimation({ position })
+    minuteHandleAngle,
+    easeToPattern
+  } = useClockAnimation({
+    id,
+    position
+  })
 
   const themeColours = useMemo<ClockThemeColours>(() => ({
     ...(digit !== undefined ? currentThemeColours.digitClock : currentThemeColours.borderClocks),
@@ -34,20 +40,22 @@ export const Clock = forwardRef<ClockRefHandler, ClockProps>(({
 
   useImperativeHandle(ref, () => ({
     runAnimation,
-    easeToTime
+    easeToTime,
+    easeToPattern
   }))
 
   const clockStyle = useMemo<CSSProperties>(() => {
     return {
       borderColor: themeColours.borderColour,
       backgroundColor: themeColours.backgroundColour,
-      '--clock-diameter': `${size ?? 40}px`,
+      '--clock-diameter': `${size ?? clockDiameter}px`,
+      '--hand-width': `${Math.round(clockDiameter * 0.045)}px`,
       '--shadow-colour-outer': themeColours.outerShadowColour,
       '--shadow-colour-inner': themeColours.innerShadowColour,
       '--colon-pulse-start-colour': themeColours.handPulseStartColour,
       '--colon-pulse-end-colour': themeColours.handPulseEndColour
     } as CSSProperties
-  }, [size, themeColours.backgroundColour, themeColours.borderColour, themeColours.handPulseEndColour, themeColours.handPulseStartColour, themeColours.innerShadowColour, themeColours.outerShadowColour])
+  }, [clockDiameter, size, themeColours.backgroundColour, themeColours.borderColour, themeColours.handPulseEndColour, themeColours.handPulseStartColour, themeColours.innerShadowColour, themeColours.outerShadowColour])
 
   const enablePulseAnimation = enableColonAnimation && colon && !initialAnimating
 

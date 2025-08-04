@@ -1,4 +1,5 @@
 import type { ClockThemeColours } from 'context/ThemeContext'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 /**
  * Props for a single clock cell in the digit display.
@@ -38,7 +39,7 @@ export interface ClockProps {
   styles?: ClockThemeColours
 }
 
-export type ClockAnimation = 'ease-to-time' | 'random' | 'clockwise-rotation'
+export type ClockAnimation = 'ease-to-time' | 'random' | 'clockwise-rotation' | 'ease-to-pattern'
 
 export interface ClockAnimationConfig {
   hourHandStartingAngle?: number
@@ -55,17 +56,25 @@ export interface ClockAnimationConfig {
    */
   animationSpeed?: number
 
+  /**
+   * Sets the time, in milliseconds, that
+   * the clocks will animate for.
+   */
   animationDuration?: number
 
+  /**
+   * When true, doesn't notify other components
+   * that the animation has started or finished.
+   */
   dontNotify?: boolean
 }
 
-export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time'>
+export type ClockLoadingAnimation = Exclude<ClockAnimation, 'ease-to-time' | 'ease-to-pattern'>
 
 export type AnimationCleanupFunction = (() => void) | undefined
 
 export interface ClockEventHandler {
-  onComplete?: () => void
+  onComplete?: (clockId: string) => void
 }
 
 export interface PostAnimationInfo {
@@ -77,9 +86,21 @@ export type RunAnimationConfig = ClockAnimationConfig & ClockEventHandler & Post
 export interface ClockRefHandler {
   runAnimation: (animation: ClockAnimation, config?: RunAnimationConfig) => AnimationCleanupFunction
   easeToTime: (time: Date, config?: RunAnimationConfig) => AnimationCleanupFunction
+  easeToPattern: (pattern: TimeDisplayPattern) => AnimationCleanupFunction
 }
 
 export interface ClockPositon {
+  /**
+   * A zero-based x-ordinate in the
+   * {@link TimeDisplay} in which a
+   * clock resides.
+   */
   x: number
+
+  /**
+   * A zero-based y-ordinate in the
+   * {@link TimeDisplay} in which a
+   * clock resides.
+   */
   y: number
 }

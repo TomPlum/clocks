@@ -21,6 +21,7 @@ vi.mock('context/ConfigContext/useConfigContext', () => ({
 
 vi.mock('context/ThemeContext', () => ({
   useThemeContext: () => ({
+    viewportSize: { width: 1920 },
     themeColours: {
       digitClock: {
         borderColour: 'blue',

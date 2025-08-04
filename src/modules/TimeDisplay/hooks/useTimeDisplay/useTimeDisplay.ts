@@ -1,24 +1,34 @@
 import { createRef, useCallback, useRef } from 'react'
-import type { TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
+import type { InitialiseClockProps, TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useAnimationContext } from 'context/AnimationContext'
 import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
+import { iterateTimes } from 'modules/TimeDisplay/animation/iterateTimes'
+import { totalHeight, totalWidth } from 'modules/TimeDisplay/grid'
+import { getClockMetadata } from 'modules/TimeDisplay/animation/getClockMetadata'
 
 export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
 
+  const digitClocks = useRef(new Map<string, boolean>())
+  const colonClocks = useRef(new Map<string, boolean>())
+
   const { setInitialAnimating } = useAnimationContext()
   const { loadingAnimation, manualTime, animationStagger } = useConfigContext()
 
-  const initialiseClock = (id: string) => {
+  const initialiseClock = ({ id, isDigit, isColon, isCenterLine }: InitialiseClockProps) => {
     if (!clocks.current.has(id)) {
       clocks.current.set(id, createRef<ClockRefHandler>())
     }
 
+    digitClocks.current.set(id, isDigit)
+    colonClocks.current.set(id, isColon || isCenterLine)
+
     return clocks.current.get(id)!
   }
 
-  const commandAllClocks = ({ action, stagger }: TimeDisplayCommand) => {
+  const commandAllClocks = useCallback(({ action, stagger }: TimeDisplayCommand) => {
     if (stagger) {
       let animationOffset = 0
 
@@ -38,7 +48,33 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
         }
       })
     }
-  }
+  }, [animationStagger])
+
+  const commandNonDigitClocks = useCallback(({ action, stagger }: TimeDisplayCommand) => {
+    const isNonDigitClock = (id: string) => {
+      return !digitClocks.current.get(id) && !colonClocks.current.get(id)
+    }
+
+    if (stagger) {
+      let animationOffset = 0
+
+      clocks.current.forEach((ref, id) => {
+        setTimeout(() => {
+          if (isNonDigitClock(id) && ref.current) {
+            action(ref.current)
+          }
+        }, animationOffset)
+
+        animationOffset += animationStagger
+      })
+    } else {
+      clocks.current.forEach((ref, id) => {
+        if (isNonDigitClock(id) && ref.current) {
+          action(ref.current)
+        }
+      })
+    }
+  }, [animationStagger])
 
   const easeToTime = (time: Date) => {
     commandAllClocks({
@@ -52,8 +88,12 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     let cleanUpLoadingAnimation: AnimationCleanupFunction
     let cleanUpEaseAnimation: AnimationCleanupFunction
 
-    const notifyLoadingComplete = () => {
-      setInitialAnimating(false)
+    const notifyLoadingComplete = (clockId: string) => {
+      const finalClockIdentifier = '(25,9)'
+
+      if (clockId === finalClockIdentifier) {
+        setInitialAnimating(false)
+      }
     }
 
     commandAllClocks({
@@ -70,11 +110,40 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
       cleanUpLoadingAnimation?.()
       cleanUpEaseAnimation?.()
     }
-  }, [currentTime, loadingAnimation, manualTime, setInitialAnimating])
+  }, [commandAllClocks, currentTime, loadingAnimation, manualTime, setInitialAnimating])
+
+  const easeToPattern = (pattern: TimeDisplayPattern) => {
+    commandNonDigitClocks({
+      action: clock => {
+        clock.easeToPattern(pattern)
+      }
+    })
+  }
+
+  const resetDigitClocks = (time: Date) => {
+    digitClocks.current = new Map()
+
+    iterateTimes(totalWidth).flatMap(x => {
+      return iterateTimes(totalHeight).map(y => {
+        const { digit } = getClockMetadata({ x, y, time })
+
+        return {
+          isDigit: digit !== undefined,
+          id: `(${x},${y})`
+        }
+      })
+    }).forEach(({ id, isDigit }) => {
+      if (isDigit) {
+        digitClocks.current.set(id, true)
+      }
+    })
+  }
 
   return {
     runLoadingAnimation,
     initialiseClock,
-    easeToTime
+    easeToTime,
+    easeToPattern,
+    resetDigitClocks
   }
 }

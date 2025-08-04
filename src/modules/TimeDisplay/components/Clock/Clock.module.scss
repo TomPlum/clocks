@@ -19,6 +19,7 @@
 .Clock {
   width: var(--clock-diameter);
   height: var(--clock-diameter);
+  transition: width 1s ease-in-out, height 1s ease-in-out;
   border-radius: 50%;
   position: relative;
   border-width: 2px;
@@ -27,34 +28,36 @@
           0 2px 5px var(--shadow-colour-outer),
           inset 0 0 5px var(--shadow-colour-inner);
 
-  $hand-width: calc(var(--clock-diameter) * 0.05);
+  $hand-width-ratio: 0.05;
+  $hour-length-ratio: 0.30;
+  $minute-length-ratio: 0.40;
 
   &__HourHand,
   &__MinuteHand {
     position: absolute;
     bottom: 50%;
-    left: calc(50% - $hand-width / 4);
+    left: 50%;
+    width: var(--hand-width);
     transform-origin: bottom center;
+    transform: translateX(-50%);
     transition: background-color ease-in-out 3s;
   }
 
   &__HourHand {
-    width: $hand-width;
-    height: calc(var(--clock-diameter) * 0.35);
+    height: calc(var(--clock-diameter) * #{$hour-length-ratio});
   }
 
   &__MinuteHand {
-    width: $hand-width;
-    height: calc(var(--clock-diameter) * 0.40);
+    height: calc(var(--clock-diameter) * #{$minute-length-ratio});
   }
 
   &__CenterDot {
     position: absolute;
     top: 50%;
-    left: calc(50% + 1px);
+    left: 50%;
     $dot-size-ratio: 0.1;
-    width: calc(var(--clock-diameter) * $dot-size-ratio);
-    height: calc(var(--clock-diameter) * $dot-size-ratio);
+    width: calc(var(--clock-diameter) * #{$dot-size-ratio});
+    height: calc(var(--clock-diameter) * #{$dot-size-ratio});
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: background-color ease-in-out 3s;

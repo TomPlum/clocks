@@ -15,6 +15,7 @@
       "hooks/*": ["src/hooks/*"],
       "types/*": ["src/types/*"],
       "modules/*": ["src/modules/*"],
+      "locales/*": ["src/locales/*"],
       "fonts/*": ["src/fonts/*"],
       "utility/*": ["src/utility/*"]
     },

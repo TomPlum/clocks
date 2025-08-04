@@ -2,9 +2,16 @@ import { Clock, type ClockRefHandler } from 'modules/TimeDisplay/components/Cloc
 import type { ThemePreviewProps } from './types'
 import styles from './ThemePreview.module.scss'
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
   const ref = useRef<ClockRefHandler>(null)
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'configuration-drawer.sections.theming.theme-selector'
+  })
+
+  const themeName = t(`themes.${theme}`)
 
   useEffect(() => {
     if (ref.current) {
@@ -18,7 +25,7 @@ export const ThemePreview = ({ theme, themeColours }: ThemePreviewProps) => {
   return (
     <div className={styles.Preview}>
       <p className={styles.Preview__ThemeName}>
-        {theme[0].toUpperCase() + theme.slice(1)}
+        {themeName[0].toUpperCase() + themeName.slice(1)}
       </p>
 
       <Clock

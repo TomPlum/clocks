@@ -7,5 +7,9 @@ export const ThemeContext = createContext<ThemeContextBag>({
   themeColours: getThemeColours('dark'),
   setTheme: (theme: Theme) => {
     console.debug(`Tried to call setTheme(${theme}) before the ThemeContext was initialised.`)
+  },
+  viewportSize: {
+    width: 1920,
+    height: 1080
   }
 })

@@ -7,10 +7,15 @@ import { ConfigurationDrawer } from 'modules/ConfigurationDrawer'
 import { Anchor, LoadingOverlay, MantineProvider, Typography } from '@mantine/core'
 import { forwardRef } from 'react'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import classNames from 'classnames'
+import { DebugTools } from 'modules/DebugTools'
+import { useTranslation } from 'react-i18next'
 
 export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
   const { themeColours } = useThemeContext()
-  const { isHydrated } = useConfigContext()
+  const { isHydrated, showDebugTools } = useConfigContext()
+
+  const { t } = useTranslation('translation')
 
   const [opened, { open, close }] = useDisclosure(false)
 
@@ -20,13 +25,20 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
       forceColorScheme={themeColours.mantineColourScheme}
     >
       <div
-        className={styles.Container}
+        className={classNames(
+          styles.Container,
+          { [styles.DrawerOffset]: opened }
+        )}
         style={{ backgroundColor: themeColours.backgroundColour }}
       >
         {isHydrated && (
           <>
+            {showDebugTools && (
+              <DebugTools />
+            )}
+            
             <Typography className={styles.Container__Inspiration}>
-              Inspired by 'A million times' by
+              {t('inspired-by-title.start')}
 
               <Anchor
                 c='yellow'
@@ -35,7 +47,7 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
                 className={styles.Link}
                 href='https://www.humanssince1982.com/en-uk/pages/studio-story'
               >
-                Humans Since 1982
+                {t('inspired-by-title.name')}
               </Anchor>
               .
             </Typography>

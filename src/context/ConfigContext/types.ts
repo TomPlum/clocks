@@ -1,4 +1,5 @@
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 export interface ConfigContextBag {
   isHydrated: boolean
@@ -13,6 +14,14 @@ export interface ConfigContextBag {
   resetToDefaults: () => void
   animationStagger: number
   setAnimationStagger: (value: number) => void
+  digitAnimationDuration: number
+  setDigitAnimationDuration: (value: number) => void
+  clockDiameter?: number
+  setClockDiameter: (value?: number) => void
+  timeDisplayPattern: TimeDisplayPattern
+  setTimeDisplayPattern: (value: TimeDisplayPattern) => void
+  showDebugTools: boolean
+  setShowDebugTools: (showDebugTools: boolean) => void
 }
 
 export interface SerialisedConfig {
@@ -20,9 +29,15 @@ export interface SerialisedConfig {
   animationStagger: number
   loadingAnimation: ClockLoadingAnimation
   enableColonAnimation: boolean
+  digitAnimationDuration: number
+  clockDiameter?: number
+  showDebugTools: boolean
+  timeDisplayPattern: TimeDisplayPattern
+  language: string
 }
 
 export interface ConfigContextProviderProps {
-  onResetTime?: () => void
+  onReplayLoadingAnimation?: () => void
   onSetManualTime: (time?: Date) => void
+  onChangeDisplayPattern: (pattern: TimeDisplayPattern) => void
 }

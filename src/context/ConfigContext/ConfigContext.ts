@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 import type { ConfigContextBag } from './types'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 export const ConfigContext = createContext<ConfigContextBag>({
   isHydrated: false,
@@ -27,5 +28,20 @@ export const ConfigContext = createContext<ConfigContextBag>({
   animationStagger: 10,
   setAnimationStagger: (animationStagger: number) => {
     console.error(`Tried to call setAnimationStagger(${animationStagger}) before the ConfigContext was initialised.`)
+  },
+  digitAnimationDuration: 3000,
+  setDigitAnimationDuration: (duration: number) => {
+    console.error(`Tried to call setDigitAnimationDuration(${duration}) before the ConfigContext was initialised.`)
+  },
+  setClockDiameter: (value?: number) => {
+    console.error(`Tried to call setClockDiameter(${value}) before the ConfigContext was initialised.`)
+  },
+  timeDisplayPattern: 'circular',
+  setTimeDisplayPattern: (value: TimeDisplayPattern) => {
+    console.error(`Tried to call setTimeDisplayPattern(${value}) before the ConfigContext was initialised.`)
+  },
+  showDebugTools: false,
+  setShowDebugTools: (showDebugTools: boolean) => {
+    console.error(`Tried to call setShowDebugTools(${showDebugTools}) before the ConfigContext was initialised.`)
   }
 })

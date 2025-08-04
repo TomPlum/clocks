@@ -4,14 +4,24 @@ import { useLocalStorage } from '@mantine/hooks'
 import type { SerialisedConfig, ConfigContextBag, ConfigContextProviderProps } from './types'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 import { useThemeContext } from 'context/ThemeContext'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 const defaultConfigValues: SerialisedConfig = {
   enableColonAnimation: true,
   loadingAnimation: 'random',
-  animationStagger: 10
+  animationStagger: 10,
+  digitAnimationDuration: 3000,
+  timeDisplayPattern: 'circular',
+  showDebugTools: false,
+  language: 'en'
 }
 
-export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }: PropsWithChildren<ConfigContextProviderProps>) => {
+export const ConfigContextProvider = ({
+  onReplayLoadingAnimation,
+  onChangeDisplayPattern,
+  onSetManualTime,
+  children
+}: PropsWithChildren<ConfigContextProviderProps>) => {
   const [storedValue, setStoredValue, clearStoredValue] = useLocalStorage<SerialisedConfig>({
     key: 'tomplum.github.io/clocks-config',
     defaultValue: defaultConfigValues
@@ -43,7 +53,7 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
         enableColonAnimation: value
       })
     },
-    reloadTime: onResetTime,
+    reloadTime: onReplayLoadingAnimation,
     clearStoredConfig: clearStoredValue,
     loadingAnimation: storedValue.loadingAnimation,
     setLoadingAnimation: (animation: ClockLoadingAnimation) => {
@@ -62,8 +72,37 @@ export const ConfigContextProvider = ({ onResetTime, onSetManualTime, children }
         ...storedValue,
         animationStagger: value
       })
+    },
+    digitAnimationDuration: storedValue.digitAnimationDuration,
+    setDigitAnimationDuration: (value: number) => {
+      setStoredValue({
+        ...storedValue,
+        digitAnimationDuration: value
+      })
+    },
+    clockDiameter: storedValue.clockDiameter,
+    setClockDiameter: (value?: number) => {
+      setStoredValue({
+        ...storedValue,
+        clockDiameter: value
+      })
+    },
+    timeDisplayPattern: storedValue.timeDisplayPattern,
+    setTimeDisplayPattern: (value: TimeDisplayPattern) => {
+      onChangeDisplayPattern(value)
+      setStoredValue({
+        ...storedValue,
+        timeDisplayPattern: value
+      })
+    },
+    showDebugTools: storedValue.showDebugTools,
+    setShowDebugTools: (showDebugTools: boolean) => {
+      setStoredValue({
+        ...storedValue,
+        showDebugTools
+      })
     }
-  }), [clearStoredValue, isHydrated, onResetTime, onSetManualTime, setStoredValue, setTheme, storedValue])
+  }), [clearStoredValue, isHydrated, onChangeDisplayPattern, onReplayLoadingAnimation, onSetManualTime, setStoredValue, setTheme, storedValue])
 
   return (
     <ConfigContext.Provider value={value}>

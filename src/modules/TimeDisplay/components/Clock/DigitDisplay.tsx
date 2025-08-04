@@ -1,6 +1,6 @@
 import styles from 'modules/TimeDisplay/TimeDisplay.module.scss'
 import { Clock } from './Clock'
-import { digitSegments } from 'modules/TimeDisplay'
+import { digitSegments } from 'modules/TimeDisplay/grid'
 
 export const DigitDisplay = ({ digit }: { digit: number }) => {
   return (

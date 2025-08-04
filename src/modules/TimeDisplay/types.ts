@@ -1,4 +1,4 @@
-type DigitHand = {
+export interface DigitClockCoordinate {
   x: number
   y: number
   minuteHandAngle: number
@@ -6,307 +6,33 @@ type DigitHand = {
 }
 
 export interface TimeDisplayRefHandle {
-  reset: () => void
+  replayLoadingAnimation: () => void
   setManualTime: (time?: Date) => void
+  changePattern: (pattern: TimeDisplayPattern) => void
 }
 
-export const loadingAnimationDuration = 5000
+export type TimeDisplayPattern = 'circular' | 'point-towards-middle'
 
-export const digitSegments: Record<number, DigitHand[]> = {
-  0: [
-    // Outer Rectangle
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 3, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 1, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 0, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 0, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
+export interface HandDirections {
+  hour: number
+  minute: number
+}
 
-    // Inner Rectangle
-    { x: 1, y: 1, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 2, y: 4, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 1, y: 4, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 1, y: 3, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 1, y: 2, minuteHandAngle: 180, hourHandAngle: 0 },
+export interface ClockMetadata {
+  digit?: number
+  isColon: boolean
+  isColonCenterLine: boolean
+}
 
-    // Two Middle Clocks (Commented out for now so they don't get coloured in certain themes)
-    // { x: 2, y: 2, minuteDirection: 270, hourDirection: 90 },
-    // { x: 2, y: 3, minuteDirection: 270, hourDirection: 90 }
-  ],
-  1: [
-    // The Number 1 Itself
-    { x: 2, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 270, hourHandAngle: 0 },
-    { x: 3, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 2, y: 1, minuteHandAngle: 0, hourHandAngle: 90 }
-  ],
-  2: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 1, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 2, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 1, y: 2, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 2, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 1, y: 3, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 2, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 0, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 1, y: 4, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 2, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 4, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 0, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 1, y: 5, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 5, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 5, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 5, minuteHandAngle: 270, hourHandAngle: 0 },
-  ],
-  3: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 0, y: 2, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 0, y: 3, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 2, minuteHandAngle: 270, hourHandAngle: 0 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 3, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 1, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 0, y: 4, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 0, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 3, y: 3, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 1, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 1, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 1, y: 3, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 3, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 1, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 4, minuteHandAngle: 270, hourHandAngle: 90 }
-  ],
-  4: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 180, hourHandAngle: 270 },
-    { x: 3, y: 0, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 1, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 1, y: 2, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 2, y: 2, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 1, y: 3, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 3, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 3, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 4, y: 5, minuteHandAngle: 0, hourHandAngle: 270 },
+export interface GetHandDirectionsProps {
+  time: Date
+  x: number
+  y: number
+  pattern: TimeDisplayPattern
+}
 
-  ],
-  5: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 1, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 0, y: 4, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 1, y: 2, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 1, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 3, minuteHandAngle: 180, hourHandAngle: 270 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 4, y: 2, minuteHandAngle: 180, hourHandAngle: 270 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 3, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 1, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 0, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 1, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-  ],
-  6: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 1, y: 1, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 1, minuteHandAngle: 270, hourHandAngle: 0 },
-    { x: 0, y: 2, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 1, y: 2, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 2, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 2, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 1, y: 3, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 2, y: 3, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 3, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 0, y: 4, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 1, y: 4, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 2, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 4, minuteHandAngle: 270, hourHandAngle: 0 },
-    { x: 4, y: 4, minuteHandAngle: 180, hourHandAngle: 0 },
-    { x: 0, y: 5, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 1, y: 5, minuteHandAngle: 90, hourHandAngle: 90 },
-    { x: 2, y: 5, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 5, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 5, minuteHandAngle: 270, hourHandAngle: 0 }
-  ],
-  7: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 1, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 270, hourHandAngle: 0 },
-    { x: 3, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 }
-  ],
-  8: [
-    // Outer Rectangle
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 3, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 1, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 0, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 0, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-
-    // Top Inner Square
-    { x: 1, y: 1, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 1, y: 2, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 2, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 270 },
-
-    // Bottom Inner Square
-    { x: 1, y: 3, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 2, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 3, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 1, y: 4, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 2, y: 4, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 270 },
-  ],
-  9: [
-    { x: 0, y: 0, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 1, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 0, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 4, y: 0, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 4, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 3, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 4, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 4, y: 5, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 3, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 1, y: 5, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 0, y: 5, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 0, y: 4, minuteHandAngle: 90, hourHandAngle: 180 },
-    { x: 0, y: 3, minuteHandAngle: 0, hourHandAngle: 90 },
-    { x: 0, y: 2, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 0, y: 1, minuteHandAngle: 0, hourHandAngle: 180 },
-    { x: 1, y: 1, minuteHandAngle: 180, hourHandAngle: 90 },
-    { x: 2, y: 1, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 1, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 1, y: 2, minuteHandAngle: 90, hourHandAngle: 0 },
-    { x: 2, y: 2, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 3, y: 2, minuteHandAngle: 0, hourHandAngle: 270 },
-    { x: 1, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 2, y: 3, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 3, minuteHandAngle: 270, hourHandAngle: 180 },
-    { x: 1, y: 4, minuteHandAngle: 270, hourHandAngle: 90 },
-    { x: 2, y: 4, minuteHandAngle: 90, hourHandAngle: 270 },
-    { x: 3, y: 4, minuteHandAngle: 0, hourHandAngle: 270 },
-  ]
+export interface GetClockMetadataProps {
+  time: Date
+  x: number
+  y: number
 }

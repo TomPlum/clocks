@@ -4,12 +4,17 @@ import type { ClockAnimation, RunAnimationConfig } from 'modules/TimeDisplay/com
 import { getAnimationConfig } from './getAnimationConfig'
 import { randomInteger } from 'utility/randomInteger'
 import { useAnimationContext } from 'context/AnimationContext'
-import { getHandDirections } from 'modules/TimeDisplay/utils'
 import { interpolateAngle } from 'utility/interpolateAngle'
+import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import { getHandAnglesForPattern } from 'modules/TimeDisplay/animation/displayPatternFactory'
+import { getHandDirections } from 'modules/TimeDisplay/animation/getHandDirections'
+import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 
 export const useClockAnimation = ({
+  id,
   position
 }: UseClockAnimationProps) => {
+  const { digitAnimationDuration, timeDisplayPattern } = useConfigContext()
   const { currentAnimationConfig, setCurrentAnimation } = useAnimationContext()
 
   const [hourHandAngle, setHourHandAngle] = useState(currentAnimationConfig()?.hourHandStartingAngle ?? randomInteger(0, 360))
@@ -43,7 +48,7 @@ export const useClockAnimation = ({
         animationFrameId = requestAnimationFrame(frame)
       } else {
         setCurrentAnimation(undefined)
-        onComplete?.()
+        onComplete?.(id)
       }
     }
 
@@ -54,16 +59,37 @@ export const useClockAnimation = ({
 
   const easeToTime = (time: Date, config?: RunAnimationConfig) => {
     const { x, y } = position
-    const { hour: endHour, minute: endMinute } = getHandDirections({ time, x, y })
+    const { hour: endHour, minute: endMinute } = getHandDirections({
+      time,
+      x, y,
+      pattern: timeDisplayPattern
+    })
 
     return doAnimation({
       name: 'ease-to-time',
-      duration: 3000,
+      duration: digitAnimationDuration,
       useEasing: true,
       onComplete: config?.onComplete,
       onFrame: (progress: number) => {
         const hourAngle = interpolateAngle(hourHandAngle, endHour, progress)
         const minuteAngle = interpolateAngle(minuteHandleAngle, endMinute, progress)
+
+        setHourHandAngle(hourAngle)
+        setMinuteHandleAngle(minuteAngle)
+      }
+    })
+  }
+
+  const easeToPattern = (pattern: TimeDisplayPattern) => {
+    const { hour, minute } = getHandAnglesForPattern(position.x, position.y, pattern)
+
+    return doAnimation({
+      name: 'ease-to-pattern',
+      duration: 2000,
+      useEasing: true,
+      onFrame: (progress: number) => {
+        const hourAngle = interpolateAngle(hourHandAngle, hour, progress)
+        const minuteAngle = interpolateAngle(minuteHandleAngle, minute, progress)
 
         setHourHandAngle(hourAngle)
         setMinuteHandleAngle(minuteAngle)
@@ -96,7 +122,11 @@ export const useClockAnimation = ({
         let finalMinuteAngle = 0
 
         const { x, y } = position
-        const { hour, minute } = getHandDirections({ time: config?.postAnimationTimeTarget ?? new Date(), x, y })
+        const { hour, minute } = getHandDirections({
+          time: config?.postAnimationTimeTarget ?? new Date(),
+          x, y,
+          pattern: timeDisplayPattern
+        })
 
         return doAnimation({
           name: 'random',
@@ -150,6 +180,7 @@ export const useClockAnimation = ({
     hourHandAngle,
     minuteHandleAngle,
     runAnimation,
-    easeToTime
+    easeToTime,
+    easeToPattern
   }
 }

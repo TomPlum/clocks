@@ -1,24 +1,32 @@
 import { ThemeContextProvider } from 'context/ThemeContext'
 import { Layout } from 'components/Layout'
 import { ConfigContextProvider } from 'context/ConfigContext/ConfigContextProvider'
-import { type TimeDisplayRefHandle } from 'modules/TimeDisplay'
+import { type TimeDisplayPattern, type TimeDisplayRefHandle } from 'modules/TimeDisplay'
 import { useRef } from 'react'
 import { AnimationContextProvider } from 'context/AnimationContext'
 
 const ClocksApplication = () => {
   const timeDisplayRef = useRef<TimeDisplayRefHandle>(null)
 
-  const resetTime = () => {
-    timeDisplayRef.current?.reset()
+  const replayLoadingAnimation = () => {
+    timeDisplayRef.current?.replayLoadingAnimation()
   }
 
   const handleSetManualTime = (time?: Date) => {
     timeDisplayRef.current?.setManualTime(time)
   }
 
+  const handleChangeDisplayPattern = (pattern: TimeDisplayPattern) => {
+    timeDisplayRef.current?.changePattern(pattern)
+  }
+
   return (
     <ThemeContextProvider>
-      <ConfigContextProvider onResetTime={resetTime} onSetManualTime={handleSetManualTime}>
+      <ConfigContextProvider
+        onChangeDisplayPattern={handleChangeDisplayPattern}
+        onReplayLoadingAnimation={replayLoadingAnimation}
+        onSetManualTime={handleSetManualTime}
+      >
         <AnimationContextProvider>
           <Layout ref={timeDisplayRef} />
         </AnimationContextProvider>
