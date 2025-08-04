@@ -43,5 +43,9 @@ export const ConfigContext = createContext<ConfigContextBag>({
   showDebugTools: false,
   setShowDebugTools: (showDebugTools: boolean) => {
     console.error(`Tried to call setShowDebugTools(${showDebugTools}) before the ConfigContext was initialised.`)
+  },
+  language: 'en',
+  setLanguage: (language: string) => {
+    console.error(`Tried to call setLanguage(${language}) before the ConfigContext was initialised.`)
   }
 })

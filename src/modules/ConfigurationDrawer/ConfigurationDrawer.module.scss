@@ -12,13 +12,18 @@
   }
 }
 
-.Section {
-  padding-bottom: 25px;
-  padding-top: 10px;
-
+.SectionContainer {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.Section {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 15px;
 
   &--Condensed {
     gap: 10px;

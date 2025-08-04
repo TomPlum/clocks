@@ -16,6 +16,13 @@
             "matrix": "マトリックス テーマ"
           }
         },
+        "language-selector": {
+          "label": "言語",
+          "languages": {
+            "en": "英語（英国）",
+            "jp": "日本語"
+          }
+        },
         "pattern-selector": {
           "label": "非数字時計のパターン",
           "patterns": {
@@ -58,8 +65,8 @@
       "developer": {
         "title": "開発者向け",
         "debug-tools-button": {
-          "show": "デバッグツールを表示",
-          "hide": "デバッグツールを非表示"
+          "show": "デバッグ情報を表示",
+          "hide": "デバッグ情報を非表示"
         },
         "reset-to-defaults-button": {
           "label": "設定を初期化"

@@ -22,6 +22,8 @@ export interface ConfigContextBag {
   setTimeDisplayPattern: (value: TimeDisplayPattern) => void
   showDebugTools: boolean
   setShowDebugTools: (showDebugTools: boolean) => void
+  language: string
+  setLanguage: (language: string) => void
 }
 
 export interface SerialisedConfig {

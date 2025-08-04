@@ -23,6 +23,7 @@ import { ClockPatternSelector } from 'modules/ConfigurationDrawer/components/Clo
 import { DebugToolsToggle } from 'modules/ConfigurationDrawer/components/DebugToolsToggle'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { LanguageSelector } from 'modules/ConfigurationDrawer/components/LanguageSelector'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   const { t } = useTranslation('translation', { keyPrefix: 'configuration-drawer' })
@@ -46,46 +47,49 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         body: styles.Drawer__Content
       }}
     >
-      <div className={styles.Section}>
-        <Typography className={styles.Section__Heading}>
-          <IconBrush size={16} /> {t('sections.theming.title')}
-        </Typography>
+      <div className={styles.SectionContainer}>
+        <div className={styles.Section}>
+          <Typography className={styles.Section__Heading}>
+            <IconBrush size={16} /> {t('sections.theming.title')}
+          </Typography>
 
-        <ThemeSelector />
-        <ClockPatternSelector />
-        <ClockDiameterControl />
-      </div>
+          <ThemeSelector />
+          <LanguageSelector />
+          <ClockPatternSelector />
+          <ClockDiameterControl />
+        </div>
 
-      <div className={styles.Section}>
-        <Typography className={styles.Section__Heading}>
-          <IconClock size={16} /> {t('sections.manual-time-selection.title')}
-        </Typography>
+        <div className={styles.Section}>
+          <Typography className={styles.Section__Heading}>
+            <IconClock size={16} /> {t('sections.manual-time-selection.title')}
+          </Typography>
 
-        <ManualTimeSelector />
-        <SkipTimeButtons />
-      </div>
+          <ManualTimeSelector />
+          <SkipTimeButtons />
+        </div>
 
-      <div className={styles.Section}>
-        <Typography className={styles.Section__Heading}>
-          <IconKeyframes size={16} /> {t('sections.animations.title')}
-        </Typography>
+        <div className={styles.Section}>
+          <Typography className={styles.Section__Heading}>
+            <IconKeyframes size={16} /> {t('sections.animations.title')}
+          </Typography>
 
-        <ReplayLoadingAnimationButton />
-        <LoadingAnimationSelector />
-        <ColonAnimationToggle />
-        <AnimationStaggerControl />
-        <TimeLapseDurationSelector />
-      </div>
+          <ReplayLoadingAnimationButton />
+          <LoadingAnimationSelector />
+          <ColonAnimationToggle />
+          <AnimationStaggerControl />
+          <TimeLapseDurationSelector />
+        </div>
 
-      <div className={classNames(styles.Section, styles['Section--Condensed'])}>
-        <Typography className={styles.Section__Heading}>
-          <IconTerminal2 size={16} /> {t('sections.developer.title')}
-        </Typography>
+        <div className={classNames(styles.Section, styles['Section--Condensed'])}>
+          <Typography className={styles.Section__Heading}>
+            <IconTerminal2 size={16} /> {t('sections.developer.title')}
+          </Typography>
 
-        <DebugToolsToggle />
-        <ResetToDefaultsButton />
-        <ClearLocalStorageButton />
-        <ViewGithubButton />
+          <DebugToolsToggle />
+          <ResetToDefaultsButton />
+          <ClearLocalStorageButton />
+          <ViewGithubButton />
+        </div>
       </div>
     </Drawer>
   )

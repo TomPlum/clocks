@@ -16,6 +16,13 @@
             "matrix": "Matrix"
           }
         },
+        "language-selector": {
+          "label": "Language",
+          "languages": {
+            "en": "English",
+            "jp": "Japanese"
+          }
+        },
         "pattern-selector": {
           "label": "Non-Digit Clocks Pattern",
           "patterns": {
@@ -54,22 +61,22 @@
           "label": "Digit Animation Duration (s)",
           "none": "None"
         }
-      }
-    },
-    "developer": {
-      "title": "Developer",
-      "debug-tools-button": {
-        "show": "Show Debug Tools",
-        "hide": "Hide Debug Tools"
       },
-      "reset-to-defaults-button": {
-        "label": "Reset To Defaults"
-      },
-      "clear-local-storage-button": {
-        "label": "Clear Local Storage"
-      },
-      "view-source-button": {
-        "label": "View source on GitHub"
+      "developer": {
+        "title": "Developer",
+        "debug-tools-button": {
+          "show": "Show Debug Info",
+          "hide": "Hide Debug Info"
+        },
+        "reset-to-defaults-button": {
+          "label": "Reset To Defaults"
+        },
+        "clear-local-storage-button": {
+          "label": "Clear Local Storage"
+        },
+        "view-source-button": {
+          "label": "View source on GitHub"
+        }
       }
     }
   },

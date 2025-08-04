@@ -101,6 +101,13 @@ export const ConfigContextProvider = ({
         ...storedValue,
         showDebugTools
       })
+    },
+    language: storedValue.language,
+    setLanguage: (language: string) => {
+      setStoredValue({
+        ...storedValue,
+        language
+      })
     }
   }), [clearStoredValue, isHydrated, onChangeDisplayPattern, onReplayLoadingAnimation, onSetManualTime, setStoredValue, setTheme, storedValue])
 
