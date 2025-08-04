@@ -12,12 +12,15 @@ import {
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useFps } from 'react-fps'
+import { useTranslation } from 'react-i18next'
 
 export const DebugTools = () => {
   const { currentTime } = useCurrentTime()
   const { currentFps, avgFps, maxFps } = useFps(20)
   const { enableColonAnimation } = useConfigContext()
   const { animating, initialAnimating, currentAnimation } = useAnimationContext()
+
+  const { t } = useTranslation('translation', { keyPrefix: 'debug-info' })
 
   const animateColons = enableColonAnimation && !initialAnimating
 
@@ -34,7 +37,7 @@ export const DebugTools = () => {
         <IconKeyframes size={16} />
 
         <Text size='sm'>
-          animating:
+          {t('animating')}:
         </Text>
 
         <Text c={animating ? 'green' : 'red'} size='sm'>
@@ -46,7 +49,7 @@ export const DebugTools = () => {
         <IconKeyframesFilled size={16} />
 
         <Text size='sm'>
-          initial animating:
+          {t('initial-animating')}:
         </Text>
 
         <Text c={initialAnimating ? 'green' : 'red'} size='sm'>
@@ -58,7 +61,7 @@ export const DebugTools = () => {
         <IconKeyframeAlignHorizontal size={16} />
 
         <Text size='sm'>
-          current animation:
+          {t('current-animation')}:
         </Text>
 
         <Text c={currentAnimation ? 'yellow' : 'gray'} size='sm'>
@@ -72,7 +75,7 @@ export const DebugTools = () => {
         />
 
         <Text size='sm'>
-          animating colons:
+          {t('animating-colons')}:
         </Text>
 
         <Text c={animateColons ? 'green' : 'red'} size='sm'>
@@ -84,7 +87,7 @@ export const DebugTools = () => {
         <IconWaveSawTool size={16} />
 
         <Text size='sm'>
-          frame rate:
+          {t('frame-rate')}:
         </Text>
 
         <Text c='blue' size='sm'>
@@ -92,11 +95,11 @@ export const DebugTools = () => {
         </Text>
 
         <Text c='orange' size='sm'>
-          (avg: {avgFps})
+          ({t('frame-rate-avg')}: {avgFps})
         </Text>
 
         <Text c='green' size='sm'>
-          (max: {maxFps})
+          ({t('frame-rate-max')}: {maxFps})
         </Text>
       </div>
     </div>

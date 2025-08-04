@@ -1,25 +1,23 @@
 import { Combobox, InputBase, InputLabel, InputWrapper, useCombobox } from '@mantine/core'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import type { TimeDisplayPattern } from 'modules/TimeDisplay'
+import { useTranslation } from 'react-i18next'
 
 const patterns: TimeDisplayPattern[] = ['circular', 'point-towards-middle']
 
 export const ClockPatternSelector = () => {
   const { timeDisplayPattern, setTimeDisplayPattern } = useConfigContext()
 
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'configuration-drawer.sections.theming.pattern-selector'
+  })
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption()
   })
 
   const toDisplayName = (animation: TimeDisplayPattern) => {
-    switch (animation) {
-      case 'circular': {
-        return 'Circular'
-      }
-      case 'point-towards-middle': {
-        return 'Point Towards Center'
-      }
-    }
+    return t(`patterns.${animation}`)
   }
 
   const options = patterns.map((item: TimeDisplayPattern) => (
@@ -31,7 +29,7 @@ export const ClockPatternSelector = () => {
   return (
     <InputWrapper>
       <InputLabel>
-        Non-Digit Clocks Pattern
+        {t('label')}
       </InputLabel>
       
       <Combobox

@@ -33,6 +33,7 @@ export interface SerialisedConfig {
   clockDiameter?: number
   showDebugTools: boolean
   timeDisplayPattern: TimeDisplayPattern
+  language: string
 }
 
 export interface ConfigContextProviderProps {

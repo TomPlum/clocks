@@ -1,13 +1,18 @@
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { InputLabel, InputWrapper, Slider } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
 
 export const TimeLapseDurationSelector = () => {
   const { digitAnimationDuration, setDigitAnimationDuration } = useConfigContext()
 
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'configuration-drawer.sections.animations.digit-animation-duration-selector'
+  })
+
   return (
     <InputWrapper style={{ marginTop: 20 }}>
       <InputLabel>
-        Digit Animation Duration (s)
+        {t('label')}
       </InputLabel>
 
       <Slider
@@ -18,7 +23,7 @@ export const TimeLapseDurationSelector = () => {
         value={digitAnimationDuration}
         onChange={setDigitAnimationDuration}
         marks={[
-          { label: 'None', value: 0 },
+          { label: t('none'), value: 0 },
           { label: '1s', value: 1000 },
           { label: '2s', value: 2000 },
           { label: '3s', value: 3000 },

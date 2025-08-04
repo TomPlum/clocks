@@ -1,8 +1,13 @@
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { InputLabel, InputWrapper, Slider } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
 
 export const ClockDiameterControl = () => {
   const { clockDiameter, setClockDiameter } = useConfigContext()
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'configuration-drawer.sections.theming.clock-diameter-selector'
+  })
 
   const handleChange = (value: number) => {
     if (value < 20) {
@@ -15,7 +20,7 @@ export const ClockDiameterControl = () => {
   return (
     <InputWrapper>
       <InputLabel>
-        Clock Diameter (px)
+        {t('label')}
       </InputLabel>
 
       <Slider
@@ -28,7 +33,7 @@ export const ClockDiameterControl = () => {
         value={clockDiameter ?? 0}
         onChange={handleChange}
         marks={[
-          { label: 'Dynamic', value: 0 },
+          { label: t('dynamic'), value: 0 },
           { label: '20px', value: 20 },
           { label: '40px', value: 40 },
           { label: '60px', value: 60 }

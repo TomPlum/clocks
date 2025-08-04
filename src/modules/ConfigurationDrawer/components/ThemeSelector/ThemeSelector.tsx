@@ -2,11 +2,16 @@ import { type Theme, useThemeContext } from 'context/ThemeContext'
 import { ThemePreview } from './ThemePreview'
 import { getThemeColours } from 'context/ThemeContext/getThemeColours'
 import { Combobox, InputBase, InputLabel, InputWrapper, useCombobox } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
 
 const themes: Theme[] = ['light', 'dark', 'matrix']
 
 export const ThemeSelector = () => {
   const { theme, setTheme } = useThemeContext()
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'configuration-drawer.sections.theming.theme-selector'
+  })
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption()
@@ -24,7 +29,7 @@ export const ThemeSelector = () => {
   return (
     <InputWrapper>
       <InputLabel>
-        Theme
+        {t('label')}
       </InputLabel>
       
       <Combobox
@@ -44,7 +49,7 @@ export const ThemeSelector = () => {
             rightSection={<Combobox.Chevron />}
             onClick={() => combobox.toggleDropdown()}
           >
-            {theme[0].toUpperCase() + theme.slice(1)}
+            {t(`themes.${theme}`)}
           </InputBase>
         </Combobox.Target>
 

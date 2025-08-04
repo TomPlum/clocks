@@ -1,0 +1,85 @@
+{
+  "inspired-by-title": {
+    "start": "Inspired by 'A million times' by",
+    "name": "Humans Since 1982"
+  },
+  "configuration-drawer": {
+    "title": "Configuration",
+    "sections": {
+      "theming": {
+        "title": "Theming",
+        "theme-selector": {
+          "label": "Theme",
+          "themes": {
+            "dark": "Dark",
+            "light": "Light",
+            "matrix": "Matrix"
+          }
+        },
+        "pattern-selector": {
+          "label": "Non-Digit Clocks Pattern",
+          "patterns": {
+            "circular": "Circular",
+            "point-towards-middle": "Point Towards Center"
+          }
+        },
+        "clock-diameter-selector": {
+          "label": "Clock Diameter (px)",
+          "dynamic": "Dynamic"
+        }
+      },
+      "manual-time-selection": {
+        "title": "Manual Time Selection"
+      },
+      "animations": {
+        "title": "Animations",
+        "replay-loading-animation-button": {
+          "label": "Replay Loading Animation"
+        },
+        "loading-animation-selector": {
+          "label": "Loading Animation",
+          "animations": {
+            "random": "Random",
+            "clockwise-rotation": "Clockwise Rotation"
+          }
+        },
+        "colon-flashing-animation-toggle": {
+          "label": "Enable Colon Flashing Animation"
+        },
+        "animation-stagger-selector": {
+          "label": "Animation Stagger (ms)",
+          "off": "Off"
+        },
+        "digit-animation-duration-selector": {
+          "label": "Digit Animation Duration (s)",
+          "none": "None"
+        }
+      }
+    },
+    "developer": {
+      "title": "Developer",
+      "debug-tools-button": {
+        "show": "Show Debug Tools",
+        "hide": "Hide Debug Tools"
+      },
+      "reset-to-defaults-button": {
+        "label": "Reset To Defaults"
+      },
+      "clear-local-storage-button": {
+        "label": "Clear Local Storage"
+      },
+      "view-source-button": {
+        "label": "View source on GitHub"
+      }
+    }
+  },
+  "debug-info": {
+    "animating": "animating",
+    "initial-animating": "initial animating",
+    "current-animation": "current animation",
+    "animating-colons": "animating colons",
+    "frame-rate": "frame rate",
+    "frame-rate-avg": "avg",
+    "frame-rate-max": "max"
+  }
+}

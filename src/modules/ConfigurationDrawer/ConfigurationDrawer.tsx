@@ -22,8 +22,11 @@ import { ClockDiameterControl } from 'modules/ConfigurationDrawer/components/Clo
 import { ClockPatternSelector } from 'modules/ConfigurationDrawer/components/ClockPatternSelector'
 import { DebugToolsToggle } from 'modules/ConfigurationDrawer/components/DebugToolsToggle'
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'configuration-drawer' })
+  
   return (
     <Drawer
       size='xs'
@@ -36,7 +39,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
       title={(
         <div className={styles.Drawer__Title}>
           <IconSettings size={19} />
-          <Typography>Configuration</Typography>
+          <Typography>{t('title')}</Typography>
         </div>
       )}
       classNames={{
@@ -45,7 +48,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
     >
       <div className={styles.Section}>
         <Typography className={styles.Section__Heading}>
-          <IconBrush size={16} /> Theming
+          <IconBrush size={16} /> {t('sections.theming.title')}
         </Typography>
 
         <ThemeSelector />
@@ -55,7 +58,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
       <div className={styles.Section}>
         <Typography className={styles.Section__Heading}>
-          <IconClock size={16} /> Manual Time Selection
+          <IconClock size={16} /> {t('sections.manual-time-selection.title')}
         </Typography>
 
         <ManualTimeSelector />
@@ -64,7 +67,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
       <div className={styles.Section}>
         <Typography className={styles.Section__Heading}>
-          <IconKeyframes size={16} /> Animations
+          <IconKeyframes size={16} /> {t('sections.animations.title')}
         </Typography>
 
         <ReplayLoadingAnimationButton />
@@ -76,7 +79,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
 
       <div className={classNames(styles.Section, styles['Section--Condensed'])}>
         <Typography className={styles.Section__Heading}>
-          <IconTerminal2 size={16} /> Developer
+          <IconTerminal2 size={16} /> {t('sections.developer.title')}
         </Typography>
 
         <DebugToolsToggle />

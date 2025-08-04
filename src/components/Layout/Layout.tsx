@@ -9,10 +9,13 @@ import { forwardRef } from 'react'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import classNames from 'classnames'
 import { DebugTools } from 'modules/DebugTools'
+import { useTranslation } from 'react-i18next'
 
 export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
   const { themeColours } = useThemeContext()
   const { isHydrated, showDebugTools } = useConfigContext()
+
+  const { t } = useTranslation('translation')
 
   const [opened, { open, close }] = useDisclosure(false)
 
@@ -35,7 +38,7 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
             )}
             
             <Typography className={styles.Container__Inspiration}>
-              Inspired by 'A million times' by
+              {t('inspired-by-title.start')}
 
               <Anchor
                 c='yellow'
@@ -44,7 +47,7 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
                 className={styles.Link}
                 href='https://www.humanssince1982.com/en-uk/pages/studio-story'
               >
-                Humans Since 1982
+                {t('inspired-by-title.name')}
               </Anchor>
               .
             </Typography>

@@ -1,30 +1,31 @@
 import { Combobox, InputBase, InputLabel, InputWrapper, useCombobox } from '@mantine/core'
 import type { ClockLoadingAnimation } from 'modules/TimeDisplay/components/Clock'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
+import { useTranslation } from 'react-i18next'
 
 const animations: ClockLoadingAnimation[] = ['random', 'clockwise-rotation']
 
 export const LoadingAnimationSelector = () => {
   const { loadingAnimation, setLoadingAnimation } = useConfigContext()
 
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'configuration-drawer.sections.animations.loading-animation-selector'
+  })
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption()
   })
 
-  const toDisplayName = (animation: ClockLoadingAnimation) => {
-    return animation[0].toUpperCase() + animation.slice(1)
-  }
-
   const options = animations.map((item: ClockLoadingAnimation) => (
     <Combobox.Option value={item} key={item} selected={item === loadingAnimation}>
-      {toDisplayName(item)}
+      {t(`animations.${item}`)}
     </Combobox.Option>
   ))
 
   return (
     <InputWrapper>
       <InputLabel>
-        Loading Animation
+        {t('label')}
       </InputLabel>
       
       <Combobox
@@ -44,7 +45,7 @@ export const LoadingAnimationSelector = () => {
             rightSection={<Combobox.Chevron />}
             onClick={() => combobox.toggleDropdown()}
           >
-            {toDisplayName(loadingAnimation)}
+            {t(`animations.${loadingAnimation}`)}
           </InputBase>
         </Combobox.Target>
 
