@@ -23,6 +23,7 @@ import { ClockPatternSelector } from 'modules/ConfigurationDrawer/components/Clo
 import { DebugToolsToggle } from 'modules/ConfigurationDrawer/components/DebugToolsToggle'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { LanguageSelector } from 'modules/ConfigurationDrawer/components/LanguageSelector'
 
 export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProps) => {
   const { t } = useTranslation('translation', { keyPrefix: 'configuration-drawer' })
@@ -52,6 +53,7 @@ export const ConfigurationDrawer = ({ opened, onClose }: ConfigurationDrawerProp
         </Typography>
 
         <ThemeSelector />
+        <LanguageSelector />
         <ClockPatternSelector />
         <ClockDiameterControl />
       </div>

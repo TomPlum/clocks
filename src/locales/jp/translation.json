@@ -16,6 +16,13 @@
             "matrix": "マトリックス テーマ"
           }
         },
+        "language-selector": {
+          "label": "言語",
+          "languages": {
+            "en": "英語（英国）",
+            "jp": "日本語"
+          }
+        },
         "pattern-selector": {
           "label": "非数字時計のパターン",
           "patterns": {
