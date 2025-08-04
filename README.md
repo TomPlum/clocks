@@ -8,4 +8,3 @@ Built in React using [`requestAnimationFrame()`](https://developer.mozilla.org/e
 
 # TODO
  - Mobile support with vertical view
- - Custom angles for clock hands so padding can always point to the centre

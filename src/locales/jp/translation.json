@@ -27,7 +27,11 @@
           "label": "非数字時計のパターン",
           "patterns": {
             "circular": "円形",
-            "point-towards-middle": "中心を指す"
+            "point-towards-middle": "中心に向かって指している",
+            "horizontal" : "水平線",
+            "vertical" : "垂直線",
+            "away-from-x-axis": "X軸からの方向を向いている",
+            "diagonal": "斜め"
           }
         },
         "clock-diameter-selector": {

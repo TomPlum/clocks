@@ -3,7 +3,14 @@ import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import type { TimeDisplayPattern } from 'modules/TimeDisplay'
 import { useTranslation } from 'react-i18next'
 
-const patterns: TimeDisplayPattern[] = ['circular', 'point-towards-middle']
+const patterns: TimeDisplayPattern[] = [
+  'circular',
+  'point-towards-middle',
+  'horizontal',
+  'vertical',
+  'away-from-x-axis',
+  'diagonal'
+]
 
 export const ClockPatternSelector = () => {
   const { timeDisplayPattern, setTimeDisplayPattern } = useConfigContext()

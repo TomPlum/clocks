@@ -11,7 +11,7 @@ export interface TimeDisplayRefHandle {
   changePattern: (pattern: TimeDisplayPattern) => void
 }
 
-export type TimeDisplayPattern = 'circular' | 'point-towards-middle'
+export type TimeDisplayPattern = 'circular' | 'point-towards-middle' | 'horizontal' | 'vertical' | 'away-from-x-axis' | 'diagonal'
 
 export interface HandDirections {
   hour: number
