@@ -27,7 +27,11 @@
           "label": "Non-Digit Clocks Pattern",
           "patterns": {
             "circular": "Circular",
-            "point-towards-middle": "Point Towards Center"
+            "point-towards-middle": "Point Towards Center",
+            "horizontal": "Horizontal",
+            "vertical": "Vertical",
+            "away-from-x-axis": "Away from X-Axis",
+            "diagonal" : "Diagonal"
           }
         },
         "clock-diameter-selector": {
