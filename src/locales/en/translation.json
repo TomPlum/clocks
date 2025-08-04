@@ -65,8 +65,8 @@
       "developer": {
         "title": "Developer",
         "debug-tools-button": {
-          "show": "Show Debug Tools",
-          "hide": "Hide Debug Tools"
+          "show": "Show Debug Info",
+          "hide": "Hide Debug Info"
         },
         "reset-to-defaults-button": {
           "label": "Reset To Defaults"
