@@ -12,7 +12,7 @@ const getLanguage = (): string => {
     return parsed.language
   }
 
-  return 'jp'
+  return 'en'
 }
 
 i18n.use(initReactI18next).init({
@@ -25,7 +25,7 @@ i18n.use(initReactI18next).init({
     }
   },
   lng: getLanguage(),
-  fallbackLng: 'jp',
+  fallbackLng: 'en',
   interpolation: {
     escapeValue: false
   }
