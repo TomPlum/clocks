@@ -24,5 +24,10 @@ export const getAnimationConfig = (animation: ClockAnimation): ClockAnimationCon
         animationDuration: 5000
       }
     }
+    case 'ease-to-pattern': {
+      return {
+        animationDuration: 2000
+      }
+    }
   }
 }

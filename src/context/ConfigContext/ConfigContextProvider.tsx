@@ -12,7 +12,8 @@ const defaultConfigValues: SerialisedConfig = {
   animationStagger: 10,
   digitAnimationDuration: 3000,
   timeDisplayPattern: 'circular',
-  showDebugTools: false
+  showDebugTools: false,
+  language: 'en'
 }
 
 export const ConfigContextProvider = ({
