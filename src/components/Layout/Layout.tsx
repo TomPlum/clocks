@@ -12,7 +12,7 @@ import { DebugTools } from 'modules/DebugTools'
 import { useTranslation } from 'react-i18next'
 
 export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
-  const { themeColours } = useThemeContext()
+  const { themeColours, isMobile } = useThemeContext()
   const { isHydrated, showDebugTools } = useConfigContext()
 
   const { t } = useTranslation('translation')
@@ -27,7 +27,7 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
       <div
         className={classNames(
           styles.Container,
-          { [styles.DrawerOffset]: opened }
+          { [styles.DrawerOffset]: opened && isMobile }
         )}
         style={{ backgroundColor: themeColours.backgroundColour }}
       >

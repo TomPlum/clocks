@@ -91,6 +91,8 @@
     "animating-colons": "animating colons",
     "frame-rate": "frame rate",
     "frame-rate-avg": "avg",
-    "frame-rate-max": "max"
+    "frame-rate-max": "max",
+    "viewport-size": "viewport size",
+    "mobile-view": "is-mobile"
   }
 }

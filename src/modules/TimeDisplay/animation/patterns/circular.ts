@@ -1,6 +1,23 @@
-import { xColonLeft, xColonRight, yBottomColonOne, yTopColonTwo } from 'modules/TimeDisplay/grid'
+import {
+  horizontalColons,
+  verticalColons
+} from 'modules/TimeDisplay/grid'
 
-export const getAngleForCircularPattern = (x: number, y: number) => {
+const horizontalColonTargets = [
+  { x: horizontalColons.top.x1, y: horizontalColons.top.y2 },
+  { x: horizontalColons.bottom.x2, y: horizontalColons.top.y2 },
+  { x: horizontalColons.top.x1, y: horizontalColons.bottom.y1 },
+  { x: horizontalColons.bottom.x2, y: horizontalColons.bottom.y1 }
+]
+
+const verticalColonTargets = [
+  { x: verticalColons.left.x2, y: verticalColons.left.y1 },
+  { x: verticalColons.left.x2, y: verticalColons.left.y2 },
+  { x: verticalColons.right.x1, y: verticalColons.right.y1 },
+  { x: verticalColons.right.x1, y: verticalColons.right.y2 },
+]
+
+export const getAngleForCircularPattern = (x: number, y: number, vertical: boolean) => {
   const getAngleToTarget = (fromX: number, fromY: number, toX: number, toY: number): number => {
     const dx = toX - fromX
     const dy = toY - fromY
@@ -9,12 +26,7 @@ export const getAngleForCircularPattern = (x: number, y: number) => {
     return (degrees + 360) % 360 // Normalize to 0–360
   }
 
-  const colonTargets = [
-    { x: xColonLeft, y: yTopColonTwo },
-    { x: xColonRight, y: yTopColonTwo },
-    { x: xColonLeft, y: yBottomColonOne },
-    { x: xColonRight, y: yBottomColonOne }
-  ]
+  const colonTargets = vertical ? verticalColonTargets : horizontalColonTargets
 
   const getAngle = (x: number, y: number): number => {
     let closest = colonTargets[0]

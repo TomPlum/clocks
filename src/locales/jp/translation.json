@@ -91,6 +91,8 @@
     "animating-colons": "コロンをアニメーション化する",
     "frame-rate": "フレームレート",
     "frame-rate-avg": "平均",
-    "frame-rate-max": "最大"
+    "frame-rate-max": "最大",
+    "viewport-size": "ビューポートサイズ",
+    "mobile-view": "モバイル"
   }
 }

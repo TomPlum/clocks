@@ -1,8 +1,16 @@
-import { totalHeight, totalWidth } from 'modules/TimeDisplay/grid'
+import {
+  totalHorizontalHeight,
+  totalHorizontalWidth,
+  totalVerticalHeight,
+  totalVerticalWidth
+} from 'modules/TimeDisplay/grid'
 
-export const getAngleForPointToCenterPattern = (x: number, y: number) => {
-  const xCenter = (totalWidth - 1) / 2
-  const yCenter = (totalHeight - 1) / 2
+export const getAngleForPointToCenterPattern = (x: number, y: number, vertical: boolean) => {
+  const width = vertical ? totalVerticalWidth : totalHorizontalWidth
+  const height = vertical ? totalVerticalHeight : totalHorizontalHeight
+
+  const xCenter = (width - 1) / 2
+  const yCenter = (height - 1) / 2
 
   const fromX = x + 0.5
   const fromY = y + 0.5

@@ -1,9 +1,14 @@
 import { getHandAnglesForTime } from './getTimeCoordinates'
-import { centreLineCoordinates, colonCoordinates } from '../grid'
+import {
+  horizontalCentreLineCoordinates,
+  horizontalColonCoordinates,
+  verticalCentreLineCoordinates,
+  verticalColonCoordinates
+} from '../grid'
 import type { ClockMetadata, GetClockMetadataProps } from 'modules/TimeDisplay'
 
-export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMetadata => {
-  const digitHandDirections = getHandAnglesForTime(time).get(`${x},${y}`)
+export const getClockMetadata = ({ time, x, y, vertical = false }: GetClockMetadataProps): ClockMetadata => {
+  const digitHandDirections = getHandAnglesForTime(time, vertical).get(`${x},${y}`)
 
   if (digitHandDirections) {
     return {
@@ -13,17 +18,23 @@ export const getClockMetadata = ({ time, x, y }: GetClockMetadataProps): ClockMe
     }
   }
 
-  const colonHandDirections = [...colonCoordinates, ...centreLineCoordinates].find(coords => {
+  const horizontalColon = [...horizontalColonCoordinates, ...horizontalCentreLineCoordinates]
+  const verticalColon = [...verticalColonCoordinates, ...verticalCentreLineCoordinates]
+
+  const colonHandDirections = (vertical ? verticalColon : horizontalColon).find(coords => {
     return coords.x === Number(x) && coords.y === Number(y)
   })
 
   if (colonHandDirections) {
+    const colonCenterLineCoords = vertical ? verticalCentreLineCoordinates : horizontalCentreLineCoordinates
+    const colonCoords = vertical ? verticalColonCoordinates : horizontalColonCoordinates
+
     return {
       digit: undefined,
-      isColonCenterLine: !!centreLineCoordinates.find(coords => {
+      isColonCenterLine: !!colonCenterLineCoords.find(coords => {
         return coords.x === Number(x) && coords.y === Number(y)
       }),
-      isColon: !!colonCoordinates.find(coords => {
+      isColon: !!colonCoords.find(coords => {
         return coords.x === Number(x) && coords.y === Number(y)
       })
     }

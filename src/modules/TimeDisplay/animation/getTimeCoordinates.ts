@@ -1,7 +1,7 @@
-import { digitSegments, padding } from 'modules/TimeDisplay/grid'
+import { digitHeight, digitSegments, padding, verticalColonHeight } from 'modules/TimeDisplay/grid'
 import { getDigitStartX } from './getDigitStartX'
 
-export const getHandAnglesForTime = (time: Date) => {
+export const getHandAnglesForTime = (time: Date, vertical: boolean) => {
   const hours = time.getHours()
   const minutes = time.getMinutes()
 
@@ -13,8 +13,9 @@ export const getHandAnglesForTime = (time: Date) => {
   const positionToDirections = new Map<string, [number, number, number]>()
 
   digits.forEach((digit, index) => {
-    const startX = getDigitStartX(index)
-    const startY = padding
+    const startX = getDigitStartX(index, vertical)
+    const yVerticalOffset = index <= 1 ? 0 : digitHeight + verticalColonHeight
+    const startY = vertical ? padding + yVerticalOffset  : padding
     const segments = digitSegments[digit]
 
     for (const segment of segments) {

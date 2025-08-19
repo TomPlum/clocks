@@ -94,4 +94,6 @@ export interface ThemeContextBag {
      */
     width: number
   }
+
+  isMobile: boolean
 }
