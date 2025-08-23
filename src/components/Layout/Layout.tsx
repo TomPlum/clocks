@@ -27,7 +27,7 @@ export const Layout = forwardRef<TimeDisplayRefHandle>((_, timeDisplayRef) => {
       <div
         className={classNames(
           styles.Container,
-          { [styles.DrawerOffset]: opened && isMobile }
+          { [styles.DrawerOffset]: opened && !isMobile }
         )}
         style={{ backgroundColor: themeColours.backgroundColour }}
       >
