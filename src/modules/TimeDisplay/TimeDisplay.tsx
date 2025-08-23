@@ -6,17 +6,28 @@ import { useAnimationContext } from 'context/AnimationContext'
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 import { useTimeDisplay } from 'modules/TimeDisplay/hooks/useTimeDisplay/useTimeDisplay'
 import { iterateTimes } from 'modules/TimeDisplay/animation/iterateTimes'
-import { totalHeight, totalWidth } from './grid'
 import { getClockMetadata } from './animation/getClockMetadata'
+import { useThemeContext } from 'context/ThemeContext'
 
 export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
+  const { isMobile } = useThemeContext()
   const { currentTime, previousTime } = useCurrentTime()
   const { animating, setInitialAnimating } = useAnimationContext()
+
   const manualTime = useRef<Date>(undefined)
 
   const [ranInitialLoadingAnimation, setRanInitialLoadingAnimation] = useState(false)
 
-  const { initialiseClock, easeToTime, runLoadingAnimation, easeToPattern, resetDigitClocks } = useTimeDisplay({
+  const {
+    easeToTime,
+    easeToPattern,
+    gridDimensions: {
+      width, height
+    },
+    initialiseClock,
+    resetDigitClocks,
+    runLoadingAnimation,
+  } = useTimeDisplay({
     currentTime
   })
 
@@ -31,10 +42,11 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
     if (!animating && !manualTime.current) {
       const currentMinute = currentTime.getMinutes()
       const previousMinute = previousTime?.getMinutes()
+      const isDifferentMinute = currentMinute !== previousMinute
 
-      const currentTimeHasLapsedTheMinute = previousMinute && currentMinute !== previousMinute
+      const hasLapsedMinute = previousMinute && isDifferentMinute
 
-      if (currentTimeHasLapsedTheMinute) {
+      if (hasLapsedMinute) {
         easeToTime(currentTime)
       }
     }
@@ -57,15 +69,16 @@ export const TimeDisplay = forwardRef<TimeDisplayRefHandle>((_, ref) => {
 
   return (
     <div className={styles.TimeDisplay}>
-      {iterateTimes(totalWidth).flatMap((x: number) => (
+      {iterateTimes(width).flatMap((x: number) => (
         <div className={styles.TimeDisplay__Column} key={`row-${x}`}>
-          {iterateTimes(totalHeight).map((y: number) => {
+          {iterateTimes(height).map((y: number) => {
             const clockId = `(${x},${y})`
 
             const { digit, isColon, isColonCenterLine } = getClockMetadata({
               time: manualTime.current ?? currentTime,
               x,
-              y
+              y,
+              vertical: isMobile
             })
 
             const clockRef = initialiseClock({

@@ -27,7 +27,11 @@
           "label": "Non-Digit Clocks Pattern",
           "patterns": {
             "circular": "Circular",
-            "point-towards-middle": "Point Towards Center"
+            "point-towards-middle": "Point Towards Center",
+            "horizontal": "Horizontal",
+            "vertical": "Vertical",
+            "away-from-x-axis": "Away from X-Axis",
+            "diagonal" : "Diagonal"
           }
         },
         "clock-diameter-selector": {
@@ -87,6 +91,8 @@
     "animating-colons": "animating colons",
     "frame-rate": "frame rate",
     "frame-rate-avg": "avg",
-    "frame-rate-max": "max"
+    "frame-rate-max": "max",
+    "viewport-size": "viewport size",
+    "mobile-view": "is-mobile"
   }
 }

@@ -11,5 +11,6 @@ export const ThemeContext = createContext<ThemeContextBag>({
   viewportSize: {
     width: 1920,
     height: 1080
-  }
+  },
+  isMobile: false
 })

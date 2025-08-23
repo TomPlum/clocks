@@ -7,15 +7,17 @@ import {
   IconKeyframeAlignHorizontal,
   IconKeyframes,
   IconKeyframesFilled,
-  IconWaveSawTool
+  IconWaveSawTool, IconWindowMaximize
 } from '@tabler/icons-react'
 import { useCurrentTime } from 'modules/TimeDisplay/hooks/useCurrentTime'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useFps } from 'react-fps'
 import { useTranslation } from 'react-i18next'
+import { useThemeContext } from 'context/ThemeContext'
 
 export const DebugTools = () => {
   const { currentTime } = useCurrentTime()
+  const { viewportSize, isMobile } = useThemeContext()
   const { currentFps, avgFps, maxFps } = useFps(20)
   const { enableColonAnimation } = useConfigContext()
   const { animating, initialAnimating, currentAnimation } = useAnimationContext()
@@ -101,6 +103,28 @@ export const DebugTools = () => {
         <Text c='green' size='sm'>
           ({t('frame-rate-max')}: {maxFps})
         </Text>
+      </div>
+
+      <div className={styles.Container__Section}>
+        <IconWindowMaximize size={16} />
+
+        <div style={{ display: 'flex' }}>
+          <Text c='gray' size='sm'>
+            {t('viewport-size')}: {viewportSize.width} x {viewportSize.height} px
+          </Text>
+
+          <Text c='gray' size='sm' style={{ margin: '0 5px' }}>
+            ({t('mobile-view')}:{' '}
+          </Text>
+
+          <Text c={isMobile ? 'green' : 'red'} size='sm'>
+            {isMobile ? 'true' : 'false'}
+          </Text>
+
+          <Text c='gray' size='sm'>
+            {')'}
+          </Text>
+        </div>
       </div>
     </div>
   )

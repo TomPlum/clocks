@@ -1,10 +1,21 @@
 import { getHandAnglesForPattern } from './displayPatternFactory'
 import { getHandAnglesForTime } from './getTimeCoordinates'
-import { centreLineCoordinates, colonCoordinates } from '../grid'
+import {
+  horizontalCentreLineCoordinates,
+  horizontalColonCoordinates,
+  verticalCentreLineCoordinates,
+  verticalColonCoordinates
+} from '../grid'
 import type { GetHandDirectionsProps, HandDirections } from 'modules/TimeDisplay'
 
-export const getHandDirections = ({ time, x, y, pattern }: GetHandDirectionsProps): HandDirections => {
-  const angles = getHandAnglesForTime(time).get(`${x},${y}`)
+export const getHandDirections = ({
+  time,
+  x,
+  y,
+  pattern,
+  vertical = false
+}: GetHandDirectionsProps): HandDirections => {
+  const angles = getHandAnglesForTime(time, vertical).get(`${x},${y}`)
 
   if (angles) {
     return {
@@ -13,7 +24,10 @@ export const getHandDirections = ({ time, x, y, pattern }: GetHandDirectionsProp
     }
   }
 
-  const colonHandDirections = [...colonCoordinates, ...centreLineCoordinates].find(coords => {
+  const horizontalColon = [...horizontalColonCoordinates, ...horizontalCentreLineCoordinates]
+  const verticalColon = [...verticalColonCoordinates, ...verticalCentreLineCoordinates]
+
+  const colonHandDirections = (vertical ? verticalColon : horizontalColon).find(coords => {
     return coords.x === Number(x) && coords.y === Number(y)
   })
 
@@ -24,5 +38,5 @@ export const getHandDirections = ({ time, x, y, pattern }: GetHandDirectionsProp
     }
   }
 
-  return getHandAnglesForPattern(x, y, pattern)
+  return getHandAnglesForPattern(x, y, pattern, vertical)
 }

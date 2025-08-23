@@ -9,11 +9,13 @@ import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { getHandAnglesForPattern } from 'modules/TimeDisplay/animation/displayPatternFactory'
 import { getHandDirections } from 'modules/TimeDisplay/animation/getHandDirections'
 import type { TimeDisplayPattern } from 'modules/TimeDisplay'
+import { useThemeContext } from 'context/ThemeContext'
 
 export const useClockAnimation = ({
   id,
   position
 }: UseClockAnimationProps) => {
+  const { isMobile } = useThemeContext()
   const { digitAnimationDuration, timeDisplayPattern } = useConfigContext()
   const { currentAnimationConfig, setCurrentAnimation } = useAnimationContext()
 
@@ -62,7 +64,8 @@ export const useClockAnimation = ({
     const { hour: endHour, minute: endMinute } = getHandDirections({
       time,
       x, y,
-      pattern: timeDisplayPattern
+      pattern: timeDisplayPattern,
+      vertical: isMobile
     })
 
     return doAnimation({
@@ -81,7 +84,7 @@ export const useClockAnimation = ({
   }
 
   const easeToPattern = (pattern: TimeDisplayPattern) => {
-    const { hour, minute } = getHandAnglesForPattern(position.x, position.y, pattern)
+    const { hour, minute } = getHandAnglesForPattern(position.x, position.y, pattern, isMobile)
 
     return doAnimation({
       name: 'ease-to-pattern',
@@ -125,7 +128,8 @@ export const useClockAnimation = ({
         const { hour, minute } = getHandDirections({
           time: config?.postAnimationTimeTarget ?? new Date(),
           x, y,
-          pattern: timeDisplayPattern
+          pattern: timeDisplayPattern,
+          vertical: isMobile
         })
 
         return doAnimation({

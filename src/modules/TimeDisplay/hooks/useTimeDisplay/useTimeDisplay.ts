@@ -1,12 +1,18 @@
-import { createRef, useCallback, useRef } from 'react'
+import { createRef, useCallback, useMemo, useRef } from 'react'
 import type { InitialiseClockProps, TimeDisplayClockRefs, TimeDisplayCommand, UseTimeDisplayProps } from './types'
 import { useConfigContext } from 'context/ConfigContext/useConfigContext'
 import { useAnimationContext } from 'context/AnimationContext'
 import type { AnimationCleanupFunction, ClockRefHandler } from 'modules/TimeDisplay/components/Clock'
-import type { TimeDisplayPattern } from 'modules/TimeDisplay'
+import type { TimeDisplayDimensions, TimeDisplayPattern } from 'modules/TimeDisplay'
 import { iterateTimes } from 'modules/TimeDisplay/animation/iterateTimes'
-import { totalHeight, totalWidth } from 'modules/TimeDisplay/grid'
+import {
+  totalHorizontalHeight,
+  totalHorizontalWidth,
+  totalVerticalHeight,
+  totalVerticalWidth
+} from 'modules/TimeDisplay/grid'
 import { getClockMetadata } from 'modules/TimeDisplay/animation/getClockMetadata'
+import { useThemeContext } from 'context/ThemeContext'
 
 export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const clocks = useRef<TimeDisplayClockRefs>(new Map())
@@ -14,6 +20,7 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const digitClocks = useRef(new Map<string, boolean>())
   const colonClocks = useRef(new Map<string, boolean>())
 
+  const { isMobile } = useThemeContext()
   const { setInitialAnimating } = useAnimationContext()
   const { loadingAnimation, manualTime, animationStagger } = useConfigContext()
 
@@ -123,9 +130,16 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
   const resetDigitClocks = (time: Date) => {
     digitClocks.current = new Map()
 
-    iterateTimes(totalWidth).flatMap(x => {
-      return iterateTimes(totalHeight).map(y => {
-        const { digit } = getClockMetadata({ x, y, time })
+    const width = isMobile ? totalVerticalWidth : totalHorizontalWidth
+    const height = isMobile ? totalVerticalHeight : totalHorizontalHeight
+
+    iterateTimes(width).flatMap(x => {
+      return iterateTimes(height).map(y => {
+        const { digit } = getClockMetadata({
+          x, y,
+          time,
+          vertical: isMobile
+        })
 
         return {
           isDigit: digit !== undefined,
@@ -139,11 +153,26 @@ export const useTimeDisplay = ({ currentTime }: UseTimeDisplayProps) => {
     })
   }
 
+  const gridDimensions = useMemo<TimeDisplayDimensions>(() => {
+    if (isMobile) {
+      return {
+        width: totalVerticalWidth,
+        height: totalVerticalHeight
+      }
+    }
+
+    return {
+      width: totalHorizontalWidth,
+      height: totalHorizontalHeight
+    }
+  }, [isMobile])
+
   return {
     runLoadingAnimation,
     initialiseClock,
     easeToTime,
     easeToPattern,
-    resetDigitClocks
+    resetDigitClocks,
+    gridDimensions
   }
 }

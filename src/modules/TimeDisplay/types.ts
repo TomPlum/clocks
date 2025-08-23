@@ -11,7 +11,12 @@ export interface TimeDisplayRefHandle {
   changePattern: (pattern: TimeDisplayPattern) => void
 }
 
-export type TimeDisplayPattern = 'circular' | 'point-towards-middle'
+export interface TimeDisplayDimensions {
+  width: number
+  height: number
+}
+
+export type TimeDisplayPattern = 'circular' | 'point-towards-middle' | 'horizontal' | 'vertical' | 'away-from-x-axis' | 'diagonal'
 
 export interface HandDirections {
   hour: number
@@ -25,14 +30,61 @@ export interface ClockMetadata {
 }
 
 export interface GetHandDirectionsProps {
+  /**
+   * The time that is being displayed
+   * on the time display.
+   */
   time: Date
+
+  /**
+   * The x-ordinate of the clock to
+   * get the angles for.
+   */
   x: number
+
+  /**
+   * The y-ordinate of the clock to
+   * get the angles for.
+   */
   y: number
+
+  /**
+   * The pattern that the non-digit clocks
+   * are being rendered in on the display.
+   */
   pattern: TimeDisplayPattern
+
+  /**
+   * If the time display is being
+   * rendered in vertical mode with
+   * the digits stacked vertically.
+   */
+  vertical?: boolean
 }
 
 export interface GetClockMetadataProps {
+  /**
+   * The time that is being displayed
+   * on the time display.
+   */
   time: Date
+
+  /**
+   * The x-ordinate of the clock to
+   * get the angles for.
+   */
   x: number
+
+  /**
+   * The y-ordinate of the clock to
+   * get the angles for.
+   */
   y: number
+
+  /**
+   * If the time display is being
+   * rendered in vertical mode with
+   * the digits stacked vertically.
+   */
+  vertical?: boolean
 }
