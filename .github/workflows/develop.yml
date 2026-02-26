@@ -38,7 +38,7 @@ jobs:
       - run: npm install
       - run: npm run test:ci
       - name: Store LCOV Info
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: line-coverage-info
           path: coverage/lcov.info
